@@ -8,12 +8,13 @@ scalaVersion := "2.11.8"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
+  Resolver.sonatypeRepo("snapshots"),
   "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
 )
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % "2.6.0-M3",
-  "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.0-M5",
+  "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.0-M4",
   "com.kifi" %% "json-annotation" % "0.2",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
   "org.specs2" %% "specs2" % "2.3.13" % Test
