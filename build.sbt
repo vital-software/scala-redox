@@ -14,9 +14,12 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % "2.6.0-M3",
   "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.0-M5",
+  "com.kifi" %% "json-annotation" % "0.2",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
   "org.specs2" %% "specs2" % "2.3.13" % Test
 )
+
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full)
 
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
 
