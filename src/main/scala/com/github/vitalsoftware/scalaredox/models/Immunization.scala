@@ -27,7 +27,7 @@ case class Immunization(
   Route: Option[BasicCode] = None,
   Product: ImmunizationProduct,
   Dose: Option[Dose] = None
-)
+) extends DateStamped
 
 /**
   * Immunization product (i.e. vaccine)

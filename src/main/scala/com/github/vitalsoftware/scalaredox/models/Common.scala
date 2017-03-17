@@ -1,9 +1,30 @@
 package com.github.vitalsoftware.scalaredox.models
 
+import org.joda.time.DateTime
+
 /**
   * Created by apatzer on 3/17/17.
   */
 
+/**
+  * The state of the plan (intent, confirmed, etc). @see [Plan of care status](http://wiki.siframework.org/CDA+-+Plan+of+Care+Activity+Entries)
+  */
+trait Status {
+  def Status: Option[String]
+}
+
+trait DateStamped {
+  def DateTime: DateTime
+}
+
+trait DateRange {
+  def StartDate: DateTime
+  def EndDate: Option[DateTime]
+}
+
+/**
+  * Code reference (like a foreign key into a SNOMED, ICD-9/10, or other data set)
+  */
 trait Code {
   def Code: String
   def CodeSystem: Option[String]
@@ -25,6 +46,15 @@ case class CodeWithText(
   Name: Option[String] = None,
   Text: Option[String] = None
 )
+
+case class CodeWithStatus(
+  Code: String,
+  CodeSystem: Option[String] = None,
+  CodeSystemName: Option[String] = None,
+  Name: Option[String] = None,
+  Status: Option[String] = None,
+  DateTime: Option[DateTime] = None
+) extends Code with Status with DateStamped
 
 /**
   * Location of provider or care given.

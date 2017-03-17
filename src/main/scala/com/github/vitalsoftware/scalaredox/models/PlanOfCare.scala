@@ -26,32 +26,15 @@ case class PlanOfCareMessage(
   * @param Services These are procedures that are service-oriented in nature, such as a dressing change, or feeding a patient. SNOMED CT
   */
 case class PlanOfCare(
-  Orders: Seq[Plan] = Seq.empty,
-  Procedures: Seq[Plan] = Seq.empty,
-  Encounters: Seq[Plan] = Seq.empty,
+  Orders: Seq[CodeWithStatus] = Seq.empty,
+  Procedures: Seq[CodeWithStatus] = Seq.empty,
+  Encounters: Seq[CodeWithStatus] = Seq.empty,
   MedicationAdministration: Seq[MedicationPlan] = Seq.empty,
-  Supplies: Seq[Plan] = Seq.empty,
-  Services: Seq[Plan] = Seq.empty
+  Supplies: Seq[CodeWithStatus] = Seq.empty,
+  Services: Seq[CodeWithStatus] = Seq.empty
 )
 
-/**
-  * The state of the plan (intent, confirmed, etc). @see [Plan of care status](http://wiki.siframework.org/CDA+-+Plan+of+Care+Activity+Entries)
-  */
-trait PlanStatus {
-  def Status: Option[String]
-}
 
-/**
-  * Lab test or diagnostic procedure.
-  */
-case class Plan(
-  Code: String,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None,
-  Status: Option[String] = None,
-  DateTime: Option[DateTime] = None
-) extends Code with PlanStatus
 
 /**
   * Medication to be given.
@@ -65,4 +48,4 @@ case class MedicationPlan(
   EndDate: Option[DateTime] = None,
   Frequency: Option[TimePeriod] = None,
   Product: BasicCode
-) extends Medication with PlanStatus
+) extends Medication with Status with DateRange

@@ -36,4 +36,4 @@ case class Allergy(
   StartDate: Option[DateTime] = None,
   EndDate: Option[DateTime] = None,
   Comment: Option[String] = None
-)
+) extends DateRange

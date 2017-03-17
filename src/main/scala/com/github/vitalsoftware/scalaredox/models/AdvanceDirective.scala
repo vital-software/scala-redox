@@ -32,4 +32,4 @@ case class AdvanceDirective(
   ExternalReference: Option[String],
   VerifiedBy: Seq[Person] = Seq.empty, // Todo missing VerifiedBy.DateTime
   Custodians: Seq[Person] = Seq.empty
-) extends Code
+) extends Code with DateRange

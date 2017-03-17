@@ -17,7 +17,7 @@ case class MedicationsMessage(
   Medications: Seq[MedicationTaken] = Seq.empty
 )
 
-trait Medication {
+trait Medication extends DateRange{
   /** Dose The size of the dose for pills, capsules, etc. */
   def Dose: Option[Dose]
 

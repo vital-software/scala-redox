@@ -35,4 +35,4 @@ case class Encounter(
   Locations: Seq[Location] = Seq.empty,
   Diagnosis: Seq[BasicCode] = Seq.empty,
   ReasonForVisit: Seq[BasicCode] = Seq.empty
-)
+) extends DateStamped
