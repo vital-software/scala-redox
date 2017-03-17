@@ -11,7 +11,7 @@ import org.joda.time.DateTime
   * (such as latex, iodine, tape adhesives). At a minimum, it should list currently active
   * and relevant historical allergies and adverse reactions.
   */
-case class Allergies(
+case class AllergiesMessage(
   AllergyText: Option[String] = None,
   Allergies: Seq[Allergy] = Seq.empty
 )
@@ -28,11 +28,11 @@ case class Allergies(
   * @param Comment Free text comment about the allergy.
   */
 case class Allergy(
-  Type: Code,
-  Substance: Code,
-  Reaction: Seq[Code] = Seq.empty,
-  Severity: Code,
-  Status: Code,
+  Type: BasicCode,
+  Substance: BasicCode,
+  Reaction: Seq[CodeWithText] = Seq.empty,
+  Severity: BasicCode,
+  Status: BasicCode,
   StartDate: Option[DateTime] = None,
   EndDate: Option[DateTime] = None,
   Comment: Option[String] = None

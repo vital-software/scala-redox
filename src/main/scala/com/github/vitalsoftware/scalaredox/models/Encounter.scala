@@ -12,7 +12,7 @@ import org.joda.time.DateTime
   * @param EncountersText Free text form of the encounters summary
   * @param Encounters Patient encounters
   */
-case class Encounters(
+case class EncountersMessage(
   EncountersText: Option[String],
   Encounters: Seq[Encounter] = Seq.empty
 )
@@ -28,11 +28,11 @@ case class Encounters(
   * @param ReasonForVisit The reason for the visit (usually this is what the patient reports). SNOMED CT
   */
 case class Encounter(
-  Type: Code,
+  Type: BasicCode,
   DateTime: DateTime,
   EndDateTime: Option[DateTime] = None,
   Providers: Seq[Provider] = Seq.empty,
   Locations: Seq[Location] = Seq.empty,
-  Diagnosis: Seq[Code] = Seq.empty,
-  ReasonForVisit: Seq[Code] = Seq.empty
+  Diagnosis: Seq[BasicCode] = Seq.empty,
+  ReasonForVisit: Seq[BasicCode] = Seq.empty
 )

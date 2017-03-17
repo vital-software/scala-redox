@@ -4,12 +4,26 @@ package com.github.vitalsoftware.scalaredox.models
   * Created by apatzer on 3/17/17.
   */
 
-case class Code(
+trait Code {
+  def Code: String
+  def CodeSystem: Option[String]
+  def CodeSystemName: Option[String]
+  def Name: Option[String]
+}
+
+case class BasicCode(
+  Code: String,
+  CodeSystem: Option[String] = None,
+  CodeSystemName: Option[String] = None,
+  Name: Option[String] = None
+) extends Code
+
+case class CodeWithText(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  Text: Option[String] = None // Todo: Only used by Allergy!
+  Text: Option[String] = None
 )
 
 /**

@@ -24,7 +24,7 @@ case class Provider(
   Location: Option[CareLocation] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[EmailAddress] = Seq.empty,
-  Role: Option[Code] = None
+  Role: Option[BasicCode] = None
 ) extends Person
 
 trait Person {
