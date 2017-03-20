@@ -1,8 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import java.util.UUID
-
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -20,7 +20,7 @@ import org.joda.time.DateTime
   * @param Message Record in Redox that corresponds to the communication sent from the source to Redox. Included in messages from Redox
   * @param Transmission Record in Redox that corresponds to the communication sent from Redox to your destination. Included in messages from Redox
   */
-case class Meta(
+@json case class Meta(
   DataModel: String,
   EventType: String, // TODO Enum
   EventDateTime: Option[DateTime] = None,
@@ -32,7 +32,7 @@ case class Meta(
 )
 
 // Message source or destination
-case class SourceDestination(ID: UUID, Name: String)
+@json case class SourceDestination(ID: UUID, Name: String)
 
 // Numeric identifier
-case class NumericIdentifier(ID: Long)
+@json case class NumericIdentifier(ID: Long)

@@ -1,6 +1,6 @@
 package com.github.vitalsoftware.scalaredox.models
 
-import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -11,7 +11,7 @@ import org.joda.time.DateTime
   * @param ResultText Free text form of the results summary
   * @param Results Array of test results for the patient. This can include laboratory results, imaging results, and procedure Results[].
   */
-case class ResultsMessage(
+@json case class ResultsMessage(
   ResultText: Option[String] = None,
   Results: Seq[Result] = Seq.empty
 )
@@ -23,7 +23,7 @@ case class ResultsMessage(
   * @param Status The status of the test (In Progress, Final)
   * @param Observations A list of corresponding observations for the test (result components)
   */
-case class Result(
+@json case class Result(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,

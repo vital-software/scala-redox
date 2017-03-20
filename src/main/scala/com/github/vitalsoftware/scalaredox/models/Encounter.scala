@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -12,7 +13,7 @@ import org.joda.time.DateTime
   * @param EncountersText Free text form of the encounters summary
   * @param Encounters Patient encounters
   */
-case class EncountersMessage(
+@json case class EncountersMessage(
   EncountersText: Option[String],
   Encounters: Seq[Encounter] = Seq.empty
 )
@@ -27,7 +28,7 @@ case class EncountersMessage(
   * @param Diagnosis List of Diagnoses associated with the visit. SNOMED CT
   * @param ReasonForVisit The reason for the visit (usually this is what the patient reports). SNOMED CT
   */
-case class Encounter(
+@json case class Encounter(
   Type: BasicCode,
   DateTime: DateTime,
   EndDateTime: Option[DateTime] = None,

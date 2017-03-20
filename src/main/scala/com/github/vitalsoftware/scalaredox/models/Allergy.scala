@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -11,7 +12,7 @@ import org.joda.time.DateTime
   * (such as latex, iodine, tape adhesives). At a minimum, it should list currently active
   * and relevant historical allergies and adverse reactions.
   */
-case class AllergiesMessage(
+@json case class AllergiesMessage(
   AllergyText: Option[String] = None,
   Allergies: Seq[Allergy] = Seq.empty
 )
@@ -27,7 +28,7 @@ case class AllergiesMessage(
   * @param EndDate When the allergy was no longer a problem (if applicable). ISO 8601 Format
   * @param Comment Free text comment about the allergy.
   */
-case class Allergy(
+@json case class Allergy(
   Type: BasicCode,
   Substance: BasicCode,
   Reaction: Seq[CodeWithText] = Seq.empty,

@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -32,14 +33,14 @@ trait Code {
   def Name: Option[String]
 }
 
-case class BasicCode(
+@json case class BasicCode(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None
 ) extends Code
 
-case class CodeWithText(
+@json case class CodeWithText(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
@@ -47,7 +48,7 @@ case class CodeWithText(
   Text: Option[String] = None
 )
 
-case class CodeWithStatus(
+@json case class CodeWithStatus(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
@@ -62,7 +63,11 @@ case class CodeWithStatus(
   * @see https://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.6.259
   * Note: Seems duplicative of CareLocation, but described using the generic 'Code' object
   */
-case class Location(Address: Address, Type: Code)
+@json case class Location(
+  Address: Address,
+  Type: Code,
+  Name: Option[String] = None
+)
 
 /**
   * Location of provider or care given.
@@ -71,13 +76,15 @@ case class Location(Address: Address, Type: Code)
   * @param Facility Facility. Example: Community Hospital
   * @param Department Department
   */
-case class CareLocation(
+@json case class CareLocation(
   Type: Option[String] = None,
   Facility: Option[String] = None,
-  Department: Option[String] = None
+  Department: Option[String] = None,
+  Room: Option[String] = None,
+  Bed: Option[String] = None
 )
 
-case class Address(
+@json case class Address(
   StreetAddress: Option[String] = None,
   City: Option[String] = None,
   State: Option[String] = None,
@@ -86,10 +93,10 @@ case class Address(
   Country: Option[String] = None
 )
 
-case class EmailAddress(Address: String) // Todo email validator?
+@json case class EmailAddress(Address: String) // Todo email validator?
 
 // In E. 164 Format. (e.g. +16085551234)
-case class PhoneNumber(
+@json case class PhoneNumber(
   Home: Option[String] = None,
   Mobile: Option[String] = None,
   Office: Option[String] = None
@@ -103,19 +110,20 @@ case class PhoneNumber(
   * @param Interpretation A flag indicating whether or not the observed value is normal, high, or low. [Supported Values](https://www.hl7.org/fhir/v3/ObservationInterpretation/index.html)
   * @param ValueType Data type of the value. One of the following: "Numeric", "String", "Date", "Time", "DateTime", "Coded Entry", "Encapsulated Data". Derived from HL7 Table 0125.
   */
-case class Observation(
+@json case class Observation(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  Status: Option[String] = None,
-  DateTime: Option[DateTime] = None,
-  TargetSite: Option[BasicCode] = None,  // Used by Procedures
-  Interpretation: Option[String] = None, // Used by Result
+  DateTime: DateTime,
   Value: Option[String] = None,
   ValueType: Option[String] = None,
   Units: Option[String] = None,
-  ReferenceRange: Option[ReferenceRange] = None
+  ReferenceRange: Option[ReferenceRange] = None,
+  Status: Option[String] = None,
+  TargetSite: Option[BasicCode] = None,  // Used by Procedures
+  Interpretation: Option[String] = None  // Used by Result
+  // TODO Observer: Option[???]
 ) extends Code with Status with DateStamped
 
 /**
@@ -127,7 +135,7 @@ case class Observation(
   * @param High Upper bound for a normal result
   * @param Text The normal value for non-numeric results
   */
-case class ReferenceRange(
+@json case class ReferenceRange(
   Low: Option[Double] = None,
   High: Option[Double] = None,
   Text: Option[String] = None

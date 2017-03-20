@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -12,7 +13,7 @@ import org.joda.time.DateTime
   * @param Document An object containing metadata about the document being pushed to the destination.
   * @param Patient Patient
   */
-case class Header( // Todo: Optional vs required
+@json case class Header( // Todo: Optional vs required
   Document: Document,
   Patient: Patient
 )
@@ -27,7 +28,7 @@ case class Header( // Todo: Optional vs required
   * @param DateTime The creation/publishing date/time of the document.
   * @param Type The type of document (CCD, progress note, etc.)
   */
-case class Document(
+@json case class Document(
   ID: String,
   Author: Provider, // Todo Provider.Type is not present!
   Visit: Option[Visit] = None,

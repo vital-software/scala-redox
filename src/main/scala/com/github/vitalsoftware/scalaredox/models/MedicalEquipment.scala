@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -11,7 +12,7 @@ import org.joda.time.DateTime
   * @param MedicalEquipmentText Free text form of the medical equipment summary
   * @param MedicalEquipment A list of medical equipment that the patient uses (cane, pacemakers, etc.)
   */
-case class MedicalEquipmentMessage(
+@json case class MedicalEquipmentMessage(
   MedicalEquipmentText: Option[String] = None,
   MedicalEquipment: Seq[MedicalEquipment] = Seq.empty
 )
@@ -24,7 +25,7 @@ case class MedicalEquipmentMessage(
   * @param Quantity The number of products used
   * @param Product A code representing the actual product. SNOMED CT
   */
-case class MedicalEquipment(
+@json case class MedicalEquipment(
   Status: String,
   StartDate: Option[DateTime] = None,
   Quantity: Option[String] = None, // Todo Int?

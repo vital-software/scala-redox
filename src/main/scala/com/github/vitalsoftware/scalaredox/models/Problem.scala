@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -12,7 +13,7 @@ import org.joda.time.DateTime
   * @param ProblemsText Free text form of the problems summary
   * @param Problems An array of all of patient relevant problems, current and historical.
   */
-case class ProblemsMessage(
+@json case class ProblemsMessage(
   ProblemsText: Option[String] = None,
   Problems: Seq[Problem] = Seq.empty
 )
@@ -26,7 +27,7 @@ case class ProblemsMessage(
   * @param HealthStatus The effect of the problem on the patient (chronically ill, in remission, etc.). SNOMED-CT
   * @param Status The current state of the problem (active, inactive, resolved). HITSPProblemStatus
   */
-case class Problem(
+@json case class Problem(
   StartDate: Option[DateTime] = None,
   EndDate: Option[DateTime] = None,
   Code: String,

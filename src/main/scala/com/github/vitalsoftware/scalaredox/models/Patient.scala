@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -9,9 +10,13 @@ import org.joda.time.DateTime
 /**
   * Patient
   */
-case class Patient(
+@json case class Patient(
   Identifiers: Seq[PatientIdentifier] = Seq.empty,
-  Demographics: Demographics
+  Demographics: Demographics,
+  Notes: Seq[String] = Seq.empty,
+  Contacts: Seq[Contact] = Seq.empty
+  // TODO Guarantor: Option[Guarantor]
+  // TODO Insurances: Seq[Insurance]
 )
 
 /**
@@ -20,7 +25,7 @@ case class Patient(
   * @param ID The actual identifier for the patient.
   * @param IDType An ID type associated with identifier (Medical Record Number, etc.)
   */
-case class PatientIdentifier(
+@json case class PatientIdentifier(
   ID: String,
   IDType: String
 )
@@ -32,12 +37,14 @@ case class PatientIdentifier(
   * @param LastName Required
   * @param DOB Required. Patient's date of birth. In YYYY-MM-DD format
   * @param Sex Required
+  * @param Language Patient's primary spoken language. In ISO 639-1 alpha values (e.g. 'en'). http://www.mathguide.de/info/tools/languagecode.html
+  * @param Citizenship Patient's nation(s) of citizenship. *In ISO 3166 alpha 2 format (e.g. 'US').
   * @param Race List at http://phinvads.cdc.gov/vads/ViewValueSet.action?id=66D34BBC-617F-DD11-B38D-00188B398520
   * @param Ethnicity List at https://phinvads.cdc.gov/vads/ViewValueSet.action?id=35D34BBC-617F-DD11-B38D-00188B398520
   * @param Religion List at https://www.hl7.org/fhir/v3/ReligiousAffiliation/index.html
   * @param MaritalStatus List at http://www.hl7.org/FHIR/v2/0002/index.html
   */
-case class Demographics(
+@json case class Demographics(
   FirstName: String,
   LastName: String,
   DOB: DateTime,
@@ -46,6 +53,8 @@ case class Demographics(
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  Language: Option[String] = None, // TODO ISO 639-1
+  Citizenship: Seq[String] = Seq.empty, // TODO ISO 3166
   Race: Option[String] = None,
   Ethnicity: Option[String] = None,
   Religion: Option[String] = None,
@@ -56,3 +65,16 @@ object Sex extends Enumeration {
   val Male, Female, Unknown, Other = Value
 }
 
+/**
+  * @param RelationToPatient Personal relationship to the patient. e.x. Father, Spouse
+  * @param Roles E.g. "Emergency contact"
+  */
+@json case class Contact(
+  FirstName: String,
+  LastName: String,
+  Address: Option[Address] = None,
+  PhoneNumber: Option[PhoneNumber] = None,
+  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  RelationToPatient: Option[String] = None,
+  Roles: Seq[String] = Seq.empty
+) extends Person

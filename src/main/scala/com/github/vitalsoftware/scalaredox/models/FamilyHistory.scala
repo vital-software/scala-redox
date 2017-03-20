@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -11,17 +12,17 @@ import org.joda.time.DateTime
   * @param FamilyHistoryTest Free text form of the family history summary
   * @param FamilyHistory An array of family history observations
   */
-case class FamilyHistoryMessage(
+@json case class FamilyHistoryMessage(
   FamilyHistoryTest: Option[String] = None,
   FamilyHistory: Seq[FamilyHistory] = Seq.empty
 )
 
-case class FamilyHistory(
-Relation: Relation,
-Problems: Seq[Problem] = Seq.empty
-                        )
+@json case class FamilyHistory(
+  Relation: Relation,
+  Problems: Seq[FamilyHistoryProblem] = Seq.empty
+)
 
-case class Relation(
+@json case class Relation(
   Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,
@@ -33,21 +34,20 @@ case class Relation(
   * @param Sex Relation gender
   * @param DOB Date of Birth of the relative. In YYYY-MM-DD format
   */
-case class RelationDemographics(
+@json case class RelationDemographics(
   Sex: Sex.Value,
   DOB: DateTime
 )
 
 /**
-  *
   * Health problem.
   * @see https://phinvads.cdc.gov/vads/ViewValueSet.action?id=71FDBFB5-A277-DE11-9B52-0015173D1785
   *
   * @param Code A code for the particular problem experienced by the relative. SNOMED CT
   * @param Type The general class of the problem. (disease, problem, etc.).
   */
-case class Problem(
-  Code: String, // Todo seems duplicative of 'Type'
+@json case class FamilyHistoryProblem(
+  Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,

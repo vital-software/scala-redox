@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -12,7 +13,7 @@ import org.joda.time.DateTime
   * @param MedicationsText Free text form of the medications summary
   * @param Medications Patient medications: past, current, and future
   */
-case class MedicationsMessage(
+@json case class MedicationsMessage(
   MedicationsText: Option[String] = None,
   Medications: Seq[MedicationTaken] = Seq.empty
 )
@@ -44,7 +45,7 @@ trait Medication extends DateRange{
   * @param Prescription Whether the medication is a prescription. For a prescription: true. For a patient reported med, or a med administered by a provider: false
   * @param FreeTextSig Free text instructions for the medication. Typically instructing patient on the proper means and timing for the use of the medication
   */
-case class MedicationTaken (
+@json case class MedicationTaken (
   Prescription: Boolean,
   FreeTextSig: Option[String] = None,
   Dose: Option[Dose] = None,
@@ -63,7 +64,7 @@ case class MedicationTaken (
   * @param Period How often the patient should be taking the medication.
   * @param Unit Units for how often the patient should be taking the medication
   */
-case class TimePeriod(
+@json case class TimePeriod(
   Period: String,
   Unit: Option[String]
 )

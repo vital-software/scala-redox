@@ -1,12 +1,13 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
   */
 
-case class AdvanceDirectiveMessage(
+@json case class AdvanceDirectiveMessage(
   AdvanceDirectivesText: Option[String] = None,
   advanceDirectives: Seq[AdvanceDirective] = Seq.empty
 )
@@ -21,7 +22,7 @@ case class AdvanceDirectiveMessage(
   * @param VerifiedBy A collection of people who verified the advance directive with the patient
   * @param Custodians People legally responsible for the advance directive document.
   */
-case class AdvanceDirective(
+@json case class AdvanceDirective(
   Type: BasicCode,
   Code: String, // Todo Question: Seems to duplicate 'Type' field
   CodeSystem: String,

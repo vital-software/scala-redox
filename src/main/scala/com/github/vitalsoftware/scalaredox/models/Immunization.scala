@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -9,7 +10,7 @@ import org.joda.time.DateTime
 /**
   * This section lists the patient's current immunization status and pertinent immunization history.
   */
-case class ImmunizationsMessage(
+@json case class ImmunizationsMessage(
   ImmunizationText: Option[String] = None,
   Immunizations: Seq[Immunization] = Seq.empty
 )
@@ -22,7 +23,7 @@ case class ImmunizationsMessage(
   * @param Product The vaccination that was given.
   * @param Dose Dosage
   */
-case class Immunization(
+@json case class Immunization(
   DateTime: DateTime,
   Route: Option[BasicCode] = None,
   Product: ImmunizationProduct,
@@ -38,7 +39,7 @@ case class Immunization(
   * @param Manufacturer Name of organization that manufacture the immunization. Free text
   * @param LotNumber The lot number of the vaccine
   */
-case class ImmunizationProduct(
+@json case class ImmunizationProduct(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
@@ -53,7 +54,7 @@ case class ImmunizationProduct(
   * @param Quantity The size of the dose
   * @param Units The units of the dose
   */
-case class Dose(
+@json case class Dose(
   Quantity: String,
   Units: String
 )

@@ -1,4 +1,4 @@
-organization := "com.github.vitalsoftware"
+organization := "com.github.vital-software"
 
 name := "scala-redox"
 
@@ -15,12 +15,14 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % "2.6.0-M3",
   "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.0-M4",
-  "com.kifi" %% "json-annotation" % "0.2",
+  "com.typesafe.akka" %% "akka-http" % "10.0.1",
+  "com.iheart" %% "ficus" % "1.4.0",
+  "com.kifi" %% "json-annotation" % "0.2", // TODO "com.github.vital-software" %% "json-annotation" % "0.3"
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
   "org.specs2" %% "specs2" % "2.3.13" % Test
 )
 
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full)
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full) // TODO 2.1.0
 
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
 
@@ -38,7 +40,7 @@ publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
-sonatypeProfileName := "com.github.vitalsoftware"
+sonatypeProfileName := "com.github.vital-software"
 
 pomExtra := (
   <url>https://github.com/vital-software/scala-redox</url>

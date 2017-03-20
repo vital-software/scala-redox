@@ -1,5 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
+import com.kifi.macros._
+
 /**
   * Created by apatzer on 3/17/17.
   */
@@ -11,14 +13,16 @@ package com.github.vitalsoftware.scalaredox.models
   * @param IDType ID type of the ID for the Provider responsible for the document
   * @param FirstName First name of the Provider responsible for the document
   * @param LastName Last name of the Provider responsible for the document
+  * @param Type The type of provider for this referral. One of the following: "Referring Provider", "Referred To Provider", "Other", "Patient PCP"
   * @param Credentials List of credentials for the Provider responsible for the document. e.g. MD, PhD
   * @param Address Provider's address
   */
-case class Provider(
+@json case class Provider(
   ID: String,
   IDType: String,
   FirstName: String,
   LastName: String,
+  Type: Option[String],
   Credentials: Seq[String] = Seq.empty,
   Address: Option[Address] = None,
   Location: Option[CareLocation] = None,

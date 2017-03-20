@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/20/17.
@@ -11,12 +12,12 @@ import org.joda.time.DateTime
   * @param SocialHistoryText Free text form of the social history summary
   * @param SocialHistory Generic observations about the patient's social hisotry that don't fall into the smoking or pregnancy categories.
   */
-case class SocialHistoryMessage(
+@json case class SocialHistoryMessage(
   SocialHistoryText: Option[String] = None,
   SocialHistory: SocialHistory
 )
 
-case class SocialHistory(
+@json case class SocialHistory(
   Observations: Seq[SocialHistoryObservation] = Seq.empty,
   Pregnancy: Seq[Pregnancy] = Seq.empty,
   TobaccoUse: Seq[TobaccoUse] = Seq.empty
@@ -27,7 +28,7 @@ case class SocialHistory(
   * @param Value The coded observed value for the code
   * @param ValueText The observed value for the code
   */
-case class SocialHistoryObservation(
+@json case class SocialHistoryObservation(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
@@ -43,7 +44,7 @@ case class SocialHistoryObservation(
   * @param EndDate When the pregnancy ended. ISO 8601 Format
   * @param EstimatedDelivery Estimate delivery date if pregnancy is still active.
   */
-case class Pregnancy(
+@json case class Pregnancy(
   StartDate: DateTime,
   EndDate: Option[DateTime] = None,
   EstimatedDelivery: Option[String] = None
@@ -54,7 +55,7 @@ case class Pregnancy(
   * @param StartDate Start date of status
   * @param EndDate Date status ended. If this is null, the status is current.
   */
-case class TobaccoUse(
+@json case class TobaccoUse(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,

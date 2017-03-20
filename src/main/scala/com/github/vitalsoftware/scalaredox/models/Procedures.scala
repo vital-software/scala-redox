@@ -1,6 +1,6 @@
 package com.github.vitalsoftware.scalaredox.models
 
-import org.joda.time.DateTime
+import com.kifi.macros._
 
 /**
   * Created by apatzer on 3/17/17.
@@ -12,7 +12,7 @@ import org.joda.time.DateTime
   * @param ProceduresText Free text form of the procedures summary
   * @param Procedures A general grouper for all things that CDA considers procedures.
   */
-case class ProceduresMessage(
+@json case class ProceduresMessage(
   ProceduresText: Option[String] = None,
   Procedures: Procedures
 )
@@ -23,7 +23,7 @@ case class ProceduresMessage(
   * @param Procedures The procedure that was performed. SNOMED CT
   * @param Services These are procedures that are service-oriented in nature, such as a dressing change, or feeding a patient.
   */
-case class Procedures(
+@json case class Procedures(
   Observations: Seq[Observation] = Seq.empty,
   Procedures: Seq[CodeWithStatus] = Seq.empty,
   Services: Seq[CodeWithStatus] = Seq.empty
