@@ -8,17 +8,19 @@ import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.model.Uri.Path._
 import akka.http.scaladsl.model.Uri.Query
 import akka.http.scaladsl.model._
+import com.fasterxml.jackson.core.JsonParseException
 import com.github.vitalsoftware.scalaredox.models._
 import com.typesafe.config.Config
 import net.ceedubs.ficus.Ficus._
 import play.api.libs.ws._
 import play.api.libs.ws.ahc._
 import play.api.libs.json._
-
 import org.joda.time.DateTime
+
 import scala.concurrent.{Future, SyncVar}
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits._
+import scala.util.{Try, Failure, Success}
 
 /**
   * Created by apatzer on 3/20/17.
@@ -64,7 +66,13 @@ class RedoxClient(conf: Config) {
         NotFound,
         MethodNotAllowed,
         RequestedRangeNotSatisfiable
-      ).contains(r.status) => r.json.asOpt[RedoxErrorResponse].map(Left(_))
+      ).contains(r.status) =>
+        Try {
+          r.json.asOpt[RedoxErrorResponse].map(Left(_))
+        } match {
+          case Success(t) => t
+          case Failure(e) => Some(Left(RedoxErrorResponse.simple(e.getMessage)))
+        }
       case r => r.json.asOpt[T].map(Right(_))
     }.map { response =>
       RedoxResponse[T](response.getOrElse(Left(RedoxErrorResponse.NotFound)))

@@ -20,7 +20,8 @@ case class RedoxResponse[T](result: Either[RedoxErrorResponse, T]) {
 @json case class RedoxError(ID: Long, Text: String, Type: Option[String] = None, Module: Option[String] = None)
 
 object RedoxErrorResponse {
-  val NotFound = RedoxErrorResponse(Seq(RedoxError(0, "Error response not found")))
+  val NotFound = simple("Error: JSON response not found")
+  def simple(msg: String) = RedoxErrorResponse(Seq(RedoxError(0, msg)))
 }
 
 case class RedoxAuthorizationException(msg: String) extends Exception(msg)
