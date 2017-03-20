@@ -2,22 +2,11 @@ package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
 import com.kifi.macros._
+import play.api.libs.json.{Format, Reads, Writes}
 
 /**
   * Created by apatzer on 3/17/17.
   */
-
-/**
-  * Patient
-  */
-@json case class Patient(
-  Identifiers: Seq[PatientIdentifier] = Seq.empty,
-  Demographics: Demographics,
-  Notes: Seq[String] = Seq.empty,
-  Contacts: Seq[Contact] = Seq.empty
-  // TODO Guarantor: Option[Guarantor]
-  // TODO Insurances: Seq[Insurance]
-)
 
 /**
   * Patient identifier
@@ -29,6 +18,11 @@ import com.kifi.macros._
   ID: String,
   IDType: String
 )
+
+object Gender extends Enumeration {
+  val Male, Female, Unknown, Other = Value
+  implicit lazy val jsonFormat: Format[Gender.Value] = Format(Reads.enumNameReads(Gender), Writes.enumNameWrites)
+}
 
 /**
   * About a patient.
@@ -49,7 +43,7 @@ import com.kifi.macros._
   LastName: String,
   DOB: DateTime,
   SSN: Option[String] = None,
-  Sex: Sex.Value,
+  Sex: Gender.Value,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[EmailAddress] = Seq.empty,
@@ -60,10 +54,6 @@ import com.kifi.macros._
   Religion: Option[String] = None,
   MaritalStatus: Option[String] = None
 ) extends Person
-
-object Sex extends Enumeration {
-  val Male, Female, Unknown, Other = Value
-}
 
 /**
   * @param RelationToPatient Personal relationship to the patient. e.x. Father, Spouse
@@ -78,3 +68,16 @@ object Sex extends Enumeration {
   RelationToPatient: Option[String] = None,
   Roles: Seq[String] = Seq.empty
 ) extends Person
+
+
+/**
+  * Patient
+  */
+@json case class Patient(
+  Identifiers: Seq[PatientIdentifier] = Seq.empty,
+  Demographics: Demographics,
+  Notes: Seq[String] = Seq.empty,
+  Contacts: Seq[Contact] = Seq.empty
+  // TODO Guarantor: Option[Guarantor]
+  // TODO Insurances: Seq[Insurance]
+)

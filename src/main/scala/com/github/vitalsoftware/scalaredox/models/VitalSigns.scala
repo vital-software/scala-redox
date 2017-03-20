@@ -8,6 +8,15 @@ import com.kifi.macros._
   */
 
 /**
+  * @param DateTime The date and time of the reading. ISO 8601 Format
+  * @param Observations The type of vital sign being read (height, weight, blood pressure, etc.). Subset of LOINC codes (HITSP Vital Sign Result Type).
+  */
+@json case class VitalSigns(
+  DateTime: DateTime,
+  Observations: Seq[Observation] = Seq.empty
+)
+
+/**
   * This sections contains all vital sign readings for a patient recorded over time.
   *
   * @param VitalSignsText Free text form of the vital signs summary
@@ -16,13 +25,4 @@ import com.kifi.macros._
 @json case class VitalSignsMessage(
   VitalSignsText: Option[String] = None,
   VitalSigns: Seq[VitalSigns] = Seq.empty
-)
-
-/**
-  * @param DateTime The date and time of the reading. ISO 8601 Format
-  * @param Observations The type of vital sign being read (height, weight, blood pressure, etc.). Subset of LOINC codes (HITSP Vital Sign Result Type).
-  */
-@json case class VitalSigns(
-  DateTime: DateTime,
-  Observations: Seq[Observation] = Seq.empty
 )

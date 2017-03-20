@@ -8,16 +8,6 @@ import com.kifi.macros._
   */
 
 /**
-  * describes any medication allergies, food allergies, or reactions to other substances
-  * (such as latex, iodine, tape adhesives). At a minimum, it should list currently active
-  * and relevant historical allergies and adverse reactions.
-  */
-@json case class AllergiesMessage(
-  AllergyText: Option[String] = None,
-  Allergies: Seq[Allergy] = Seq.empty
-)
-
-/**
   *
   * @param Type A code for the type of allergy intolerance this is (food, drug, etc.). Allergy/Adverse Event Type Value Set
   * @param Substance The substance that the causes the alergy/intolerance. Brand names and generics will be coded in RxNorm. Drug classes use NDF-RT, and foods use UNII
@@ -37,4 +27,14 @@ import com.kifi.macros._
   StartDate: Option[DateTime] = None,
   EndDate: Option[DateTime] = None,
   Comment: Option[String] = None
-) extends DateRange
+)
+
+/**
+  * describes any medication allergies, food allergies, or reactions to other substances
+  * (such as latex, iodine, tape adhesives). At a minimum, it should list currently active
+  * and relevant historical allergies and adverse reactions.
+  */
+@json case class AllergiesMessage(
+  AllergyText: Option[String] = None,
+  Allergies: Seq[Allergy] = Seq.empty
+)

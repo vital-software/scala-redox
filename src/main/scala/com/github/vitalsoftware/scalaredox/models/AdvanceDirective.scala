@@ -7,11 +7,6 @@ import com.kifi.macros._
   * Created by apatzer on 3/17/17.
   */
 
-@json case class AdvanceDirectiveMessage(
-  AdvanceDirectivesText: Option[String] = None,
-  advanceDirectives: Seq[AdvanceDirective] = Seq.empty
-)
-
 /**
   * Advance directive documents that the healthcare organization has on file for the patient.
   *
@@ -31,6 +26,11 @@ import com.kifi.macros._
   StartDate: DateTime,
   EndDate: Option[DateTime],
   ExternalReference: Option[String],
-  VerifiedBy: Seq[Person] = Seq.empty, // Todo missing VerifiedBy.DateTime
-  Custodians: Seq[Person] = Seq.empty
+  VerifiedBy: Seq[BasicPerson] = Seq.empty, // Todo missing VerifiedBy.DateTime
+  Custodians: Seq[BasicPerson] = Seq.empty
 ) extends Code with DateRange
+
+@json case class AdvanceDirectiveMessage(
+  AdvanceDirectivesText: Option[String] = None,
+  advanceDirectives: Seq[AdvanceDirective] = Seq.empty
+)

@@ -28,14 +28,14 @@ trait DateRange {
   */
 trait Code {
   def Code: String
-  def CodeSystem: Option[String]
+  def CodeSystem: String
   def CodeSystemName: Option[String]
   def Name: Option[String]
 }
 
 @json case class BasicCode(
   Code: String,
-  CodeSystem: Option[String] = None,
+  CodeSystem: String,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None
 ) extends Code
@@ -50,12 +50,12 @@ trait Code {
 
 @json case class CodeWithStatus(
   Code: String,
-  CodeSystem: Option[String] = None,
+  CodeSystem: String,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Status: Option[String] = None,
   DateTime: Option[DateTime] = None
-) extends Code with Status with DateStamped
+) extends Code with Status
 
 /**
   * Location of provider or care given.
@@ -65,7 +65,7 @@ trait Code {
   */
 @json case class Location(
   Address: Address,
-  Type: Code,
+  Type: BasicCode,
   Name: Option[String] = None
 )
 
@@ -102,30 +102,6 @@ trait Code {
   Office: Option[String] = None
 )
 
-
-/**
-  * Coded Observation of a patient.
-  *
-  * @param TargetSite Where (on or in the body) the observation is made. (e.g. "Entire hand (body structure)"). SNOMED CT
-  * @param Interpretation A flag indicating whether or not the observed value is normal, high, or low. [Supported Values](https://www.hl7.org/fhir/v3/ObservationInterpretation/index.html)
-  * @param ValueType Data type of the value. One of the following: "Numeric", "String", "Date", "Time", "DateTime", "Coded Entry", "Encapsulated Data". Derived from HL7 Table 0125.
-  */
-@json case class Observation(
-  Code: String,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None,
-  DateTime: DateTime,
-  Value: Option[String] = None,
-  ValueType: Option[String] = None,
-  Units: Option[String] = None,
-  ReferenceRange: Option[ReferenceRange] = None,
-  Status: Option[String] = None,
-  TargetSite: Option[BasicCode] = None,  // Used by Procedures
-  Interpretation: Option[String] = None  // Used by Result
-  // TODO Observer: Option[???]
-) extends Code with Status with DateStamped
-
 /**
   * Reference range for the result.
   * Numeric result values will use the low and high properties.
@@ -140,3 +116,26 @@ trait Code {
   High: Option[Double] = None,
   Text: Option[String] = None
 )
+
+/**
+  * Coded Observation of a patient.
+  *
+  * @param TargetSite Where (on or in the body) the observation is made. (e.g. "Entire hand (body structure)"). SNOMED CT
+  * @param Interpretation A flag indicating whether or not the observed value is normal, high, or low. [Supported Values](https://www.hl7.org/fhir/v3/ObservationInterpretation/index.html)
+  * @param ValueType Data type of the value. One of the following: "Numeric", "String", "Date", "Time", "DateTime", "Coded Entry", "Encapsulated Data". Derived from HL7 Table 0125.
+  */
+@json case class Observation(
+  Code: String,
+  CodeSystem: String,
+  CodeSystemName: Option[String] = None,
+  Name: Option[String] = None,
+  DateTime: DateTime,
+  Value: Option[String] = None,
+  ValueType: Option[String] = None,
+  Units: Option[String] = None,
+  ReferenceRange: Option[ReferenceRange] = None,
+  Status: Option[String] = None,
+  TargetSite: Option[BasicCode] = None,  // Used by Procedures
+  Interpretation: Option[String] = None  // Used by Result
+  // TODO Observer: Option[???]
+) extends Code with Status with DateStamped

@@ -8,16 +8,6 @@ import com.kifi.macros._
   */
 
 /**
-  * This section lists any medical equipment that the patient uses or has been prescribed.
-  * @param MedicalEquipmentText Free text form of the medical equipment summary
-  * @param MedicalEquipment A list of medical equipment that the patient uses (cane, pacemakers, etc.)
-  */
-@json case class MedicalEquipmentMessage(
-  MedicalEquipmentText: Option[String] = None,
-  MedicalEquipment: Seq[MedicalEquipment] = Seq.empty
-)
-
-/**
   * Piece of medical equipment.
   *
   * @param Status The current status of the equipment (active, completed, etc.)
@@ -30,4 +20,14 @@ import com.kifi.macros._
   StartDate: Option[DateTime] = None,
   Quantity: Option[String] = None, // Todo Int?
   Product: BasicCode
+)
+
+/**
+  * This section lists any medical equipment that the patient uses or has been prescribed.
+  * @param MedicalEquipmentText Free text form of the medical equipment summary
+  * @param MedicalEquipment A list of medical equipment that the patient uses (cane, pacemakers, etc.)
+  */
+@json case class MedicalEquipmentMessage(
+  MedicalEquipmentText: Option[String] = None,
+  MedicalEquipment: Seq[MedicalEquipment] = Seq.empty
 )

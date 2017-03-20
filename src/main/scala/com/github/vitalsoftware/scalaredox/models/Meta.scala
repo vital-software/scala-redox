@@ -8,6 +8,12 @@ import com.kifi.macros._
   * Created by apatzer on 3/17/17.
   */
 
+// Message source or destination
+@json case class SourceDestination(ID: UUID, Name: String)
+
+// Numeric identifier
+@json case class NumericIdentifier(ID: Long)
+
 /**
   * Request/response header meta-data
   *
@@ -30,9 +36,3 @@ import com.kifi.macros._
   Message: Option[NumericIdentifier] = None,
   Transmission: Option[NumericIdentifier] = None
 )
-
-// Message source or destination
-@json case class SourceDestination(ID: UUID, Name: String)
-
-// Numeric identifier
-@json case class NumericIdentifier(ID: Long)

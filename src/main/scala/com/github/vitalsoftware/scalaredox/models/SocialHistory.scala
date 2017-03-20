@@ -8,29 +8,13 @@ import com.kifi.macros._
   */
 
 /**
-  * This section contains information such as tobacco use, pregnancies, and generic social behavior observations.
-  * @param SocialHistoryText Free text form of the social history summary
-  * @param SocialHistory Generic observations about the patient's social hisotry that don't fall into the smoking or pregnancy categories.
-  */
-@json case class SocialHistoryMessage(
-  SocialHistoryText: Option[String] = None,
-  SocialHistory: SocialHistory
-)
-
-@json case class SocialHistory(
-  Observations: Seq[SocialHistoryObservation] = Seq.empty,
-  Pregnancy: Seq[Pregnancy] = Seq.empty,
-  TobaccoUse: Seq[TobaccoUse] = Seq.empty
-)
-
-/**
   * @param Code A code for the observation (exercise, alcohol intake, etc.) . SNOMED CT
   * @param Value The coded observed value for the code
   * @param ValueText The observed value for the code
   */
 @json case class SocialHistoryObservation(
   Code: String,
-  CodeSystem: Option[String] = None,
+  CodeSystem: String,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   StartDate: DateTime,
@@ -57,9 +41,26 @@ import com.kifi.macros._
   */
 @json case class TobaccoUse(
   Code: String,
-  CodeSystem: Option[String] = None,
+  CodeSystem: String,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   StartDate: DateTime,
   EndDate: Option[DateTime] = None
 ) extends Code with DateRange
+
+
+@json case class SocialHistory(
+  Observations: Seq[SocialHistoryObservation] = Seq.empty,
+  Pregnancy: Seq[Pregnancy] = Seq.empty,
+  TobaccoUse: Seq[TobaccoUse] = Seq.empty
+)
+
+/**
+  * This section contains information such as tobacco use, pregnancies, and generic social behavior observations.
+  * @param SocialHistoryText Free text form of the social history summary
+  * @param SocialHistory Generic observations about the patient's social hisotry that don't fall into the smoking or pregnancy categories.
+  */
+@json case class SocialHistoryMessage(
+  SocialHistoryText: Option[String] = None,
+  SocialHistory: SocialHistory
+)

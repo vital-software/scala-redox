@@ -8,11 +8,32 @@ import com.kifi.macros._
   */
 
 /**
-  * This section lists the patient's current immunization status and pertinent immunization history.
+  * Immunization product (i.e. vaccine)
+  *
+  * @see [CVX code system](http://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.12.292)
+  *
+  * @param Code The vaccination that was given.
+  * @param Manufacturer Name of organization that manufacture the immunization. Free text
+  * @param LotNumber The lot number of the vaccine
   */
-@json case class ImmunizationsMessage(
-  ImmunizationText: Option[String] = None,
-  Immunizations: Seq[Immunization] = Seq.empty
+@json case class ImmunizationProduct(
+  Code: String,
+  CodeSystem: String,
+  CodeSystemName: Option[String] = None,
+  Name: Option[String] = None,
+  Manufacturer: Option[String] = None,
+  LotNumber: Option[String] = None
+) extends Code
+
+/**
+  * @see [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
+  *
+  * @param Quantity The size of the dose
+  * @param Units The units of the dose
+  */
+@json case class Dose(
+  Quantity: String,
+  Units: String
 )
 
 /**
@@ -31,30 +52,9 @@ import com.kifi.macros._
 ) extends DateStamped
 
 /**
-  * Immunization product (i.e. vaccine)
-  *
-  * @see [CVX code system](http://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.12.292)
-  *
-  * @param Code The vaccination that was given.
-  * @param Manufacturer Name of organization that manufacture the immunization. Free text
-  * @param LotNumber The lot number of the vaccine
+  * This section lists the patient's current immunization status and pertinent immunization history.
   */
-@json case class ImmunizationProduct(
-  Code: String,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None,
-  Manufacturer: Option[String] = None,
-  LotNumber: Option[String] = None
-) extends Code
-
-/**
-  * @see [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
-  *
-  * @param Quantity The size of the dose
-  * @param Units The units of the dose
-  */
-@json case class Dose(
-  Quantity: String,
-  Units: String
+@json case class ImmunizationsMessage(
+  ImmunizationText: Option[String] = None,
+  Immunizations: Seq[Immunization] = Seq.empty
 )

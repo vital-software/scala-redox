@@ -8,17 +8,6 @@ import com.kifi.macros._
   */
 
 /**
-  * Information about the patient and where the summary came from
-  *
-  * @param Document An object containing metadata about the document being pushed to the destination.
-  * @param Patient Patient
-  */
-@json case class Header( // Todo: Optional vs required
-  Document: Document,
-  Patient: Patient
-)
-
-/**
   *
   * @param ID Your application's ID for the document
   * @param Author Provider responsible for this document
@@ -36,4 +25,15 @@ import com.kifi.macros._
   Title: String,
   DateTime: DateTime,
   Type: String
+)
+
+/**
+  * Information about the patient and where the summary came from
+  *
+  * @param Document An object containing metadata about the document being pushed to the destination.
+  * @param Patient Patient
+  */
+@json case class Header(
+  Document: Document,
+  Patient: Patient
 )

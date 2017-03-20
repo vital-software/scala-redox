@@ -8,13 +8,18 @@ import com.kifi.macros._
   */
 
 /**
-  * This section contains future appointments, medications, orders, procedures, and services that a
-  * patient may be scheduled for or is waiting to be scheduled for.
+  * Medication to be given.
   */
-@json case class PlanOfCareMessage(
-  PlanOfCareText: Option[String] = None,
-  PlanOfCare: PlanOfCare
-)
+@json case class MedicationPlan(
+  Status: Option[String] = None,
+  Dose: Option[Dose] = None,
+  Rate: Option[Dose] = None,
+  Route: Option[BasicCode] = None,
+  StartDate: DateTime,
+  EndDate: Option[DateTime] = None,
+  Frequency: Option[TimePeriod] = None,
+  Product: BasicCode
+) extends Medication with Status with DateRange
 
 /**
   * @see PlanOfCareMessage
@@ -35,18 +40,11 @@ import com.kifi.macros._
   Services: Seq[CodeWithStatus] = Seq.empty
 )
 
-
-
 /**
-  * Medication to be given.
+  * This section contains future appointments, medications, orders, procedures, and services that a
+  * patient may be scheduled for or is waiting to be scheduled for.
   */
-@json case class MedicationPlan(
-  Status: Option[String] = None,
-  Dose: Option[Dose] = None,
-  Rate: Option[Dose] = None,
-  Route: Option[BasicCode] = None,
-  StartDate: DateTime,
-  EndDate: Option[DateTime] = None,
-  Frequency: Option[TimePeriod] = None,
-  Product: BasicCode
-) extends Medication with Status with DateRange
+@json case class PlanOfCareMessage(
+  PlanOfCareText: Option[String] = None,
+  PlanOfCare: PlanOfCare
+)

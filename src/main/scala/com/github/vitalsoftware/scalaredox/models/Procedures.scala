@@ -7,17 +7,6 @@ import com.kifi.macros._
   */
 
 /**
-  * This section documents three types of things: diagnostic procedures, procedures that change the body, and services performed by clinical staff.
-  *
-  * @param ProceduresText Free text form of the procedures summary
-  * @param Procedures A general grouper for all things that CDA considers procedures.
-  */
-@json case class ProceduresMessage(
-  ProceduresText: Option[String] = None,
-  Procedures: Procedures
-)
-
-/**
   *
   * @param Observations These are procedures that are more observational in nature, such as an EEG or EKG.
   * @param Procedures The procedure that was performed. SNOMED CT
@@ -27,4 +16,15 @@ import com.kifi.macros._
   Observations: Seq[Observation] = Seq.empty,
   Procedures: Seq[CodeWithStatus] = Seq.empty,
   Services: Seq[CodeWithStatus] = Seq.empty
+)
+
+/**
+  * This section documents three types of things: diagnostic procedures, procedures that change the body, and services performed by clinical staff.
+  *
+  * @param ProceduresText Free text form of the procedures summary
+  * @param Procedures A general grouper for all things that CDA considers procedures.
+  */
+@json case class ProceduresMessage(
+  ProceduresText: Option[String] = None,
+  Procedures: Procedures
 )

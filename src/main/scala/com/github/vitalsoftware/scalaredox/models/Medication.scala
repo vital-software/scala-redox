@@ -7,17 +7,6 @@ import com.kifi.macros._
   * Created by apatzer on 3/17/17.
   */
 
-/**
-  * This section contains the patient's past, current, and future medications.
-  *
-  * @param MedicationsText Free text form of the medications summary
-  * @param Medications Patient medications: past, current, and future
-  */
-@json case class MedicationsMessage(
-  MedicationsText: Option[String] = None,
-  Medications: Seq[MedicationTaken] = Seq.empty
-)
-
 trait Medication extends DateRange{
   /** Dose The size of the dose for pills, capsules, etc. */
   def Dose: Option[Dose]
@@ -42,6 +31,18 @@ trait Medication extends DateRange{
 }
 
 /**
+  * Time period for medication.
+  *
+  * @see [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
+  * @param Period How often the patient should be taking the medication.
+  * @param Unit Units for how often the patient should be taking the medication
+  */
+@json case class TimePeriod(
+  Period: String,
+  Unit: Option[String]
+)
+
+/**
   * @param Prescription Whether the medication is a prescription. For a prescription: true. For a patient reported med, or a med administered by a provider: false
   * @param FreeTextSig Free text instructions for the medication. Typically instructing patient on the proper means and timing for the use of the medication
   */
@@ -58,13 +59,12 @@ trait Medication extends DateRange{
 ) extends Medication
 
 /**
-  * Time period for medication.
+  * This section contains the patient's past, current, and future medications.
   *
-  * @see [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
-  * @param Period How often the patient should be taking the medication.
-  * @param Unit Units for how often the patient should be taking the medication
+  * @param MedicationsText Free text form of the medications summary
+  * @param Medications Patient medications: past, current, and future
   */
-@json case class TimePeriod(
-  Period: String,
-  Unit: Option[String]
+@json case class MedicationsMessage(
+  MedicationsText: Option[String] = None,
+  Medications: Seq[MedicationTaken] = Seq.empty
 )

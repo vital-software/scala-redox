@@ -8,17 +8,6 @@ import com.kifi.macros._
   */
 
 /**
-  * This section contains the patient's past and current relevant medical problems.
-  *
-  * @param ProblemsText Free text form of the problems summary
-  * @param Problems An array of all of patient relevant problems, current and historical.
-  */
-@json case class ProblemsMessage(
-  ProblemsText: Option[String] = None,
-  Problems: Seq[Problem] = Seq.empty
-)
-
-/**
   *
   * @param StartDate When the problem was noticed. ISO 8601 Format
   * @param EndDate When the problem stopped (if it is not current). ISO 8601 Format
@@ -31,10 +20,21 @@ import com.kifi.macros._
   StartDate: Option[DateTime] = None,
   EndDate: Option[DateTime] = None,
   Code: String,
-  CodeSystem: Option[String] = None,
+  CodeSystem: String,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Category: BasicCode,
   HealthStatus: Option[BasicCode] = None,
   Status: Option[BasicCode] = None
 ) extends Code
+
+/**
+  * This section contains the patient's past and current relevant medical problems.
+  *
+  * @param ProblemsText Free text form of the problems summary
+  * @param Problems An array of all of patient relevant problems, current and historical.
+  */
+@json case class ProblemsMessage(
+  ProblemsText: Option[String] = None,
+  Problems: Seq[Problem] = Seq.empty
+)

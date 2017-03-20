@@ -8,7 +8,6 @@ import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.model.Uri.Path._
 import akka.http.scaladsl.model.Uri.Query
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers.{Authorization, OAuth2BearerToken}
 import com.github.vitalsoftware.scalaredox.models._
 import com.typesafe.config.Config
 import net.ceedubs.ficus.Ficus._
@@ -33,7 +32,7 @@ class RedoxClient(conf: Config) {
 
   private[client] lazy val apiKey = conf.as[String]("redox.apiKey")
   private[client] lazy val apiSecret = conf.as[String]("redox.secret")
-  private[client] lazy val baseRestUri = Uri(conf.getOrElse[String]("redox.restApiBase", "https://api.redoxengine.com/"))
+  private[client] lazy val baseRestUri = Uri(conf.getOrElse[String]("redox.restApiBase", "https://api.redoxengine.com"))
   private[client] lazy val authInfo = {
     val auth = new SyncVar[Option[AuthInfo]]
     auth.put(None)
@@ -45,7 +44,7 @@ class RedoxClient(conf: Config) {
   private def basePost = baseRequest(baseRestUri.withPath(/("endpoint")).toString()).withMethod("POST")
 
   /** Send and receive an authorized request */
-  private def sendReceive[T](request: StandaloneWSRequest): Future[RedoxResponse[T]] = {
+  private def sendReceive[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
     for {
       auth <- authInfo.get match {
         case Some(info) => Future { info }
@@ -56,7 +55,7 @@ class RedoxClient(conf: Config) {
   }
 
   /** Raw request execution */
-  private def execute[T](request: StandaloneWSRequest): Future[RedoxResponse[T]] = {
+  private def execute[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
     request.execute().map {
       case r if Set[StatusCode](
         BadRequest,
@@ -79,7 +78,7 @@ class RedoxClient(conf: Config) {
   }
 
   /** Authorize to Redox and save the auth tokens */
-  protected def authorize(): Future[AuthInfo] = {
+  def authorize(): Future[AuthInfo] = {
     val req = baseRequest(baseRestUri.withPath(/("auth/authenticate")).toString())
       .withMethod("POST")
       .withBody(Map("apiKey" -> Seq(apiKey), "secret" -> Seq(apiSecret)))
@@ -91,7 +90,7 @@ class RedoxClient(conf: Config) {
   }
 
   /** Refresh the auth token a minute before it expires */
-  protected def refresh(auth: AuthInfo): Unit = {
+  def refresh(auth: AuthInfo): Unit = {
     val delay = auth.expires.getMillis - DateTime.now.getMillis - 60 * 1000
     system.scheduler.scheduleOnce(delay.millis) {
       val req = baseRequest(baseRestUri.withPath(/("auth/refreshToken")).toString())

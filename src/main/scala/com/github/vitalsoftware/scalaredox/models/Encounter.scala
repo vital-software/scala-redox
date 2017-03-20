@@ -8,17 +8,6 @@ import com.kifi.macros._
   */
 
 /**
-  * This section lists the patient's past encounters at the health system and associated diagnoses.
-  *
-  * @param EncountersText Free text form of the encounters summary
-  * @param Encounters Patient encounters
-  */
-@json case class EncountersMessage(
-  EncountersText: Option[String],
-  Encounters: Seq[Encounter] = Seq.empty
-)
-
-/**
   *
   * @param Type A code describing the type of encounter (office visit, hospital, etc). CPT-4
   * @param DateTime When the encounter took place, or alternatively when the encounter began if Encounters[].EndDateTime is present. ISO 8601 Format
@@ -37,3 +26,14 @@ import com.kifi.macros._
   Diagnosis: Seq[BasicCode] = Seq.empty,
   ReasonForVisit: Seq[BasicCode] = Seq.empty
 ) extends DateStamped
+
+/**
+  * This section lists the patient's past encounters at the health system and associated diagnoses.
+  *
+  * @param EncountersText Free text form of the encounters summary
+  * @param Encounters Patient encounters
+  */
+@json case class EncountersMessage(
+  EncountersText: Option[String],
+  Encounters: Seq[Encounter] = Seq.empty
+)

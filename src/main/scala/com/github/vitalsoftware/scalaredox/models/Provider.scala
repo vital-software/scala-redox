@@ -38,3 +38,12 @@ trait Person {
   def PhoneNumber: Option[PhoneNumber]
   def EmailAddresses: Seq[EmailAddress]
 }
+
+@json case class BasicPerson(
+  FirstName: String,
+  LastName: String,
+  Address: Option[Address] = None,
+  PhoneNumber: Option[PhoneNumber] = None,
+  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  Credentials: Seq[String] = Seq.empty
+)

@@ -7,21 +7,6 @@ import com.kifi.macros._
   * Created by apatzer on 3/17/17.
   */
 
-/**
-  * This section contains entries for a patient's relatives and their health problems.
-  * @param FamilyHistoryTest Free text form of the family history summary
-  * @param FamilyHistory An array of family history observations
-  */
-@json case class FamilyHistoryMessage(
-  FamilyHistoryTest: Option[String] = None,
-  FamilyHistory: Seq[FamilyHistory] = Seq.empty
-)
-
-@json case class FamilyHistory(
-  Relation: Relation,
-  Problems: Seq[FamilyHistoryProblem] = Seq.empty
-)
-
 @json case class Relation(
   Code: String,
   CodeSystem: String,
@@ -35,7 +20,7 @@ import com.kifi.macros._
   * @param DOB Date of Birth of the relative. In YYYY-MM-DD format
   */
 @json case class RelationDemographics(
-  Sex: Sex.Value,
+  Sex: Gender.Value,
   DOB: DateTime
 )
 
@@ -56,3 +41,18 @@ import com.kifi.macros._
   AgeAtOnset: Option[String] = None,
   IsCauseOfDeath: Option[Boolean] = None
 ) extends Code
+
+@json case class FamilyHistory(
+  Relation: Relation,
+  Problems: Seq[FamilyHistoryProblem] = Seq.empty
+)
+
+/**
+  * This section contains entries for a patient's relatives and their health problems.
+  * @param FamilyHistoryTest Free text form of the family history summary
+  * @param FamilyHistory An array of family history observations
+  */
+@json case class FamilyHistoryMessage(
+  FamilyHistoryTest: Option[String] = None,
+  FamilyHistory: Seq[FamilyHistory] = Seq.empty
+)
