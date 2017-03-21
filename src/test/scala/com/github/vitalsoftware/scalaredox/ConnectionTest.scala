@@ -16,9 +16,9 @@ class ConnectionTest extends Specification {
 
     "return a token" in {
       val fut = client.authorize()
-      val auth = Await.result(fut, 2000.milli)
-      auth.accessToken must beEmpty
-      auth.refreshToken must beEmpty
+      val auth = Await.result(fut, 20000.milli)
+      auth.accessToken must not be empty
+      auth.refreshToken must not be empty
       auth.expires.compareTo(org.joda.time.DateTime.now) must be_>(0)
     }
   }

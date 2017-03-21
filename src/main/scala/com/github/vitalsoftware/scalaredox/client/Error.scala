@@ -1,6 +1,6 @@
 package com.github.vitalsoftware.scalaredox.client
 
-import com.kifi.macros._
+import com.github.vitalsoftware.macros._
 
 /**
   * Created by apatzer on 3/20/17.

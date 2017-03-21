@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
-import com.kifi.macros._
+import com.github.vitalsoftware.macros._
 import play.api.libs.json.{Format, Reads, Writes}
 
 /**

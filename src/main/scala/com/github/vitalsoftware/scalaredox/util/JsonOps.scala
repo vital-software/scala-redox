@@ -1,8 +1,10 @@
 package com.github.vitalsoftware.scalaredox.util
 
+import org.joda.time.format.DateTimeFormatter
 import play.api.libs.json._
 import play.api.libs.json.Reads._
 import play.api.libs.functional.syntax._
+
 import scala.language.implicitConversions
 import scala.language.postfixOps
 
@@ -40,4 +42,31 @@ class OReadsOps[A](reads: Reads[A]) {
 
 object OReadsOps {
   implicit def from[A](reads: Reads[A]): OReadsOps[A] = new OReadsOps(reads)
+}
+
+object JsonImplicits {
+  implicit val jodaISODateReads: Reads[org.joda.time.DateTime] = new Reads[org.joda.time.DateTime] {
+    import org.joda.time.DateTime
+
+    val df: DateTimeFormatter = org.joda.time.format.ISODateTimeFormat.dateTime()
+
+    def reads(json: JsValue): JsResult[DateTime] = json match {
+      case JsNumber(d) => JsSuccess(new DateTime(d.toLong))
+      case JsString(s) => parseDate(s) match {
+        case Some(d) => JsSuccess(d)
+        case None => JsError(Seq(JsPath() -> Seq(JsonValidationError("validate.error.expected.date.isoformat", "ISO8601"))))
+      }
+      case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("validate.error.expected.date"))))
+    }
+
+    private def parseDate(input: String): Option[DateTime] =
+      scala.util.control.Exception.allCatch[DateTime] opt DateTime.parse(input, df)
+
+  }
+
+  implicit val jodaDateWrites: Writes[org.joda.time.DateTime] = new Writes[org.joda.time.DateTime] {
+    def writes(d: org.joda.time.DateTime): JsValue = JsString(d.toString())
+  }
+
+  implicit val jodaFormat = Format(jodaISODateReads, jodaDateWrites)
 }
