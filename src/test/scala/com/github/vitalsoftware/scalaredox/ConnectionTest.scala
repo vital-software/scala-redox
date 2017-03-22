@@ -50,7 +50,7 @@ class ConnectionTest extends Specification with NoTimeConversions {
         Meta(DataModel = "", EventType = ""),
         Patient(Demographics = Some(Demographics("John", "Doe", DateTime.parse("1970-1-1"), Sex = Gender.Male)))
       )
-      val fut = client.getClinicalSummary(shouldFailQuery)
+      val fut = client.queryClinicalSummary(shouldFailQuery)
       val resp = Await.result(fut, 5.seconds)
       resp.isError must beTrue
       resp.get must throwA[Exception]
@@ -97,7 +97,7 @@ class ConnectionTest extends Specification with NoTimeConversions {
         valid = identity
       )
       val query = Json.fromJson[ClinicalSummaryQuery](Json.parse(json)).get
-      val fut = client.getClinicalSummary(query)
+      val fut = client.queryClinicalSummary(query)
       val resp = Await.result(fut, 5.seconds)
       if (resp.isError) throw new RuntimeException(resp.getError.Errors.map(_.Text).mkString(","))
       resp.isSuccess must beTrue
@@ -148,6 +148,79 @@ class ConnectionTest extends Specification with NoTimeConversions {
         header.Patient.Identifiers must not be empty
         header.Patient.Demographics must beSome
 
+      }.get
+    }
+  }
+
+  "query PatientSearch" should {
+
+    "not find anyone" in {
+      val json =
+        """
+          |{
+          |	"Meta": {
+          |		"DataModel": "PatientSearch",
+          |		"EventType": "Query",
+          |		"EventDateTime": "2017-03-14T19:35:06.047Z",
+          |		"Test": true,
+          |		"Destinations": [
+          |			{
+          |				"ID": "0f4bd1d1-451d-4351-8cfd-b767d1b488d6",
+          |				"Name": "Patient Search Endpoint"
+          |			}
+          |		]
+          |	}
+          |}
+        """.stripMargin
+
+      val query = Json.fromJson[PatientSearch](Json.parse(json)).get
+      val fut = client.queryPatientSearch(query)
+      val resp = Await.result(fut, 5.seconds)
+      resp.isSuccess must beTrue
+      resp.asOpt.map { searchResult =>
+        searchResult.Patient must beNone
+      }.get
+    }
+
+    "find someone" in {
+      val json =
+        """
+          |{
+          |	"Meta": {
+          |		"DataModel": "PatientSearch",
+          |		"EventType": "Query",
+          |		"EventDateTime": "2017-03-14T19:35:06.047Z",
+          |		"Test": true,
+          |		"Destinations": [
+          |			{
+          |				"ID": "0f4bd1d1-451d-4351-8cfd-b767d1b488d6",
+          |				"Name": "Patient Search Endpoint"
+          |			}
+          |		]
+          |	},
+          |	"Patient": {
+          |		"Demographics": {
+          |			"FirstName": "Timothy",
+          |			"MiddleName": "Paul",
+          |			"LastName": "Bixby",
+          |			"DOB": "2008-01-06T00:00:00.000Z",
+          |			"Sex": "Male"
+          |		},
+          |		"Notes": []
+          |	}
+          |}
+        """.stripMargin
+
+      val query = Json.fromJson[PatientSearch](Json.parse(json)).get
+      val fut = client.queryPatientSearch(query)
+      val resp = Await.result(fut, 5.seconds)
+      if (resp.isError) throw new RuntimeException(resp.getError.Errors.map(_.Text).mkString(","))
+      resp.isSuccess must beTrue
+      resp.getError must throwA[Exception]
+      resp.asOpt.map { searchResult =>
+        searchResult.Patient must beSome
+        searchResult.Patient.get.Identifiers must not be empty
+        searchResult.Patient.get.Demographics must beSome
       }.get
     }
   }

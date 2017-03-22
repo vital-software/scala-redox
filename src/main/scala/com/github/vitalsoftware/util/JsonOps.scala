@@ -7,6 +7,7 @@ import play.api.libs.functional.syntax._
 
 import scala.language.implicitConversions
 import scala.language.postfixOps
+import scala.util.Try
 
 /**
   * Alter operations available on Play-JSON Reads[T] & Writes[T]
@@ -49,6 +50,7 @@ object JsonImplicits {
     import org.joda.time.DateTime
 
     val df: DateTimeFormatter = org.joda.time.format.ISODateTimeFormat.dateTime()
+    val backup: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd")
 
     def reads(json: JsValue): JsResult[DateTime] = json match {
       case JsNumber(d) => JsSuccess(new DateTime(d.toLong))
@@ -59,8 +61,9 @@ object JsonImplicits {
       case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("validate.error.expected.date"))))
     }
 
-    private def parseDate(input: String): Option[DateTime] =
-      scala.util.control.Exception.allCatch[DateTime] opt DateTime.parse(input, df)
+    private def parseDate(input: String): Option[DateTime] = {
+      Try(DateTime.parse(input, df)).orElse(Try(DateTime.parse(input, backup))).toOption
+    }
 
   }
 
@@ -70,5 +73,6 @@ object JsonImplicits {
 
   implicit val jodaISO8601Format = Format(jodaISODateReads, jodaISODateWrites)
 
-  implicit val jodaDateFormat = Format(Reads.DefaultJodaDateReads, Writes.jodaDateWrites("yyyy-MM-dd"))
+  // Will read ISO8061 and "yyyy-MM-dd" format
+  implicit val jodaDateFormat = Format(jodaISODateReads, Writes.jodaDateWrites("yyyy-MM-dd"))
 }

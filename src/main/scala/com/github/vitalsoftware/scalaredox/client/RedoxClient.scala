@@ -136,12 +136,16 @@ class RedoxClient(conf: Config) {
     }
   }
 
-  def getClinicalSummary(query: ClinicalSummaryQuery): Future[RedoxResponse[ClinicalSummary]] = {
+  def queryClinicalSummary(query: ClinicalSummaryQuery): Future[RedoxResponse[ClinicalSummary]] = {
     sendReceive[ClinicalSummary](baseQuery.withBody(Json.toJson(query)))
   }
 
   def sendClinicalSummary(data: ClinicalSummary): Future[RedoxResponse[Meta]] = {
     sendReceive[Meta](basePost.withBody(Json.toJson(data)))
+  }
+
+  def queryPatientSearch(query: PatientSearch): Future[RedoxResponse[PatientSearch]] = {
+    sendReceive[PatientSearch](baseQuery.withBody(Json.toJson(query)))
   }
 
 }

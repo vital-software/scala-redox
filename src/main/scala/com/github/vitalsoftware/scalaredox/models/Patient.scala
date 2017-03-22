@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
+import com.github.vitalsoftware.util.JsonImplicits.jodaDateFormat
 import com.github.vitalsoftware.macros._
 import play.api.libs.json.Reads.DefaultJodaDateReads
 import play.api.libs.json.{Format, Reads, Writes}
@@ -82,4 +82,13 @@ object Gender extends Enumeration {
   Contacts: Seq[Contact] = Seq.empty
   // TODO Guarantor: Option[Guarantor]
   // TODO Insurances: Seq[Insurance]
+)
+
+/**
+  * Meta.DataModel: "PatientSearch",
+  * Meta.EventType: "Query"
+  */
+@jsonDefaults case class PatientSearch(
+  Meta: Meta,
+  Patient: Option[Patient] = None
 )

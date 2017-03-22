@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
+import com.github.vitalsoftware.util.JsonImplicits.jodaDateFormat // "yyy-MM-dd"
 import com.github.vitalsoftware.macros._
 
 /**
