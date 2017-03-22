@@ -1,4 +1,4 @@
-package com.github.vitalsoftware.scalaredox.util
+package com.github.vitalsoftware.util
 
 import org.joda.time.format.DateTimeFormatter
 import play.api.libs.json._
@@ -64,9 +64,11 @@ object JsonImplicits {
 
   }
 
-  implicit val jodaDateWrites: Writes[org.joda.time.DateTime] = new Writes[org.joda.time.DateTime] {
+  implicit val jodaISODateWrites: Writes[org.joda.time.DateTime] = new Writes[org.joda.time.DateTime] {
     def writes(d: org.joda.time.DateTime): JsValue = JsString(d.toString())
   }
 
-  implicit val jodaFormat = Format(jodaISODateReads, jodaDateWrites)
+  implicit val jodaISO8601Format = Format(jodaISODateReads, jodaISODateWrites)
+
+  implicit val jodaDateFormat = Format(Reads.DefaultJodaDateReads, Writes.jodaDateWrites("yyyy-MM-dd"))
 }

@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -37,16 +38,16 @@ trait Medication extends DateRange{
   * @param Period How often the patient should be taking the medication.
   * @param Unit Units for how often the patient should be taking the medication
   */
-@json case class TimePeriod(
-  Period: String,
-  Unit: Option[String]
+@jsonDefaults case class TimePeriod(
+  Period: Option[String] = None,
+  Unit: Option[String] = None
 )
 
 /**
   * @param Prescription Whether the medication is a prescription. For a prescription: true. For a patient reported med, or a med administered by a provider: false
   * @param FreeTextSig Free text instructions for the medication. Typically instructing patient on the proper means and timing for the use of the medication
   */
-@json case class MedicationTaken (
+@jsonDefaults case class MedicationTaken (
   Prescription: Boolean,
   FreeTextSig: Option[String] = None,
   Dose: Option[Dose] = None,
@@ -64,7 +65,7 @@ trait Medication extends DateRange{
   * @param MedicationsText Free text form of the medications summary
   * @param Medications Patient medications: past, current, and future
   */
-@json case class MedicationsMessage(
+@jsonDefaults case class MedicationsMessage(
   MedicationsText: Option[String] = None,
   Medications: Seq[MedicationTaken] = Seq.empty
 )

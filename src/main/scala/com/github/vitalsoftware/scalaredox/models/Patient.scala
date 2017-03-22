@@ -1,7 +1,9 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import play.api.libs.json.Reads.DefaultJodaDateReads
 import play.api.libs.json.{Format, Reads, Writes}
 
 /**
@@ -14,13 +16,13 @@ import play.api.libs.json.{Format, Reads, Writes}
   * @param ID The actual identifier for the patient.
   * @param IDType An ID type associated with identifier (Medical Record Number, etc.)
   */
-@json case class PatientIdentifier(
+@jsonDefaults case class PatientIdentifier(
   ID: String,
   IDType: String
 )
 
 object Gender extends Enumeration {
-  val Male, Female, Unknown, Other = Value
+  val M, F, Male, Female, Unknown, Other = Value
   implicit lazy val jsonFormat: Format[Gender.Value] = Format(Reads.enumNameReads(Gender), Writes.enumNameWrites)
 }
 
@@ -38,7 +40,7 @@ object Gender extends Enumeration {
   * @param Religion List at https://www.hl7.org/fhir/v3/ReligiousAffiliation/index.html
   * @param MaritalStatus List at http://www.hl7.org/FHIR/v2/0002/index.html
   */
-@json case class Demographics(
+@jsonDefaults case class Demographics(
   FirstName: String,
   LastName: String,
   DOB: DateTime,
@@ -59,7 +61,7 @@ object Gender extends Enumeration {
   * @param RelationToPatient Personal relationship to the patient. e.x. Father, Spouse
   * @param Roles E.g. "Emergency contact"
   */
-@json case class Contact(
+@jsonDefaults case class Contact(
   FirstName: String,
   LastName: String,
   Address: Option[Address] = None,
@@ -73,9 +75,9 @@ object Gender extends Enumeration {
 /**
   * Patient
   */
-@json case class Patient(
+@jsonDefaults case class Patient(
   Identifiers: Seq[PatientIdentifier] = Seq.empty,
-  Demographics: Demographics,
+  Demographics: Option[Demographics] = None,
   Notes: Seq[String] = Seq.empty,
   Contacts: Seq[Contact] = Seq.empty
   // TODO Guarantor: Option[Guarantor]

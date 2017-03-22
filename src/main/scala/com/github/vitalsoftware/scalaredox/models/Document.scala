@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -17,9 +18,9 @@ import com.github.vitalsoftware.macros._
   * @param DateTime The creation/publishing date/time of the document.
   * @param Type The type of document (CCD, progress note, etc.)
   */
-@json case class Document(
+@jsonDefaults case class Document(
   ID: String,
-  Author: Provider, // Todo Provider.Type is not present!
+  Author: Option[Provider] = None, // Todo Provider.Type is not present!
   Visit: Option[Visit] = None,
   Locale: String, // TODO java.util.Locale
   Title: String,
@@ -33,7 +34,7 @@ import com.github.vitalsoftware.macros._
   * @param Document An object containing metadata about the document being pushed to the destination.
   * @param Patient Patient
   */
-@json case class Header(
+@jsonDefaults case class Header(
   Document: Document,
   Patient: Patient
 )

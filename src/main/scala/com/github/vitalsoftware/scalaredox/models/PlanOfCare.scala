@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -10,7 +11,7 @@ import com.github.vitalsoftware.macros._
 /**
   * Medication to be given.
   */
-@json case class MedicationPlan(
+@jsonDefaults case class MedicationPlan(
   Status: Option[String] = None,
   Dose: Option[Dose] = None,
   Rate: Option[Dose] = None,
@@ -31,7 +32,7 @@ import com.github.vitalsoftware.macros._
   * @param Supplies Future supplies that a patient may be given, including implants. SNOMED CT
   * @param Services These are procedures that are service-oriented in nature, such as a dressing change, or feeding a patient. SNOMED CT
   */
-@json case class PlanOfCare(
+@jsonDefaults case class PlanOfCare(
   Orders: Seq[CodeWithStatus] = Seq.empty,
   Procedures: Seq[CodeWithStatus] = Seq.empty,
   Encounters: Seq[CodeWithStatus] = Seq.empty,
@@ -44,7 +45,7 @@ import com.github.vitalsoftware.macros._
   * This section contains future appointments, medications, orders, procedures, and services that a
   * patient may be scheduled for or is waiting to be scheduled for.
   */
-@json case class PlanOfCareMessage(
+@jsonDefaults case class PlanOfCareMessage(
   PlanOfCareText: Option[String] = None,
   PlanOfCare: PlanOfCare
 )

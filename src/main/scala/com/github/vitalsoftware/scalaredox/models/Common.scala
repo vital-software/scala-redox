@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -33,14 +34,14 @@ trait Code {
   def Name: Option[String]
 }
 
-@json case class BasicCode(
+@jsonDefaults case class BasicCode(
   Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None
 ) extends Code
 
-@json case class CodeWithText(
+@jsonDefaults case class CodeWithText(
   Code: String,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
@@ -48,7 +49,7 @@ trait Code {
   Text: Option[String] = None
 )
 
-@json case class CodeWithStatus(
+@jsonDefaults case class CodeWithStatus(
   Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,
@@ -57,13 +58,22 @@ trait Code {
   DateTime: Option[DateTime] = None
 ) extends Code with Status
 
+@jsonDefaults case class Address(
+  StreetAddress: Option[String] = None,
+  City: Option[String] = None,
+  State: Option[String] = None,
+  ZIP: Option[String] = None,
+  County: Option[String] = None,
+  Country: Option[String] = None
+)
+
 /**
   * Location of provider or care given.
   *
   * @see https://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.6.259
   * Note: Seems duplicative of CareLocation, but described using the generic 'Code' object
   */
-@json case class Location(
+@jsonDefaults case class Location(
   Address: Address,
   Type: BasicCode,
   Name: Option[String] = None
@@ -76,7 +86,7 @@ trait Code {
   * @param Facility Facility. Example: Community Hospital
   * @param Department Department
   */
-@json case class CareLocation(
+@jsonDefaults case class CareLocation(
   Type: Option[String] = None,
   Facility: Option[String] = None,
   Department: Option[String] = None,
@@ -84,19 +94,10 @@ trait Code {
   Bed: Option[String] = None
 )
 
-@json case class Address(
-  StreetAddress: Option[String] = None,
-  City: Option[String] = None,
-  State: Option[String] = None,
-  ZIP: Option[String] = None,
-  County: Option[String] = None,
-  Country: Option[String] = None
-)
-
-@json case class EmailAddress(Address: String) // Todo email validator?
+@jsonDefaults case class EmailAddress(Address: String) // Todo email validator?
 
 // In E. 164 Format. (e.g. +16085551234)
-@json case class PhoneNumber(
+@jsonDefaults case class PhoneNumber(
   Home: Option[String] = None,
   Mobile: Option[String] = None,
   Office: Option[String] = None
@@ -111,7 +112,7 @@ trait Code {
   * @param High Upper bound for a normal result
   * @param Text The normal value for non-numeric results
   */
-@json case class ReferenceRange(
+@jsonDefaults case class ReferenceRange(
   Low: Option[Double] = None,
   High: Option[Double] = None,
   Text: Option[String] = None
@@ -124,7 +125,7 @@ trait Code {
   * @param Interpretation A flag indicating whether or not the observed value is normal, high, or low. [Supported Values](https://www.hl7.org/fhir/v3/ObservationInterpretation/index.html)
   * @param ValueType Data type of the value. One of the following: "Numeric", "String", "Date", "Time", "DateTime", "Coded Entry", "Encapsulated Data". Derived from HL7 Table 0125.
   */
-@json case class Observation(
+@jsonDefaults case class Observation(
   Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,

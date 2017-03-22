@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -18,7 +19,7 @@ import com.github.vitalsoftware.macros._
   * @param EndDate When the allergy was no longer a problem (if applicable). ISO 8601 Format
   * @param Comment Free text comment about the allergy.
   */
-@json case class Allergy(
+@jsonDefaults case class Allergy(
   Type: BasicCode,
   Substance: BasicCode,
   Reaction: Seq[CodeWithText] = Seq.empty,
@@ -34,7 +35,7 @@ import com.github.vitalsoftware.macros._
   * (such as latex, iodine, tape adhesives). At a minimum, it should list currently active
   * and relevant historical allergies and adverse reactions.
   */
-@json case class AllergiesMessage(
+@jsonDefaults case class AllergiesMessage(
   AllergyText: Option[String] = None,
   Allergies: Seq[Allergy] = Seq.empty
 )

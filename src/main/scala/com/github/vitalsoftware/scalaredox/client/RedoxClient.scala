@@ -55,6 +55,8 @@ class RedoxClient(conf: Config) {
   /** Raw request execution */
   private def execute[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
     request.execute().map {
+
+      // Failure status
       case r if Set[StatusCode](
         BadRequest,
         Unauthorized,
@@ -64,14 +66,24 @@ class RedoxClient(conf: Config) {
         RequestedRangeNotSatisfiable
       ).contains(r.status) =>
         Try {
-          r.json.asOpt[RedoxErrorResponse].map(Left(_))
+          // In case we do not get valid JSON back, wrap everything in a Try block
+          r.json.as[RedoxErrorResponse]
         } match {
-          case Success(t) => t
-          case Failure(e) => Some(Left(RedoxErrorResponse.simple(e.getMessage)))
+          case Success(t) => Left(t)
+          case Failure(e) => Left(RedoxErrorResponse.simple(e.getMessage))
         }
-      case r => r.json.asOpt[T].map(Right(_))
+
+      // Success status
+      case r =>
+        Json.fromJson(r.json).fold(
+          // Json to Scala objects failed...force into RedoxError format
+          invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
+
+          // All good
+          valid = t => Right(t)
+        )
     }.map { response =>
-      RedoxResponse[T](response.getOrElse(Left(RedoxErrorResponse.NotFound)))
+      RedoxResponse[T](response)
     }
   }
 
@@ -88,21 +100,26 @@ class RedoxClient(conf: Config) {
       .withBody(Map("apiKey" -> Seq(apiKey), "secret" -> Seq(apiSecret)))
     setAuth(execute[AuthInfo](req), "Cannot authenticate. Check configuration 'redox.apiKey' & 'redox.secret'")
       .map { auth =>
-        refresh(auth)
+        scheduleRefresh(auth)
         auth
       }
   }
 
   /** Refresh the auth token a minute before it expires */
-  def refresh(auth: AuthInfo): Unit = {
+  protected def scheduleRefresh(auth: AuthInfo): Unit = {
     val delay = auth.expires.getMillis - DateTime.now.getMillis - 60 * 1000
     system.scheduler.scheduleOnce(delay.millis) {
-      val req = baseRequest(baseRestUri.withPath(/("auth") / "refreshToken").toString())
-        .withMethod("POST")
-        .withBody(Map("apiKey" -> Seq(apiKey), "refreshToken" -> Seq(auth.refreshToken)))
-
-      setAuth(sendReceive[AuthInfo](req), "Cannot refresh OAuth2 token")
+      refresh(auth)
     }
+  }
+
+  /** Refresh and replace the auth token */
+  def refresh(auth: AuthInfo): Future[AuthInfo] = {
+    val req = baseRequest(baseRestUri.withPath(/("auth") / "refreshToken").toString())
+      .withMethod("POST")
+      .withBody(Map("apiKey" -> Seq(apiKey), "refreshToken" -> Seq(auth.refreshToken)))
+
+    setAuth(sendReceive[AuthInfo](req), "Cannot refresh OAuth2 token")
   }
 
   /** Set a thread-safe auth-token, throwing an exception if the client authorization fails */

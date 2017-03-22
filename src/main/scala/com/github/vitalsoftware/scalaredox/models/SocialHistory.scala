@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -12,7 +13,7 @@ import com.github.vitalsoftware.macros._
   * @param Value The coded observed value for the code
   * @param ValueText The observed value for the code
   */
-@json case class SocialHistoryObservation(
+@jsonDefaults case class SocialHistoryObservation(
   Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,
@@ -28,7 +29,7 @@ import com.github.vitalsoftware.macros._
   * @param EndDate When the pregnancy ended. ISO 8601 Format
   * @param EstimatedDelivery Estimate delivery date if pregnancy is still active.
   */
-@json case class Pregnancy(
+@jsonDefaults case class Pregnancy(
   StartDate: DateTime,
   EndDate: Option[DateTime] = None,
   EstimatedDelivery: Option[String] = None
@@ -39,17 +40,17 @@ import com.github.vitalsoftware.macros._
   * @param StartDate Start date of status
   * @param EndDate Date status ended. If this is null, the status is current.
   */
-@json case class TobaccoUse(
+@jsonDefaults case class TobaccoUse(
   Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  StartDate: DateTime,
+  StartDate: Option[DateTime] = None,
   EndDate: Option[DateTime] = None
-) extends Code with DateRange
+) extends Code
 
 
-@json case class SocialHistory(
+@jsonDefaults case class SocialHistory(
   Observations: Seq[SocialHistoryObservation] = Seq.empty,
   Pregnancy: Seq[Pregnancy] = Seq.empty,
   TobaccoUse: Seq[TobaccoUse] = Seq.empty
@@ -60,7 +61,7 @@ import com.github.vitalsoftware.macros._
   * @param SocialHistoryText Free text form of the social history summary
   * @param SocialHistory Generic observations about the patient's social hisotry that don't fall into the smoking or pregnancy categories.
   */
-@json case class SocialHistoryMessage(
+@jsonDefaults case class SocialHistoryMessage(
   SocialHistoryText: Option[String] = None,
   SocialHistory: SocialHistory
 )

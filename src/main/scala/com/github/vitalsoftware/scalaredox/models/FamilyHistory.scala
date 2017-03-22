@@ -1,25 +1,36 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
   * Created by apatzer on 3/17/17.
   */
 
-@json case class Relation(
+/**
+  * @param Sex Gender of the relative
+  * @param DOB Date of Birth of the relative. In YYYY-MM-DD format
+  */
+@jsonDefaults case class FamilyDemographics(
+  Sex: Gender.Value,
+  DOB: Option[DateTime] = None
+)
+
+@jsonDefaults case class Relation(
   Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  demographics: Demographics
+  Demographics: FamilyDemographics,
+  IsDeceased: Option[Boolean] = None
 ) extends Code
 
 /**
   * @param Sex Relation gender
   * @param DOB Date of Birth of the relative. In YYYY-MM-DD format
   */
-@json case class RelationDemographics(
+@jsonDefaults case class RelationDemographics(
   Sex: Gender.Value,
   DOB: DateTime
 )
@@ -31,7 +42,7 @@ import com.github.vitalsoftware.macros._
   * @param Code A code for the particular problem experienced by the relative. SNOMED CT
   * @param Type The general class of the problem. (disease, problem, etc.).
   */
-@json case class FamilyHistoryProblem(
+@jsonDefaults case class FamilyHistoryProblem(
   Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,
@@ -42,7 +53,7 @@ import com.github.vitalsoftware.macros._
   IsCauseOfDeath: Option[Boolean] = None
 ) extends Code
 
-@json case class FamilyHistory(
+@jsonDefaults case class FamilyHistory(
   Relation: Relation,
   Problems: Seq[FamilyHistoryProblem] = Seq.empty
 )
@@ -52,7 +63,7 @@ import com.github.vitalsoftware.macros._
   * @param FamilyHistoryTest Free text form of the family history summary
   * @param FamilyHistory An array of family history observations
   */
-@json case class FamilyHistoryMessage(
+@jsonDefaults case class FamilyHistoryMessage(
   FamilyHistoryTest: Option[String] = None,
   FamilyHistory: Seq[FamilyHistory] = Seq.empty
 )

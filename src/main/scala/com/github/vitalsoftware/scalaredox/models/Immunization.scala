@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -16,7 +17,7 @@ import com.github.vitalsoftware.macros._
   * @param Manufacturer Name of organization that manufacture the immunization. Free text
   * @param LotNumber The lot number of the vaccine
   */
-@json case class ImmunizationProduct(
+@jsonDefaults case class ImmunizationProduct(
   Code: String,
   CodeSystem: String,
   CodeSystemName: Option[String] = None,
@@ -31,9 +32,9 @@ import com.github.vitalsoftware.macros._
   * @param Quantity The size of the dose
   * @param Units The units of the dose
   */
-@json case class Dose(
-  Quantity: String,
-  Units: String
+@jsonDefaults case class Dose(
+  Quantity: Option[String] = None,
+  Units: Option[String] = None
 )
 
 /**
@@ -44,7 +45,7 @@ import com.github.vitalsoftware.macros._
   * @param Product The vaccination that was given.
   * @param Dose Dosage
   */
-@json case class Immunization(
+@jsonDefaults case class Immunization(
   DateTime: DateTime,
   Route: Option[BasicCode] = None,
   Product: ImmunizationProduct,
@@ -54,7 +55,7 @@ import com.github.vitalsoftware.macros._
 /**
   * This section lists the patient's current immunization status and pertinent immunization history.
   */
-@json case class ImmunizationsMessage(
+@jsonDefaults case class ImmunizationsMessage(
   ImmunizationText: Option[String] = None,
   Immunizations: Seq[Immunization] = Seq.empty
 )

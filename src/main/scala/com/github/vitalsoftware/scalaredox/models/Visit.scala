@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -8,7 +9,7 @@ import com.github.vitalsoftware.macros._
   */
 
 
-@json case class Visit( // Todo: Check what's required
+@jsonDefaults case class Visit( // Todo: Check what's required
   Location: CareLocation,
   StartDateTime: DateTime,
   EndDateTime: DateTime,

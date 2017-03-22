@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -17,7 +18,7 @@ import com.github.vitalsoftware.macros._
   * @param VerifiedBy A collection of people who verified the advance directive with the patient
   * @param Custodians People legally responsible for the advance directive document.
   */
-@json case class AdvanceDirective(
+@jsonDefaults case class AdvanceDirective(
   Type: BasicCode,
   Code: String, // Todo Question: Seems to duplicate 'Type' field
   CodeSystem: String,
@@ -30,7 +31,7 @@ import com.github.vitalsoftware.macros._
   Custodians: Seq[BasicPerson] = Seq.empty
 ) extends Code with DateRange
 
-@json case class AdvanceDirectiveMessage(
+@jsonDefaults case class AdvanceDirectiveMessage(
   AdvanceDirectivesText: Option[String] = None,
   advanceDirectives: Seq[AdvanceDirective] = Seq.empty
 )

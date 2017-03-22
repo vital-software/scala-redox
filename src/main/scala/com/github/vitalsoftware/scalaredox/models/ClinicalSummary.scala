@@ -5,7 +5,7 @@ import com.github.vitalsoftware.macros._
 /**
   * Created by apatzer on 3/20/17.
   */
-@json case class ClinicalSummaryQuery(Meta: Meta, Patient: Patient)
+@jsonDefaults case class ClinicalSummaryQuery(Meta: Meta, Patient: Patient)
 
 /**
   * A Clinical Summary represents a snapshot of the patient's chart at a moment in time. It is structured in sections,
@@ -14,7 +14,7 @@ import com.github.vitalsoftware.macros._
   *
   * You can obtain a Clinical Summary from an EHR via Query. You can send a Clinical Summary to an EHR via Push.
   */
-@json case class ClinicalSummary(
+@jsonDefaults case class ClinicalSummary(
   Meta: Meta,
   Header: Header,
   AdvanceDirectives: Seq[AdvanceDirective] = Seq.empty,

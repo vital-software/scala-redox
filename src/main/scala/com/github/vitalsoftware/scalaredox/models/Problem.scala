@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -13,10 +14,10 @@ import com.github.vitalsoftware.macros._
   * @param EndDate When the problem stopped (if it is not current). ISO 8601 Format
   * @param Code The code for the problem. . SNOMED-CT Code. Limited to terms descending from the Clinical Findings (404684003) or Situation with Explicit Context (243796009)
   * @param Category What type of problem this is (complaint, diagnosis, symptom, etc.)
-  * @param HealthStatus The effect of the problem on the patient (chronically ill, in remission, etc.). SNOMED-CT
+  * HealthStatus The effect of the problem on the patient (chronically ill, in remission, etc.). SNOMED-CT
   * @param Status The current state of the problem (active, inactive, resolved). HITSPProblemStatus
   */
-@json case class Problem(
+@jsonDefaults case class Problem(
   StartDate: Option[DateTime] = None,
   EndDate: Option[DateTime] = None,
   Code: String,
@@ -24,7 +25,7 @@ import com.github.vitalsoftware.macros._
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Category: BasicCode,
-  HealthStatus: Option[BasicCode] = None,
+  //HealthStatus: Option[BasicCode] = None, // TODO Seems to come back as HealthStatus: { null, null, null, null } which violates the constraints of BasicCode
   Status: Option[BasicCode] = None
 ) extends Code
 
@@ -34,7 +35,7 @@ import com.github.vitalsoftware.macros._
   * @param ProblemsText Free text form of the problems summary
   * @param Problems An array of all of patient relevant problems, current and historical.
   */
-@json case class ProblemsMessage(
+@jsonDefaults case class ProblemsMessage(
   ProblemsText: Option[String] = None,
   Problems: Seq[Problem] = Seq.empty
 )

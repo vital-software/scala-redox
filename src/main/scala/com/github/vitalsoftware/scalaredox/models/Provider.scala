@@ -17,7 +17,7 @@ import com.github.vitalsoftware.macros._
   * @param Credentials List of credentials for the Provider responsible for the document. e.g. MD, PhD
   * @param Address Provider's address
   */
-@json case class Provider(
+@jsonDefaults case class Provider(
   ID: String,
   IDType: String,
   FirstName: String,
@@ -39,7 +39,7 @@ trait Person {
   def EmailAddresses: Seq[EmailAddress]
 }
 
-@json case class BasicPerson(
+@jsonDefaults case class BasicPerson(
   FirstName: String,
   LastName: String,
   Address: Option[Address] = None,

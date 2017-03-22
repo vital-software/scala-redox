@@ -2,6 +2,7 @@ package com.github.vitalsoftware.scalaredox.models
 
 import java.util.UUID
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -9,10 +10,10 @@ import com.github.vitalsoftware.macros._
   */
 
 // Message source or destination
-@json case class SourceDestination(ID: UUID, Name: String)
+@jsonDefaults case class SourceDestination(ID: UUID, Name: Option[String] = None)
 
 // Numeric identifier
-@json case class NumericIdentifier(ID: Long)
+@jsonDefaults case class NumericIdentifier(ID: Long)
 
 /**
   * Request/response header meta-data
@@ -26,7 +27,7 @@ import com.github.vitalsoftware.macros._
   * @param Message Record in Redox that corresponds to the communication sent from the source to Redox. Included in messages from Redox
   * @param Transmission Record in Redox that corresponds to the communication sent from Redox to your destination. Included in messages from Redox
   */
-@json case class Meta(
+@jsonDefaults case class Meta(
   DataModel: String,
   EventType: String, // TODO Enum
   EventDateTime: Option[DateTime] = None,

@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**
@@ -17,7 +18,7 @@ import com.github.vitalsoftware.macros._
   * @param Diagnosis List of Diagnoses associated with the visit. SNOMED CT
   * @param ReasonForVisit The reason for the visit (usually this is what the patient reports). SNOMED CT
   */
-@json case class Encounter(
+@jsonDefaults case class Encounter(
   Type: BasicCode,
   DateTime: DateTime,
   EndDateTime: Option[DateTime] = None,
@@ -33,7 +34,7 @@ import com.github.vitalsoftware.macros._
   * @param EncountersText Free text form of the encounters summary
   * @param Encounters Patient encounters
   */
-@json case class EncountersMessage(
+@jsonDefaults case class EncountersMessage(
   EncountersText: Option[String],
   Encounters: Seq[Encounter] = Seq.empty
 )
