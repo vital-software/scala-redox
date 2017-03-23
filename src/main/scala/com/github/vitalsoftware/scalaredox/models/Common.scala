@@ -58,6 +58,15 @@ trait Code {
   DateTime: Option[DateTime] = None
 ) extends Code with Status
 
+// Alternative to 'BasicCode' used inconsistency in some data models
+@jsonDefaults case class CodeSet(
+  Code: Option[String] = None,
+  Codeset: Option[String] = None,
+  Name: Option[String] = None,
+  Type: Option[String] = None,
+  Description: Option[String] = None
+)
+
 @jsonDefaults case class Address(
   StreetAddress: Option[String] = None,
   City: Option[String] = None,
@@ -131,11 +140,11 @@ trait Code {
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   DateTime: DateTime,
+  Status: Option[String] = None,
   Value: Option[String] = None,
   ValueType: Option[String] = None,
   Units: Option[String] = None,
   ReferenceRange: Option[ReferenceRange] = None,
-  Status: Option[String] = None,
   TargetSite: Option[BasicCode] = None,  // Used by Procedures
   Interpretation: Option[String] = None  // Used by Result
   // TODO Observer: Option[???]

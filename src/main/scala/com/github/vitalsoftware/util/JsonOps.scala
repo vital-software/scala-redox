@@ -1,5 +1,6 @@
 package com.github.vitalsoftware.util
 
+import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
 import play.api.libs.json._
 import play.api.libs.json.Reads._
@@ -49,8 +50,9 @@ object JsonImplicits {
   implicit val jodaISODateReads: Reads[org.joda.time.DateTime] = new Reads[org.joda.time.DateTime] {
     import org.joda.time.DateTime
 
-    val df: DateTimeFormatter = org.joda.time.format.ISODateTimeFormat.dateTime()
-    val backup: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd")
+    val isoFormatter: DateTimeFormatter = org.joda.time.format.ISODateTimeFormat.dateTime()
+    val dateDashFormatter: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.UTC)
+    val dateNoDashFormatter: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern("yyyyMMdd").withZone(DateTimeZone.UTC)
 
     def reads(json: JsValue): JsResult[DateTime] = json match {
       case JsNumber(d) => JsSuccess(new DateTime(d.toLong))
@@ -62,9 +64,11 @@ object JsonImplicits {
     }
 
     private def parseDate(input: String): Option[DateTime] = {
-      Try(DateTime.parse(input, df)).orElse(Try(DateTime.parse(input, backup))).toOption
+      Try(DateTime.parse(input, isoFormatter))
+        .orElse(Try(DateTime.parse(input, dateDashFormatter)))
+        .orElse(Try(DateTime.parse(input, dateNoDashFormatter)))
+        .toOption
     }
-
   }
 
   implicit val jodaISODateWrites: Writes[org.joda.time.DateTime] = new Writes[org.joda.time.DateTime] {

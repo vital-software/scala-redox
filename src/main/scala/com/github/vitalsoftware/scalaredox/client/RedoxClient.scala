@@ -75,13 +75,17 @@ class RedoxClient(conf: Config) {
 
       // Success status
       case r =>
-        Json.fromJson(r.json).fold(
-          // Json to Scala objects failed...force into RedoxError format
-          invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
+        if (r.body.isEmpty) {
+          Right(EmptyResponse .asInstanceOf[T])
+        } else {
+          Json.fromJson(r.json).fold(
+            // Json to Scala objects failed...force into RedoxError format
+            invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
 
-          // All good
-          valid = t => Right(t)
-        )
+            // All good
+            valid = t => Right(t)
+          )
+        }
     }.map { response =>
       RedoxResponse[T](response)
     }
@@ -136,16 +140,16 @@ class RedoxClient(conf: Config) {
     }
   }
 
-  def queryClinicalSummary(query: ClinicalSummaryQuery): Future[RedoxResponse[ClinicalSummary]] = {
-    sendReceive[ClinicalSummary](baseQuery.withBody(Json.toJson(query)))
+  def queryImpl[T, U](query: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
+    sendReceive[U](baseQuery.withBody(Json.toJson(query)))
   }
 
-  def sendClinicalSummary(data: ClinicalSummary): Future[RedoxResponse[Meta]] = {
-    sendReceive[Meta](basePost.withBody(Json.toJson(data)))
+  def postImpl[T, U](data: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
+    sendReceive[U](basePost.withBody(Json.toJson(data)))
   }
 
-  def queryPatientSearch(query: PatientSearch): Future[RedoxResponse[PatientSearch]] = {
-    sendReceive[PatientSearch](baseQuery.withBody(Json.toJson(query)))
-  }
+  def queryClinicalSummary(query: ClinicalSummaryQuery) = queryImpl[ClinicalSummaryQuery, ClinicalSummary](query)
+  def sendClinicalSummary(data: ClinicalSummary) = postImpl[ClinicalSummary, EmptyResponse](data)
+  def queryPatientSearch(query: PatientSearch) = queryImpl[PatientSearch, PatientSearch](query)
 
 }

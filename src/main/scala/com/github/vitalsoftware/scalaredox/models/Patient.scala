@@ -79,9 +79,11 @@ object Gender extends Enumeration {
   Identifiers: Seq[PatientIdentifier] = Seq.empty,
   Demographics: Option[Demographics] = None,
   Notes: Seq[String] = Seq.empty,
-  Contacts: Seq[Contact] = Seq.empty
-  // TODO Guarantor: Option[Guarantor]
-  // TODO Insurances: Seq[Insurance]
+  Contacts: Seq[Contact] = Seq.empty,
+  Guarantor: Option[Guarantor] = None,
+  Insurances: Seq[Insurance] = Seq.empty,
+  Diagnoses: Seq[BasicCode] = Seq.empty,
+  PCP: Option[Provider] = None
 )
 
 /**

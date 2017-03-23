@@ -23,11 +23,11 @@ import com.github.vitalsoftware.macros._
 ) extends Code with Status
 
 /**
-  * This section contains results from laboratories, imaging procedures, and other procedures.
-  * @param ResultText Free text form of the results summary
-  * @param Results Array of test results for the patient. This can include laboratory results, imaging results, and procedure Results[].
+  * Results messages communicate results of diagnostic tests such as labs, radiology imaging, etc.
   */
 @jsonDefaults case class ResultsMessage(
-  ResultText: Option[String] = None,
-  Results: Seq[Result] = Seq.empty
+  Meta: Meta,
+  Patient: Patient,
+  Orders: Seq[Order] = Seq.empty,
+  Visit: Option[Visit] = None
 )

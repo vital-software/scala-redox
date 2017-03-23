@@ -20,9 +20,11 @@ case class RedoxResponse[T](result: Either[RedoxErrorResponse, T]) {
   def isSuccess: Boolean = !isError
 }
 
-@json case class RedoxErrorResponse(Errors: Seq[RedoxError] = Seq.empty)
+@jsonDefaults case class EmptyResponse(none: Option[String] = None)
 
 @json case class RedoxError(ID: Long, Text: String, Type: Option[String] = None, Module: Option[String] = None)
+
+@json case class RedoxErrorResponse(Errors: Seq[RedoxError] = Seq.empty)
 
 object RedoxErrorResponse {
   val NotFound = simple("Error: JSON response not found")
