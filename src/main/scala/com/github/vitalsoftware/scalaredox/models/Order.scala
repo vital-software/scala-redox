@@ -17,8 +17,8 @@ import play.api.libs.json.{Format, Reads, Writes}
   * @param BodySite Body site from which the specimen was collected. [Allowed values](http://www.hl7.org/FHIR/v2/0163/index.html)
   */
 @jsonDefaults case class Specimen(
-  Source: String,
-  BodySite: String
+  Source: Option[String] = None,
+  BodySite: Option[String] = None
 )
 
 /** Procedure that was ordered */
@@ -145,7 +145,7 @@ object ResultsStatusTypes extends Enumeration {
   CompletionDateTime: Option[DateTime] = None,
   Specimen: Option[Specimen] = None,
   Procedure: Option[OrderProcedure] = None,
-  Provider: Option[Provider] = None,
+  Provider: Option[Provider] = None,                  // Has NPI but not ID or IDType!
   OrderingFacility: Option[OrderingFacility] = None,
   Priority: Option[OrderPriorityTypes.Value] = None,
   Comments: Option[String] = None,

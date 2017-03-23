@@ -70,7 +70,7 @@ class RedoxClient(conf: Config) {
           r.json.as[RedoxErrorResponse]
         } match {
           case Success(t) => Left(t)
-          case Failure(e) => Left(RedoxErrorResponse.simple(e.getMessage))
+          case Failure(e) => Left(RedoxErrorResponse.simple(r.statusText))
         }
 
       // Success status
@@ -140,16 +140,16 @@ class RedoxClient(conf: Config) {
     }
   }
 
-  def queryImpl[T, U](query: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
+  def get[T, U](query: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
     sendReceive[U](baseQuery.withBody(Json.toJson(query)))
   }
 
-  def postImpl[T, U](data: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
+  def post[T, U](data: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
     sendReceive[U](basePost.withBody(Json.toJson(data)))
   }
 
-  def queryClinicalSummary(query: ClinicalSummaryQuery) = queryImpl[ClinicalSummaryQuery, ClinicalSummary](query)
-  def sendClinicalSummary(data: ClinicalSummary) = postImpl[ClinicalSummary, EmptyResponse](data)
-  def queryPatientSearch(query: PatientSearch) = queryImpl[PatientSearch, PatientSearch](query)
+  def queryClinicalSummary(query: ClinicalSummaryQuery) = get[ClinicalSummaryQuery, ClinicalSummary](query)
+  def sendClinicalSummary(data: ClinicalSummary) = post[ClinicalSummary, EmptyResponse](data)
+  def queryPatientSearch(query: PatientSearch) = get[PatientSearch, PatientSearch](query)
 
 }

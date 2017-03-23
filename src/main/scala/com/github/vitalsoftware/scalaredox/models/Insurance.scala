@@ -66,7 +66,7 @@ object InsuranceCoverageTypes extends Enumeration {
 @jsonDefaults case class Employer(
   Name: Option[String] = None,
   Address: Option[Address] = None,
-  PhoneNumber: Option[PhoneNumber] = None
+  PhoneNumber: Option[String] = None
 )
 
 /**

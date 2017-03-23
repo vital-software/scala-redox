@@ -35,7 +35,7 @@ object MediaAvailability extends Enumeration {
   DocumentType: String,
   DocumentID: String,
   Provider: Option[Provider] = None,
-  Authenticated: Option[Boolean] = None,
+  Authenticated: Option[String] = None,
   Authenticator: Option[Provider] = None,
   Availability: MediaAvailability.Value,
   Notifications: Seq[Provider] = Seq.empty
@@ -47,5 +47,6 @@ object MediaAvailability extends Enumeration {
 @jsonDefaults case class MediaMessage(
   Meta: Meta,
   Patient: Patient,
+  Media: Media,
   Visit: Option[Visit] = None
 )
