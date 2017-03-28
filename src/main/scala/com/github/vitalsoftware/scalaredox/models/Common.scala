@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import play.api.libs.json.{Format, Reads, Writes}
 
 /**
   * Created by apatzer on 3/17/17.
@@ -127,12 +128,21 @@ trait Code {
   Text: Option[String] = None
 )
 
+object ValueTypes extends Enumeration {
+  val Numeric, String, Date, Time, DateTime = Value
+  val CodedEntry = Value("Coded Entry")
+  val EncapsulatedData = Value("Encapsulated Data")
+
+  implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(Reads.enumNameReads(ValueTypes), Writes.enumNameWrites)
+}
+
 /**
   * Coded Observation of a patient.
   *
   * @param TargetSite Where (on or in the body) the observation is made. (e.g. "Entire hand (body structure)"). SNOMED CT
   * @param Interpretation A flag indicating whether or not the observed value is normal, high, or low. [Supported Values](https://www.hl7.org/fhir/v3/ObservationInterpretation/index.html)
   * @param ValueType Data type of the value. One of the following: "Numeric", "String", "Date", "Time", "DateTime", "Coded Entry", "Encapsulated Data". Derived from HL7 Table 0125.
+  *                  @param Units The units of the measurement. [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
   */
 @jsonDefaults case class Observation(
   Code: String,
@@ -142,10 +152,9 @@ trait Code {
   DateTime: DateTime,
   Status: Option[String] = None,
   Value: Option[String] = None,
-  ValueType: Option[String] = None,
+  ValueType: Option[ValueTypes.Value] = None,
   Units: Option[String] = None,
   ReferenceRange: Option[ReferenceRange] = None,
   TargetSite: Option[BasicCode] = None,  // Used by Procedures
   Interpretation: Option[String] = None  // Used by Result
-  // TODO Observer: Option[???]
 ) extends Code with Status with DateStamped

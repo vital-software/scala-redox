@@ -17,6 +17,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.0-M4",
   "com.typesafe.akka" %% "akka-http" % "10.0.1",
   "com.iheart" %% "ficus" % "1.4.0",
+  "systems.uom" % "systems-common-java8" % "0.6",
+  "systems.uom" % "systems-unicode-java8" % "0.6",
   "com.github.vital-software" %% "json-annotation" % "0.3",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
   "org.specs2" %% "specs2" % "2.3.13" % Test

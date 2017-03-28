@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.client
 
 import org.joda.time.DateTime
-import com.github.vitalsoftware.util.JsonImplicits._
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 
 /**

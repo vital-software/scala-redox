@@ -101,7 +101,7 @@ object ResultsStatusTypes extends Enumeration {
   Codeset: Option[String] = None,
   Description: Option[String] = None,
   Value: String,
-  ValueType: String,
+  ValueType: ValueTypes.Value,
   FileType: Option[String] = None,
   Units: Option[String] = None,
   Notes: Seq[String] = Seq.empty,
