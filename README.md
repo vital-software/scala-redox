@@ -66,6 +66,15 @@ Data-models available at [Redox](https://developer.redoxengine.com/) have been t
  - Vital's own Scala annotation macros for easy Json.format[T]
  - [Units of Measurement for ISO/UCUM measurements](https://github.com/unitsofmeasurement/uom-systems)
 
+## Future Work
+Writing objects to Redox is still "hard", meaning you often need to know the Code and CodSystem used. We may bind a
+`CodeProvider` trait that can be extended to provide codes to objects in a flexible way, such that your system
+does not need to know whether a code is Snomed CT or LOINC.
+
+The same applies to adding units of measurement, with UCUM and ISO measurements integrated into the system.
+
+It's also possible these will be split into separate repos to keep the rest-client clean.
+
 ## Notes
 An attempt was made to reconcile Redox's own internal data-structures, such that the "Provider" for example is the same
 object in Encounter.Providers and Document.Author. This occasionally required adding optional fields that are present
