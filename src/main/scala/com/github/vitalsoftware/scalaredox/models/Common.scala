@@ -59,7 +59,7 @@ trait Code {
   DateTime: Option[DateTime] = None
 ) extends Code with Status
 
-// Alternative to 'BasicCode' used inconsistency in some data models
+// Alternative to 'BasicCode' used inconsistently in some data models
 @jsonDefaults case class CodeSet(
   Code: Option[String] = None,
   Codeset: Option[String] = None,

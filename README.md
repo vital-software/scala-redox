@@ -68,6 +68,14 @@ Data-models available at [Redox](https://developer.redoxengine.com/) have been t
 
 ## Notes
 An attempt was made to reconcile Redox's own internal data-structures, such that the "Provider" for example is the same
-object in Encounter.Providers and Document.Author. This occasionally required adding optional
+object in Encounter.Providers and Document.Author. This occasionally required adding optional fields that are present
+in one model but not another. For example in models.Observation which is used by models.Result and models.Procedures:
+```
+  TargetSite: Option[BasicCode] = None,  // Used by Procedures only
+  Interpretation: Option[String] = None  // Used by Result only
+```
 
-Scala client for RedoxEngine.com healthcare APIs
+A different approach was taken by the PHP redox client listed below.
+
+## Links
+ - [Redox PHP client from RoundingWell](https://github.com/RoundingWellOS/redox-php)
