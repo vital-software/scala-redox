@@ -21,13 +21,6 @@ import play.api.libs.json.{Format, Reads, Writes}
   BodySite: Option[String] = None
 )
 
-/** Procedure that was ordered */
-@jsonDefaults case class OrderProcedure(
-  Code: Option[String] = None,
-  CodeSet: Option[String] = None,
-  Description: Option[String] = None
-)
-
 object OrderPriorityTypes extends Enumeration {
   val Stat = Value("Stat")
   val ASAP = Value("ASAP")
@@ -161,7 +154,7 @@ object ResultsStatusTypes extends Enumeration {
   CollectionDateTime: Option[DateTime] = None,
   CompletionDateTime: Option[DateTime] = None,
   Specimen: Option[Specimen] = None,
-  Procedure: Option[OrderProcedure] = None,
+  Procedure: Option[CodeSet] = None,
   Provider: Option[OrderProvider] = None,
   OrderingFacility: Option[OrderingFacility] = None,
   Priority: Option[OrderPriorityTypes.Value] = None,
@@ -176,8 +169,8 @@ object ResultsStatusTypes extends Enumeration {
 )
 
 @jsonDefaults case class OrderMessage(
-  Meta: Meta,
-  Patient: Patient,
-  Visit: Option[Visit] = None,
-  Order: Order
+                                       Meta: Meta,
+                                       Patient: Patient,
+                                       Visit: Option[VisitInfo] = None,
+                                       Order: Order
 )

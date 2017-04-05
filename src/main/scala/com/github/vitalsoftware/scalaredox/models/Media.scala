@@ -48,5 +48,5 @@ object MediaAvailability extends Enumeration {
   Meta: Meta,
   Patient: Patient,
   Media: Media,
-  Visit: Option[Visit] = None
+  Visit: Option[VisitInfo] = None
 )

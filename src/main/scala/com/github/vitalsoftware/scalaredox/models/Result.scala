@@ -29,5 +29,5 @@ import com.github.vitalsoftware.macros._
   Meta: Meta,
   Patient: Patient,
   Orders: Seq[Order] = Seq.empty,
-  Visit: Option[Visit] = None
+  Visit: Option[VisitInfo] = None
 )

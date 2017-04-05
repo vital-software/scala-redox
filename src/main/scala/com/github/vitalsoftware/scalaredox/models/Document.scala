@@ -19,13 +19,13 @@ import com.github.vitalsoftware.macros._
   * @param Type The type of document (CCD, progress note, etc.)
   */
 @jsonDefaults case class Document(
-  ID: String,
-  Author: Option[Provider] = None, // Todo Provider.Type is not present!
-  Visit: Option[Visit] = None,
-  Locale: String, // TODO java.util.Locale
-  Title: String,
-  DateTime: DateTime,
-  Type: String
+                                   ID: String,
+                                   Author: Option[Provider] = None, // Todo Provider.Type is not present!
+                                   Visit: Option[VisitInfo] = None,
+                                   Locale: String, // TODO java.util.Locale
+                                   Title: String,
+                                   DateTime: DateTime,
+                                   Type: String
 )
 
 /**
