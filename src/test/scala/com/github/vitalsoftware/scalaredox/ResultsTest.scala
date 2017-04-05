@@ -154,7 +154,7 @@ class ResultsTest extends Specification with NoTimeConversions with RedoxTest {
           |			"Results": [
           |				{
           |					"Code": "TEST0001",
-          |					"Codeset": null,
+          |					"Codeset": "TEST",
           |					"Description": "Cystic Fibrosis",
           |					"Value": "Positive Result",
           |					"ValueType": "String",
@@ -177,44 +177,11 @@ class ResultsTest extends Specification with NoTimeConversions with RedoxTest {
           |							"County": "Dane",
           |							"Country": "USA"
           |						}
-          |					},
-          |					"Performer": {
-          |						"ID": null,
-          |						"IDType": null,
-          |						"FirstName": "Bob",
-          |						"LastName": "Smith",
-          |						"Credentials": [
-          |							"MD"
-          |						],
-          |						"Address": {
-          |							"StreetAddress": null,
-          |							"City": null,
-          |							"State": null,
-          |							"ZIP": null,
-          |							"County": null,
-          |							"Country": null
-          |						},
-          |						"Location": {
-          |							"Type": null,
-          |							"Facility": null,
-          |							"Department": null
-          |						},
-          |						"PhoneNumber": "+16085551234"
-          |					},
-          |					"ReferenceRange": {
-          |						"Low": null,
-          |						"High": null,
-          |						"Text": null
-          |					},
-          |					"ObservationMethod": {
-          |						"Code": null,
-          |						"Codeset": null,
-          |						"Description": null
           |					}
           |				},
           |				{
           |					"Code": "TEST0004",
-          |					"Codeset": null,
+          |					"Codeset": "TEST",
           |					"Description": "Primary Carnitine Deficiency",
           |					"Value": "Negative Result",
           |					"ValueType": "String",
@@ -235,51 +202,22 @@ class ResultsTest extends Specification with NoTimeConversions with RedoxTest {
           |							"County": "Dane",
           |							"Country": "USA"
           |						}
-          |					},
-          |					"Performer": {
-          |						"ID": null,
-          |						"IDType": null,
-          |						"FirstName": "Bob",
-          |						"LastName": "Smith",
-          |						"Credentials": [
-          |							"MD"
-          |						],
-          |						"Address": {
-          |							"StreetAddress": null,
-          |							"City": null,
-          |							"State": null,
-          |							"ZIP": null,
-          |							"County": null,
-          |							"Country": null
-          |						},
-          |						"Location": {
-          |							"Type": null,
-          |							"Facility": null,
-          |							"Department": null
-          |						},
-          |						"PhoneNumber": "+16085551234"
-          |					},
-          |					"ReferenceRange": {
-          |						"Low": null,
-          |						"High": null,
-          |						"Text": null
-          |					},
-          |					"ObservationMethod": {
-          |						"Code": null,
-          |						"Codeset": null,
-          |						"Description": null
           |					}
           |				}
           |			]
           |		}
-          |	]
+          |  ]
           |}
         """.stripMargin
 
       val data = validateJsonInput[ResultsMessage](json)
       data.Orders must not be empty
-      data.Orders.head.Provider must beSome
-      data.Orders.head.Results must not be empty
+      val order = data.Orders.head
+      order.Provider must beSome
+      order.Procedure must beSome
+      order.Results must not be empty
+      val result = order.Results.head
+      result.Producer must beSome
       data.Visit must beNone
 
       val fut = client.post[ResultsMessage, EmptyResponse](data)

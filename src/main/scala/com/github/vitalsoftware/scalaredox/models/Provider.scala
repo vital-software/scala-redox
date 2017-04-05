@@ -13,7 +13,6 @@ import com.github.vitalsoftware.macros._
   * @param IDType ID type of the ID for the Provider responsible for the document
   * @param FirstName First name of the Provider responsible for the document
   * @param LastName Last name of the Provider responsible for the document
-  * @param NPI A National Provider Identifier or NPI is a unique 10-digit identification number issued to health care providers in the United States
   * @param Type The type of provider for this referral. One of the following: "Referring Provider", "Referred To Provider", "Other", "Patient PCP"
   * @param Credentials List of credentials for the Provider responsible for the document. e.g. MD, PhD
   * @param Address Provider's address
@@ -23,7 +22,6 @@ import com.github.vitalsoftware.macros._
   IDType: String,
   FirstName: String,
   LastName: String,
-  NPI: Option[String] = None,  // Only used by Order.Provider
   Type: Option[String],
   Credentials: Seq[String] = Seq.empty,
   Address: Option[Address] = None,

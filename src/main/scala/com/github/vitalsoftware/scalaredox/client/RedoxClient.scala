@@ -148,7 +148,7 @@ class RedoxClient(conf: Config) {
     sendReceive[U](basePost.withBody(Json.toJson(data)))
   }
 
-  def queryClinicalSummary(query: ClinicalSummaryQuery) = get[ClinicalSummaryQuery, ClinicalSummary](query)
+  def queryClinicalSummary(query: PatientQuery) = get[PatientQuery, ClinicalSummary](query)
   def sendClinicalSummary(data: ClinicalSummary) = post[ClinicalSummary, EmptyResponse](data)
   def queryPatientSearch(query: PatientSearch) = get[PatientSearch, PatientSearch](query)
 

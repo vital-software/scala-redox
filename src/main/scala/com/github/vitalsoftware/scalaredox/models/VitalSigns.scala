@@ -50,8 +50,8 @@ object VitalSigns {
   // Create a single vital sign observation
   def createObservation(code: BasicCode, value: Any, units: Option[String]): Observation = {
     val vt = value match {
-      case java.lang.Number => ValueTypes.Numeric
-      case DateTime => ValueTypes.DateTime
+      case n: java.lang.Number => ValueTypes.Numeric
+      case d: DateTime => ValueTypes.DateTime
       case _ => ValueTypes.String
     }
 

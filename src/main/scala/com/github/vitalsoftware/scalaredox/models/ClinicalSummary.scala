@@ -5,7 +5,7 @@ import com.github.vitalsoftware.macros._
 /**
   * Created by apatzer on 3/20/17.
   */
-@jsonDefaults case class ClinicalSummaryQuery(Meta: Meta, Patient: Patient)
+@jsonDefaults case class PatientQuery(Meta: Meta, Patient: Patient)
 
 /**
   * A Clinical Summary represents a snapshot of the patient's chart at a moment in time. It is structured in sections,

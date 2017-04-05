@@ -42,7 +42,7 @@ object MediaAvailability extends Enumeration {
 )
 
 /**
-  * @param Visit Visit Number. A VisitNumber is highly recommended so that the document can be associated with a specific visit
+  * @param Visit Only Visit.VisitNumber A VisitNumber is highly recommended so that the document can be associated with a specific visit
   */
 @jsonDefaults case class MediaMessage(
   Meta: Meta,

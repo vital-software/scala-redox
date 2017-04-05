@@ -31,10 +31,10 @@ import play.api.libs.json.{Format, Reads, Writes}
   */
 @jsonDefaults case class InsuranceCompany(
   ID: String,
-  IDType: String,
-  Name: String,
-  Address: Address,
-  PhoneNumber: String
+  IDType: Option[String] = None,
+  Name: Option[String] = None,
+  Address: Option[Address] = None,
+  PhoneNumber: Option[String] = None
 )
 
 object InsuranceRelationshipTypes extends Enumeration {

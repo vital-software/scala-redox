@@ -12,6 +12,8 @@ import scala.concurrent.duration._
 
 class ConnectionTest extends Specification with NoTimeConversions with RedoxTest {
 
+  private val timeout = 3.seconds
+
   protected def validateAuth(auth: AuthInfo): Boolean = {
     auth.accessToken must not be empty
     auth.refreshToken must not be empty
@@ -22,7 +24,7 @@ class ConnectionTest extends Specification with NoTimeConversions with RedoxTest
 
     "return an auth token" in {
       val fut = client.authorize()
-      val auth = Await.result(fut, 2.seconds)
+      val auth = Await.result(fut, timeout)
       validateAuth(auth)
     }
   }
@@ -31,9 +33,9 @@ class ConnectionTest extends Specification with NoTimeConversions with RedoxTest
 
     "obtain then refresh an auth token" in {
       val f1 = client.authorize()
-      val auth1 = Await.result(f1, 2.seconds)
+      val auth1 = Await.result(f1, timeout)
       val f2 = client.refresh(auth1)
-      val auth2 = Await.result(f2, 2.seconds)
+      val auth2 = Await.result(f2, timeout)
       validateAuth(auth2)
     }
   }

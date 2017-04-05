@@ -23,7 +23,7 @@ import play.api.libs.json.{Format, Reads, Writes}
 
 /** Procedure that was ordered */
 @jsonDefaults case class OrderProcedure(
-  Code: String,
+  Code: Option[String] = None,
   CodeSet: Option[String] = None,
   Description: Option[String] = None
 )
@@ -51,7 +51,7 @@ object OrderPriorityTypes extends Enumeration {
   */
 @jsonDefaults case class ClinicalInfo(
   Code: String,
-  CodeSet: String,
+  CodeSet: Option[String] = None,
   Description: Option[String] = None,
   Value: Option[String] = None,
   Units: Option[String] = None,
@@ -74,6 +74,23 @@ object ResultsStatusTypes extends Enumeration {
   Name: Option[String] = None,
   Address: Address
 )
+
+
+/**
+  * @param NPI A National Provider Identifier or NPI is a unique 10-digit identification number issued to health care providers in the United States
+  */
+@jsonDefaults case class OrderProvider(
+  NPI: String,
+  FirstName: String,
+  LastName: String,
+  Type: Option[String],
+  Credentials: Seq[String] = Seq.empty,
+  Address: Option[Address] = None,
+  Location: Option[CareLocation] = None,
+  PhoneNumber: Option[PhoneNumber] = None,
+  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  Role: Option[BasicCode] = None
+) extends Person
 
 /**
   * Result components and their values
@@ -145,7 +162,7 @@ object ResultsStatusTypes extends Enumeration {
   CompletionDateTime: Option[DateTime] = None,
   Specimen: Option[Specimen] = None,
   Procedure: Option[OrderProcedure] = None,
-  Provider: Option[Provider] = None,                  // Has NPI but not ID or IDType!
+  Provider: Option[OrderProvider] = None,
   OrderingFacility: Option[OrderingFacility] = None,
   Priority: Option[OrderPriorityTypes.Value] = None,
   Comments: Option[String] = None,

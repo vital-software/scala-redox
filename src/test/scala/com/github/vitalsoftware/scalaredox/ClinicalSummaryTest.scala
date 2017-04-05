@@ -16,7 +16,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
   "query ClinicalSummary" should {
 
     "return an error" in {
-      val shouldFailQuery = ClinicalSummaryQuery(
+      val shouldFailQuery = PatientQuery(
         Meta(DataModel = DataModelTypes.ClinicalSummary, EventType = RedoxEventTypes.Query),
         Patient(Demographics = Some(Demographics("John", "Doe", DateTime.parse("1970-1-1"), Sex = Gender.Male)))
       )
@@ -62,7 +62,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
           |}
         """.stripMargin
 
-      val query = validateJsonInput[ClinicalSummaryQuery](json)
+      val query = validateJsonInput[PatientQuery](json)
       val fut = client.queryClinicalSummary(query)
       val maybe = handleResponse(fut)
       maybe must beSome

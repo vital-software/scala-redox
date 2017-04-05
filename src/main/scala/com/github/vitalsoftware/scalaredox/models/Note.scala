@@ -54,6 +54,9 @@ object NoteContentTypes extends Enumeration {
   Notifications: Seq[Provider] = Seq.empty
 )
 
+/**
+  * @param Visit Requires only VisitNumber + VisitDateTime
+  */
 @jsonDefaults case class NoteMessage(
   Meta: Meta,
   Patient: Patient,
