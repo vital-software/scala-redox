@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+//import ai.x.play.json.Jsonx
 import play.api.libs.json.Format
 
 /**
@@ -62,6 +63,8 @@ import play.api.libs.json.Format
   * https://stackoverflow.com/questions/20258417/how-to-get-around-the-scala-case-class-limit-of-22-fields
   * Case class is fine, but Scala macro for Json formatting is not.
   * Temporary solution is to comment a few items out...
+  * Better solution is use play-json-extensions to support OFormat for 22+ field case classes
+  * See pull request at https://github.com/xdotai/play-json-extensions/pull/34
   *
   * @param AllergyText Free text form of the allergies summary
   * @param Allergies A code for the type of allergy intolerance this is (food, drug, etc.). [Allergy/Adverse Event Type Value Set](http://phinvads.cdc.gov/vads/ViewValueSet.action?id=7AFDBFB5-A277-DE11-9B52-0015173D1785)
@@ -116,6 +119,12 @@ import play.api.libs.json.Format
   VitalSignsText: Option[String] = None,
   VitalSigns: Seq[VitalSigns] = Seq.empty
 )
+
+/*
+object Visit {
+  implicit lazy val jsonFormat = Jsonx.formatCaseClass[Visit]
+}
+*/
 
 /**
   * Information about the visit associate with models.Order and/or models.Result

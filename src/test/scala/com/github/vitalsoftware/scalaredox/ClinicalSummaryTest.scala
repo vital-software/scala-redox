@@ -1,5 +1,6 @@
 package com.github.vitalsoftware.scalaredox
 
+import com.github.vitalsoftware.scalaredox.client.EmptyResponse
 import com.github.vitalsoftware.scalaredox.models._
 import org.joda.time.DateTime
 import org.specs2.mutable.Specification
@@ -20,7 +21,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         Meta(DataModel = DataModelTypes.ClinicalSummary, EventType = RedoxEventTypes.Query),
         Patient(Demographics = Some(Demographics("John", "Doe", DateTime.parse("1970-1-1"), Sex = Gender.Male)))
       )
-      val fut = client.queryClinicalSummary(shouldFailQuery)
+      val fut = client.get[PatientQuery, ClinicalSummary](query)
       val resp = Await.result(fut, 5.seconds)
       resp.isError must beTrue
       resp.get must throwA[Exception]
@@ -63,7 +64,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         """.stripMargin
 
       val query = validateJsonInput[PatientQuery](json)
-      val fut = client.queryClinicalSummary(query)
+      val fut = client.get[PatientQuery, ClinicalSummary](query)
       val maybe = handleResponse(fut)
       maybe must beSome
       maybe.map { clinicalSummary =>
@@ -993,7 +994,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         """.stripMargin
 
       val post = validateJsonInput[ClinicalSummary](json)
-      val fut = client.sendClinicalSummary(post)
+      val fut = client.post[ClinicalSummary, EmptyResponse](data)
       val maybe = handleResponse(fut)
       maybe must beSome
     }

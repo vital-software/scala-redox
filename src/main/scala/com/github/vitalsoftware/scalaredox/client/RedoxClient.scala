@@ -5,7 +5,7 @@ import akka.stream.ActorMaterializer
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.model.Uri.Path._
 import akka.http.scaladsl.model._
-import com.github.vitalsoftware.scalaredox.models._
+import com.github.vitalsoftware.scalaredox._
 import com.typesafe.config.Config
 import net.ceedubs.ficus.Ficus._
 import play.api.libs.ws._
@@ -140,16 +140,52 @@ class RedoxClient(conf: Config) {
     }
   }
 
+  /**
+    * Send a query/read-request of type 'T' expecting a response of type 'U'
+    * Ex. get[PatientQuery => case  ClinicalSummary](query)
+    */
   def get[T, U](query: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
     sendReceive[U](baseQuery.withBody(Json.toJson(query)))
   }
 
+  /**
+    * Send a post/write-request of type 'T' expecting a response of type 'U'
+    * Ex. post[ClinicalSummary => case  EmptyResponse](data)
+    */
   def post[T, U](data: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
     sendReceive[U](basePost.withBody(Json.toJson(data)))
   }
 
-  def queryClinicalSummary(query: PatientQuery) = get[PatientQuery, ClinicalSummary](query)
-  def sendClinicalSummary(data: ClinicalSummary) = post[ClinicalSummary, EmptyResponse](data)
-  def queryPatientSearch(query: PatientSearch) = get[PatientSearch, PatientSearch](query)
-
+  /**
+    * Receive a webhook message and turn it into a Scala class based on the message type Meta.DataModel
+    * Ex. def webhook() = Action.async(parse.json) { implicit request => RedoxClient.webhook(request.body) }
+    */
+  def webhook(json: JsValue): Either[JsError, AnyRef] = {
+    import com.github.vitalsoftware.scalaredox.models.DataModelTypes._
+    val reads = (__ \ "Meta").read[models.Meta]
+    val unsupported = JsError("Not yet supported").errors
+    json.validate[models.Meta](reads).fold(
+      invalid = errors => Left(errors),
+      valid = { meta =>
+        meta.DataModel match {
+          case Claim =>               Left(unsupported)
+          case ClinicalSummary =>     json.validate[models.ClinicalSummary].asEither
+          case Device =>              Left(unsupported)
+          case Financial =>           Left(unsupported)
+          case Flowsheet =>           Left(unsupported)
+          case Inventory =>           Left(unsupported)
+          case Media =>               json.validate[models.MediaMessage].asEither
+          case Notes =>               json.validate[models.NoteMessage].asEither
+          case Order =>               json.validate[models.OrderMessage].asEither
+          case PatientAdmin =>        Left(unsupported)
+          case PatientSearch =>       json.validate[models.PatientSearch].asEither
+          case Referral =>            Left(unsupported)
+          case Results =>             json.validate[models.ResultsMessage].asEither
+          case Scheduling =>          Left(unsupported)
+          case SurgicalScheduling =>  Left(unsupported)
+          case Vaccination =>         Left(unsupported)
+        }
+      }
+    ).left.map(err => JsError(err))
+  }
 }
