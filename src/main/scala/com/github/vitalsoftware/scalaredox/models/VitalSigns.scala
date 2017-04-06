@@ -5,11 +5,6 @@ import javax.measure.Quantity
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
-import si.uom.NonSI
-import systems.uom.unicode.CLDR
-import tec.uom.se.quantity.Quantities
-import tec.uom.se.unit.MetricPrefix
-
 /**
   * Created by apatzer on 3/20/17.
   */
@@ -26,47 +21,6 @@ import tec.uom.se.unit.MetricPrefix
 
 object CommonVitalTypes extends Enumeration {
   val Height, Weight, Oximetry, Temperature, RespirationRate, Pulse, BPSystolic, BPDiastolic = Value
-}
-
-object VitalSigns {
-
-  // Easy to create Vital Signs
-  def create(vitals: Seq[(CommonVitalTypes.Value, Any)]): Unit = {
-    val coded: Seq[(BasicCode, Any, Option[String])] = Seq.empty
-
-    // TODO: Use systems.uom.ucum.UCUM when released in late March 2017
-    Quantities.getQuantity(0, MetricPrefix.KILO(CLDR.GRAM))
-    Quantities.getQuantity(0, MetricPrefix.CENTI(CLDR.METER))
-    Quantities.getQuantity(0, NonSI.MILLIMETRE_OF_MERCURY)
-
-
-    /* vitals.map { v =>
-      // Todo: Lookup UCUM unit
-      // Todo: Use CodeProvider or hardcode to LOINC
-    }*/
-    VitalSigns(DateTime.now(), coded.map((createObservation _).tupled))
-  }
-
-  // Create a single vital sign observation
-  def createObservation(code: BasicCode, value: Any, units: Option[String]): Observation = {
-    val vt = value match {
-      case n: java.lang.Number => ValueTypes.Numeric
-      case d: DateTime => ValueTypes.DateTime
-      case _ => ValueTypes.String
-    }
-
-    Observation(
-      Code = code.Code,
-      CodeSystem = code.CodeSystem,
-      CodeSystemName = code.CodeSystemName,
-      Name = code.Name,
-      DateTime = DateTime.now(),
-      Status = Some("completed"),
-      Value = Some(value.toString),
-      ValueType = Some(vt),
-      Units = units
-    )
-  }
 }
 
 /**
