@@ -21,7 +21,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         Meta(DataModel = DataModelTypes.ClinicalSummary, EventType = RedoxEventTypes.Query),
         Patient(Demographics = Some(Demographics("John", "Doe", DateTime.parse("1970-1-1"), Sex = Gender.Male)))
       )
-      val fut = client.get[PatientQuery, ClinicalSummary](query)
+      val fut = client.get[PatientQuery, ClinicalSummary](shouldFailQuery)
       val resp = Await.result(fut, 5.seconds)
       resp.isError must beTrue
       resp.get must throwA[Exception]
@@ -994,7 +994,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         """.stripMargin
 
       val post = validateJsonInput[ClinicalSummary](json)
-      val fut = client.post[ClinicalSummary, EmptyResponse](data)
+      val fut = client.post[ClinicalSummary, EmptyResponse](post)
       val maybe = handleResponse(fut)
       maybe must beSome
     }
