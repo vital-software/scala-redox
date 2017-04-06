@@ -43,9 +43,8 @@ See [tests](https://github.com/vital-software/scala-redox/tree/master/src/test/s
         """.stripMargin
 
       val query = Json.fromJson[ClinicalSummaryQuery](Json.parse(json)).get
-      val fut = client.queryClinicalSummary(query)
+      val fut = client.get[PatientQuery, ClinicalSummary](query)
       fut.map { clinicalSummary =>
-
         clinicalSummary.VitalSigns.foreach(vs => ...do something with vitals...)
       }
 ```
