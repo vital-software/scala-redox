@@ -52,6 +52,15 @@ See [tests](https://github.com/vital-software/scala-redox/tree/master/src/test/s
 
 You can of course create the ClinicalSummaryQuery object in Scala as well.
 
+#Installation
+
+```scala
+resolvers += "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
+libraryDependencies += "com.github.vital-software" %% "scala-redox" % "0.1"
+```
+
+Tested with Scala 2.11.8
+
 ## Architecture
 Data-models available at [Redox](https://developer.redoxengine.com/) have been transcribed into Scala case classes.
 
