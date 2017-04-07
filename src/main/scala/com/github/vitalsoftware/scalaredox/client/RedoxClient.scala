@@ -155,6 +155,9 @@ class RedoxClient(conf: Config) {
   def post[T, U](data: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
     sendReceive[U](basePost.withBody(Json.toJson(data)))
   }
+}
+
+object RedoxClient {
 
   /**
     * Receive a webhook message and turn it into a Scala class based on the message type Meta.DataModel
