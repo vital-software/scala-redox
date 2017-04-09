@@ -165,6 +165,7 @@ object RedoxClient {
     */
   def webhook(json: JsValue): Either[JsError, AnyRef] = {
     import com.github.vitalsoftware.scalaredox.models.DataModelTypes._
+    import com.github.vitalsoftware.scalaredox.models.RedoxEventTypes._
     val reads = (__ \ "Meta").read[models.Meta]
     val unsupported = JsError("Not yet supported").errors
     json.validate[models.Meta](reads).fold(
@@ -172,7 +173,8 @@ object RedoxClient {
       valid = { meta =>
         meta.DataModel match {
           case Claim =>               Left(unsupported)
-          case ClinicalSummary =>     json.validate[models.ClinicalSummary].asEither
+          case ClinicalSummary if meta.EventType == PatientQueryResponse => json.validate[models.ClinicalSummary].asEither
+          case ClinicalSummary if meta.EventType == VisitQueryResponse   => json.validate[models.Visit].asEither
           case Device =>              Left(unsupported)
           case Financial =>           Left(unsupported)
           case Flowsheet =>           Left(unsupported)
@@ -187,6 +189,7 @@ object RedoxClient {
           case Scheduling =>          Left(unsupported)
           case SurgicalScheduling =>  Left(unsupported)
           case Vaccination =>         Left(unsupported)
+          case _ =>                   Left(unsupported)
         }
       }
     ).left.map(err => JsError(err))

@@ -13,16 +13,60 @@ import play.api.libs.json.{Format, Reads, Writes}
 
 object DataModelTypes extends Enumeration {
   val ClinicalSummary = Value("Clinical Summary")
-  val Claim, Device, Financial, Flowsheet, Inventory, Media, Notes, Order, PatientAdmin, PatientSearch, Referral, Results, Scheduling, SurgicalScheduling, Vaccination = Value
+  val Claim,
+      Device,
+      Financial,
+      Flowsheet,
+      Inventory,
+      Media,
+      Notes,
+      Order,
+      PatientAdmin,
+      PatientSearch,
+      Referral,
+      Results,
+      Scheduling,
+      SurgicalScheduling,
+      Vaccination = Value
 
   implicit lazy val jsonFormat: Format[DataModelTypes.Value] = Format(Reads.enumNameReads(DataModelTypes), Writes.enumNameWrites)
 }
 
 object RedoxEventTypes extends Enumeration {
   val QueryResponse = Value("Query Response")
-  val Query, Response, Push, Submission, Payment, New, Transaction, Update, Deplete, Replace, Delete, Cancel, GroupedOrders,
-  Arrival, Discharge, NewPatient, PatientUpdate, PatientMerge, PreAdmit, Registration, Transfer, VisitUpdate,
-  Modify, NewUnsolicited, Reschedule, Modification, NoShow, AvailableSlots, AvailableSlotsResponse, Booked, BookedResponse = Value
+  val Arrival,
+      AvailableSlots,
+      AvailableSlotsResponse,
+      Booked,
+      BookedResponse,
+      Cancel,
+      Delete,
+      Deplete,
+      Discharge,
+      GroupedOrders,
+      Modification,
+      Modify,
+      New,
+      NewPatient,
+      NewUnsolicited,
+      NoShow,
+      PatientMerge,
+      PatientQueryResponse,
+      PatientUpdate,
+      Payment,
+      PreAdmit,
+      Push,
+      Query,
+      Registration,
+      Replace,
+      Reschedule,
+      Response,
+      Submission,
+      Transaction,
+      Transfer,
+      Update,
+      VisitQueryResponse,
+      VisitUpdate = Value
 
   implicit lazy val jsonFormat: Format[RedoxEventTypes.Value] = Format(Reads.enumNameReads(RedoxEventTypes), Writes.enumNameWrites)
 }
@@ -44,6 +88,8 @@ object RedoxEventTypes extends Enumeration {
   * @param Destinations List of destinations to send your message to. All messages must have at least one destination. Queries accept only one destination. Required when sending data to Redox
   * @param Message Record in Redox that corresponds to the communication sent from the source to Redox. Included in messages from Redox
   * @param Transmission Record in Redox that corresponds to the communication sent from Redox to your destination. Included in messages from Redox
+  * @param FacilityCode Code for the facility related to the message. Only use this field if a health system indicates you should. The code is specific to the health system's EHR and might not be unique across health systems. In general, the facility fields within the data models (e.g. OrderingFacility) are more reliable and informative.
+  * @param IsIncomplete Indicates that a limit was reached, and not all data was returned. If true, the sender may want to restrict the parameters of the request in order to match fewer results.
   */
 @jsonDefaults case class Meta(
   DataModel: DataModelTypes.Value,
@@ -53,5 +99,7 @@ object RedoxEventTypes extends Enumeration {
   Source: Option[SourceDestination] = None,
   Destinations: Seq[SourceDestination] = Seq.empty,
   Message: Option[NumericIdentifier] = None,
-  Transmission: Option[NumericIdentifier] = None
+  Transmission: Option[NumericIdentifier] = None,
+  FacilityCode: Option[String] = None,
+  IsIncomplete: Option[Boolean] = None
 )

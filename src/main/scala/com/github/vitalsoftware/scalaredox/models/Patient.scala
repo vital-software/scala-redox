@@ -92,5 +92,6 @@ object Gender extends Enumeration {
   */
 @jsonDefaults case class PatientSearch(
   Meta: Meta,
-  Patient: Option[Patient] = None
+  Patient: Option[Patient] = None,
+  PotentialMatches: Seq[Patient] = Seq.empty
 )
