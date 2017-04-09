@@ -8,6 +8,12 @@ import com.github.vitalsoftware.macros._
   */
 
 /**
+  * @param Meta Message header
+  * @param Patient List of IDs and IDTypes for the patient
+  */
+@jsonDefaults case class PatientQuery(Meta: Meta, Patient: Patient)
+
+/**
   * A Clinical Summary represents a snapshot of the patient's chart at a moment in time. It is structured in sections,
   * each focusing on a different aspect of the patient's chart, such as allergies, immunizations, and medications.
   * The full list of sections is at the left.
@@ -82,7 +88,8 @@ import com.github.vitalsoftware.macros._
   Medications: Seq[MedicationTaken] = Seq.empty,
   //ObjectiveText: String,
   PhysicalExamText: String,
-  PlanOfCare: Option[String] = None,
+  //PlanOfCareText: Option[String] = None,
+  PlanOfCare: Option[PlanOfCare] = None,
   ProblemsText: Option[String] = None,
   Problems: Seq[Problem] = Seq.empty,
   ReasonForVisitText: Option[String] = None,
@@ -99,7 +106,7 @@ trait ClinicalSummaryLike {
   def Allergies: Seq[Allergy]
   def Encounters: Seq[Encounter]
   def Medications: Seq[MedicationTaken]
-  def PlanOfCare: Option[String]
+  def PlanOfCare: Option[PlanOfCare]
   def Problems: Seq[Problem]
   def Results: Seq[Result]
   def VitalSigns: Seq[VitalSigns]
