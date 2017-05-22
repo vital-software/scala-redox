@@ -173,4 +173,4 @@ object ResultsStatusTypes extends Enumeration {
                                        Patient: Patient,
                                        Visit: Option[VisitInfo] = None,
                                        Order: Order
-)
+) extends MetaLike

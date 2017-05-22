@@ -63,4 +63,4 @@ object NoteContentTypes extends Enumeration {
                                       Visit: Option[VisitInfo] = None,
                                       Note: Note,
                                       Orders: Seq[NoteOrder] = Seq.empty
-)
+) extends MetaLike

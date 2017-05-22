@@ -168,13 +168,14 @@ object RedoxClient {
     import com.github.vitalsoftware.scalaredox.models.RedoxEventTypes._
     val reads = (__ \ "Meta").read[models.Meta]
     val unsupported = JsError("Not yet supported").errors
+    val clinicalSummaryTypes = List(PatientQueryResponse, PatientPush)
+    val visitTypes = List(VisitQueryResponse, VisitPush)
+
     json.validate[models.Meta](reads).fold(
       invalid = errors => Left(errors),
       valid = { meta =>
         meta.DataModel match {
           case Claim =>               Left(unsupported)
-          case ClinicalSummary if meta.EventType == PatientQueryResponse => json.validate[models.ClinicalSummary].asEither
-          case ClinicalSummary if meta.EventType == VisitQueryResponse   => json.validate[models.Visit].asEither
           case Device =>              Left(unsupported)
           case Financial =>           Left(unsupported)
           case Flowsheet =>           Left(unsupported)
@@ -189,6 +190,8 @@ object RedoxClient {
           case Scheduling =>          Left(unsupported)
           case SurgicalScheduling =>  Left(unsupported)
           case Vaccination =>         Left(unsupported)
+          case _ if clinicalSummaryTypes.contains(meta.EventType) => json.validate[models.ClinicalSummary].asEither
+          case _ if visitTypes.contains(meta.EventType) => json.validate[models.Visit].asEither
           case _ =>                   Left(unsupported)
         }
       }
