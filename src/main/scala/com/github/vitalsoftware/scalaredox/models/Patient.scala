@@ -94,4 +94,4 @@ object Gender extends Enumeration {
   Meta: Meta,
   Patient: Option[Patient] = None,
   PotentialMatches: Seq[Patient] = Seq.empty
-)
+) extends MetaLike

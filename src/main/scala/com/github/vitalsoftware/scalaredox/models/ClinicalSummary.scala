@@ -102,7 +102,7 @@ import com.github.vitalsoftware.macros._
 ) extends ClinicalSummaryLike
 
 // Common structure between Visit and ClinicalSummary
-trait ClinicalSummaryLike {
+trait ClinicalSummaryLike extends MetaLike {
   def Allergies: Seq[Allergy]
   def Encounters: Seq[Encounter]
   def Medications: Seq[MedicationTaken]

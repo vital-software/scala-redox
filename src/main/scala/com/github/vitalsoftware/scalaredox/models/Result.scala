@@ -30,4 +30,4 @@ import com.github.vitalsoftware.macros._
   Patient: Patient,
   Orders: Seq[Order] = Seq.empty,
   Visit: Option[VisitInfo] = None
-)
+) extends MetaLike
