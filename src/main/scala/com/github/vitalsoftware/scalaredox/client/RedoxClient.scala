@@ -26,11 +26,12 @@ class RedoxClient(conf: Config) {
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
 
-  protected lazy val client = StandaloneAhcWSClient()
+  private val clientConfig = AhcWSClientConfigFactory.forConfig(conf)
+  protected val client = StandaloneAhcWSClient(clientConfig)
 
-  private[client] lazy val apiKey = conf.as[String]("redox.apiKey")
-  private[client] lazy val apiSecret = conf.as[String]("redox.secret")
-  private[client] lazy val baseRestUri = Uri(conf.getOrElse[String]("redox.restApiBase", "https://api.redoxengine.com"))
+  private[client] val apiKey = conf.as[String]("redox.apiKey")
+  private[client] val apiSecret = conf.as[String]("redox.secret")
+  private[client] val baseRestUri = Uri(conf.getOrElse[String]("redox.restApiBase", "https://api.redoxengine.com"))
   private[client] lazy val authInfo = {
     val auth = new SyncVar[Option[AuthInfo]]
     auth.put(None)
@@ -48,7 +49,7 @@ class RedoxClient(conf: Config) {
         case Some(info) => Future { info }
         case None => authorize()
       }
-      response <- execute[T](request.withHeaders("Authorization" -> s"Bearer ${auth.accessToken}"))
+      response <- execute[T](request.withHttpHeaders("Authorization" -> s"Bearer ${auth.accessToken}"))
     } yield response
   }
 

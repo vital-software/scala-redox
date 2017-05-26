@@ -2,7 +2,7 @@ organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-version := "0.3"
+version := "0.4-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
@@ -13,8 +13,8 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-json" % "2.6.0-M3",
-  "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.0-M4",
+  "com.typesafe.play" %% "play-json" % "2.6.0-M6",
+  "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.0-RC1",
   "com.typesafe.akka" %% "akka-http" % "10.0.1",
   //"ai.x" %% "play-json-extensions" % "0.8.0",
   "com.iheart" %% "ficus" % "1.4.0",
