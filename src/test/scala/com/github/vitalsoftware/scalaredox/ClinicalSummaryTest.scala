@@ -34,7 +34,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
           |{
           |	"Meta": {
           |		"DataModel": "Clinical Summary",
-          |		"EventType": "Query",
+          |		"EventType": "PatientQuery",
           |		"EventDateTime": "2017-03-14T19:35:06.047Z",
           |		"Test": true,
           |		"Destinations": [
@@ -71,7 +71,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
 
         // Meta
         val meta = clinicalSummary.Meta
-        meta.EventType must be equalTo RedoxEventTypes.Query
+        meta.EventType must be equalTo RedoxEventTypes.PatientQuery
         meta.Destinations must not be empty
 
         // Vital Signs

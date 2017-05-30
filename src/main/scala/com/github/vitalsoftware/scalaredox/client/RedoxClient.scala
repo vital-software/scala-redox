@@ -26,11 +26,11 @@ class RedoxClient(conf: Config) {
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
 
-  protected lazy val client = StandaloneAhcWSClient()
+  protected val client = AhcWSClient()
 
-  private[client] lazy val apiKey = conf.as[String]("redox.apiKey")
-  private[client] lazy val apiSecret = conf.as[String]("redox.secret")
-  private[client] lazy val baseRestUri = Uri(conf.getOrElse[String]("redox.restApiBase", "https://api.redoxengine.com"))
+  private[client] val apiKey = conf.as[String]("redox.apiKey")
+  private[client] val apiSecret = conf.as[String]("redox.secret")
+  private[client] val baseRestUri = Uri(conf.getOrElse[String]("redox.restApiBase", "https://api.redoxengine.com"))
   private[client] lazy val authInfo = {
     val auth = new SyncVar[Option[AuthInfo]]
     auth.put(None)
@@ -42,7 +42,7 @@ class RedoxClient(conf: Config) {
   private def basePost = baseRequest(baseRestUri.withPath(/("endpoint")).toString()).withMethod("POST")
 
   /** Send and receive an authorized request */
-  private def sendReceive[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
+  private def sendReceive[T](request: WSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
     for {
       auth <- authInfo.get match {
         case Some(info) => Future { info }
@@ -53,7 +53,7 @@ class RedoxClient(conf: Config) {
   }
 
   /** Raw request execution */
-  private def execute[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
+  private def execute[T](request: WSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
     request.execute().map {
 
       // Failure status
@@ -67,7 +67,7 @@ class RedoxClient(conf: Config) {
       ).contains(r.status) =>
         Try {
           // In case we do not get valid JSON back, wrap everything in a Try block
-          r.json.as[RedoxErrorResponse]
+          (r.json \ "Meta").as[RedoxErrorResponse]
         } match {
           case Success(t) => Left(t)
           case Failure(e) => Left(RedoxErrorResponse.simple(r.statusText))
