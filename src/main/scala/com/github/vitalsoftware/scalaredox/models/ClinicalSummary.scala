@@ -38,6 +38,20 @@ import com.github.vitalsoftware.macros._
   VitalSigns: Seq[VitalSigns] = Seq.empty
 ) extends ClinicalSummaryLike
 
+@jsonDefaults case class VisitQueryResponse
+(
+  Meta: Meta,
+  Header: Header,
+  Allergies: Seq[Allergy] = Seq.empty,
+  Assessment: Option[Assessment] = None,
+  Encounters: Seq[Encounter] = Seq.empty,
+  Medications: Seq[MedicationTaken] = Seq.empty,
+  PlanOfCare: Option[PlanOfCare]= None,
+  Problems: Seq[Problem]= Seq.empty,
+  Results: Seq[Result]= Seq.empty,
+  VitalSigns: Seq[VitalSigns] = Seq.empty
+)
+
 /**
   * TODO: Running into Function22 and Tuple22 limits here...
   * https://stackoverflow.com/questions/20258417/how-to-get-around-the-scala-case-class-limit-of-22-fields

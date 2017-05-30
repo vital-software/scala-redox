@@ -28,7 +28,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
       resp.getError.Errors must not be empty
     }
 
-    "return an object" in {
+    "return a PatientQueryResponse" in {
       val json =
         """
           |{
@@ -112,6 +112,99 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         val header = clinicalSummary.Header
         header.Patient.Identifiers must not be empty
         header.Patient.Demographics must beSome
+
+      }.get
+    }
+
+    "return a VisitQueryResponse" in {
+      val json =
+        """
+          |{
+          |  "Meta": {
+          |    "DataModel": "Clinical Summary",
+          |    "EventType": "VisitQuery",
+          |    "Test": true,
+          |    "Source": {
+          |      "ID": "00000000-0000-0000-0000-000000000000",
+          |      "Name": "Vital ER"
+          |    },
+          |    "Destinations": [
+          |      {
+          |        "ID": "ef9e7448-7f65-4432-aa96-059647e9b357"
+          |      }
+          |    ]
+          |  },
+          |  "Patient": {
+          |    "Identifiers": [
+          |      {
+          |        "ID": "a1d4ee8aba494ca",
+          |        "IDType": "NIST"
+          |      }
+          |    ]
+          |  },
+          |  "Visit": {
+          |    "StartDateTime": "2017-04-30T19:25:08.415+08:00",
+          |    "EndDateTime": "2017-05-29T19:25:08.415+08:00"
+          |  }
+          |}
+        """.stripMargin
+
+      val query = validateJsonInput[VisitQuery](json)
+      val fut = client.get[VisitQuery, VisitQueryResponse](query)
+      val maybe = handleResponse(fut)
+      maybe must beSome
+      maybe.map { visitQueryResponse =>
+
+        // Meta
+        val meta = visitQueryResponse.Meta
+        meta.EventType must be equalTo RedoxEventTypes.VisitQuery
+        meta.Destinations must not be empty
+
+        // Vital Signs
+        val vs = visitQueryResponse.VitalSigns
+        vs must not be empty
+        vs.head.Observations.size must be_>=(3)
+
+        // Problems
+        val pr = visitQueryResponse.Problems
+        pr must not be empty
+        pr.size must be_>(1)
+        pr.head.Status must beSome
+
+        // Plan of Care
+        val pc = visitQueryResponse.PlanOfCare
+        pc must beSome
+        pc.get.Orders must not be empty
+
+        // Medications
+        val meds = visitQueryResponse.Medications
+        meds.size must be_>(1)
+        meds.head.Dose must beSome
+        meds.head.Rate must beSome
+        meds.head.Route must beSome
+        meds.head.Frequency must beSome
+
+        // Header
+        val header = visitQueryResponse.Header
+        header.Patient.Identifiers must not be empty
+        header.Patient.Demographics must beSome
+
+        // Allergies
+        val allergies = visitQueryResponse.Allergies
+        allergies.size must be_>(2)
+
+        // Assessment
+        val assesment = visitQueryResponse.Assessment
+        assesment must beSome
+        assesment.head.Diagnoses.size must be_>(1)
+
+        // Encounters
+        val encounters = visitQueryResponse.Encounters
+        encounters.size must be_>(0)
+
+        // Results
+        val results = visitQueryResponse.Results
+        results.size must be_>(0)
 
       }.get
     }
