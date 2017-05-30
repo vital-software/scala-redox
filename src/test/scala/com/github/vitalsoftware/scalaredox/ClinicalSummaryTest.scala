@@ -2,7 +2,7 @@ package com.github.vitalsoftware.scalaredox
 
 import com.github.vitalsoftware.scalaredox.client.EmptyResponse
 import com.github.vitalsoftware.scalaredox.models._
-import org.joda.time.LocalDate
+import org.joda.time.DateTime
 import org.specs2.mutable.Specification
 import org.specs2.time.NoTimeConversions
 
@@ -19,7 +19,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
     "return an error" in {
       val shouldFailQuery = PatientQuery(
         Meta(DataModel = DataModelTypes.ClinicalSummary, EventType = RedoxEventTypes.Query),
-        Patient(Demographics = Some(Demographics("John", "Doe", LocalDate.parse("1970-1-1"), Sex = Gender.Male)))
+        Patient(Demographics = Some(Demographics("John", "Doe", DateTime.parse("1970-1-1"), Sex = Gender.Male)))
       )
       val fut = client.get[PatientQuery, ClinicalSummary](shouldFailQuery)
       val resp = Await.result(fut, 5.seconds)
