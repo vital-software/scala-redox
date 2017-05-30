@@ -67,7 +67,7 @@ class RedoxClient(conf: Config) {
       ).contains(r.status) =>
         Try {
           // In case we do not get valid JSON back, wrap everything in a Try block
-          r.json.as[RedoxErrorResponse]
+          (r.json \ "Meta").as[RedoxErrorResponse]
         } match {
           case Success(t) => Left(t)
           case Failure(e) => Left(RedoxErrorResponse.simple(r.statusText))
