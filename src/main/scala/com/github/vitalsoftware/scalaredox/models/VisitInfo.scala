@@ -69,7 +69,8 @@ import com.github.vitalsoftware.macros._
   * @param Insurances List of insurance coverages for the patient
   */
 @jsonDefaults case class VisitInfo(
-  VisitNumber: Option[String] = None,
+// TODO: the documentation says that it is a string, but they return a number
+//  VisitNumber: Option[String] = None,
   VisitDateTime: Option[DateTime] = None,
   Duration: Option[Double] = None,
   Reason: Option[String] = None,
