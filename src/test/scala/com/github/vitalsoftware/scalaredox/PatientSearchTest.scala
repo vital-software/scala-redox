@@ -63,7 +63,7 @@ class PatientSearchTest extends Specification with NoTimeConversions with RedoxT
           |			"FirstName": "Timothy",
           |			"MiddleName": "Paul",
           |			"LastName": "Bixby",
-          |			"DOB": "2008-01-06T00:00:00.000Z",
+          |			"DOB": "2008-01-06",
           |			"Sex": "Male"
           |		},
           |		"Notes": []

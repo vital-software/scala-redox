@@ -1,6 +1,5 @@
 package com.github.vitalsoftware.scalaredox.models
 
-import com.github.vitalsoftware.util.JsonImplicits.jodaDateFormat
 import com.github.vitalsoftware.macros._
 import play.api.libs.json.{Format, Reads, Writes}
 

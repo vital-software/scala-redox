@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
-import org.joda.time.DateTime
-import com.github.vitalsoftware.util.JsonImplicits.jodaDateFormat
+import org.joda.time.LocalDate
+import com.github.vitalsoftware.util.JsonImplicits.jodaLocalDateFormat
 import com.github.vitalsoftware.macros._
 import play.api.libs.json.{Format, Reads, Writes}
 
@@ -56,7 +56,7 @@ object InsuranceCoverageTypes extends Enumeration {
 @jsonDefaults case class InsuredPerson(
   FirstName: Option[String] = None,
   LastName: Option[String] = None,
-  DOB: Option[DateTime] = None,
+  DOB: Option[LocalDate] = None,
   Address: Option[Address] = None,
   Relationship: Option[String] = None,
   PhoneNumber: Option[PhoneNumber] = None
@@ -79,7 +79,7 @@ object InsuranceCoverageTypes extends Enumeration {
 @jsonDefaults case class Guarantor(
   FirstName: Option[String] = None,
   LastName: Option[String] = None,
-  DOB: Option[DateTime] = None,
+  DOB: Option[LocalDate] = None,
   Address: Option[Address] = None,
   RelationToPatient: Option[String] = None,
   PhoneNumber: Option[PhoneNumber] = None,
@@ -105,8 +105,8 @@ object InsuranceCoverageTypes extends Enumeration {
   Company: InsuranceCompany,
   GroupNumber: Option[String] = None,
   GroupName: Option[String] = None,
-  EffectiveDate: Option[DateTime] = None,
-  ExpirationDate: Option[DateTime] = None,
+  EffectiveDate: Option[LocalDate] = None,
+  ExpirationDate: Option[LocalDate] = None,
   PolicyNumber: Option[String] = None,
   AgreementType: Option[InsuranceAgreementTypes.Value] = None,
   CoverageType: Option[InsuranceCoverageTypes.Value] = None,

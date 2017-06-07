@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
-import org.joda.time.DateTime
-import com.github.vitalsoftware.util.JsonImplicits.jodaDateFormat // "yyy-MM-dd"
+import org.joda.time.{DateTime, LocalDate}
+import com.github.vitalsoftware.util.JsonImplicits._
 import com.github.vitalsoftware.macros._
 
 /**
@@ -14,7 +14,7 @@ import com.github.vitalsoftware.macros._
   */
 @jsonDefaults case class FamilyDemographics(
   Sex: Gender.Value,
-  DOB: Option[DateTime] = None
+  DOB: Option[LocalDate] = None
 )
 
 @jsonDefaults case class Relation(
@@ -32,7 +32,7 @@ import com.github.vitalsoftware.macros._
   */
 @jsonDefaults case class RelationDemographics(
   Sex: Gender.Value,
-  DOB: DateTime
+  DOB: LocalDate
 )
 
 /**

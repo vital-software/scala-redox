@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
-import org.joda.time.DateTime
-import com.github.vitalsoftware.util.JsonImplicits.jodaDateFormat
+import org.joda.time.LocalDate
+import com.github.vitalsoftware.util.JsonImplicits.jodaLocalDateFormat
 import com.github.vitalsoftware.macros._
 import play.api.libs.json.Reads.DefaultJodaDateReads
 import play.api.libs.json.{Format, Reads, Writes}
@@ -43,7 +43,7 @@ object Gender extends Enumeration {
 @jsonDefaults case class Demographics(
   FirstName: String,
   LastName: String,
-  DOB: DateTime,
+  DOB: LocalDate,
   SSN: Option[String] = None,
   Sex: Gender.Value,
   Address: Option[Address] = None,
