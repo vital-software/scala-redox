@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import org.joda.time.DateTime
-import com.github.vitalsoftware.util.JsonImplicits.jodaDateFormat
+import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 import play.api.libs.json.Reads.DefaultJodaDateReads
 import play.api.libs.json.{Format, Reads, Writes}
@@ -31,7 +31,7 @@ object Gender extends Enumeration {
   *
   * @param FirstName Required
   * @param LastName Required
-  * @param DOB Required. Patient's date of birth. In YYYY-MM-DD format
+  * @param DOB Required. Patient's date of birth. In ISO 8601 format
   * @param Sex Required
   * @param Language Patient's primary spoken language. In ISO 639-1 alpha values (e.g. 'en'). http://www.mathguide.de/info/tools/languagecode.html
   * @param Citizenship Patient's nation(s) of citizenship. *In ISO 3166 alpha 2 format (e.g. 'US').

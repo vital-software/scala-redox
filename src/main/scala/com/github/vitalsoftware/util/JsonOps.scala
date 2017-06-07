@@ -46,7 +46,7 @@ object OReadsOps {
   implicit def from[A](reads: Reads[A]): OReadsOps[A] = new OReadsOps(reads)
 }
 
-object JsonImplicits {
+trait JsonImplicits {
   implicit val jodaISODateReads: Reads[org.joda.time.DateTime] = new Reads[org.joda.time.DateTime] {
     import org.joda.time.DateTime
 
@@ -78,5 +78,7 @@ object JsonImplicits {
   implicit val jodaISO8601Format = Format(jodaISODateReads, jodaISODateWrites)
 
   // Will read ISO8061 and "yyyy-MM-dd" format
-  implicit val jodaDateFormat = Format(jodaISODateReads, Writes.jodaDateWrites("yyyy-MM-dd"))
+  implicit val jodaLocalDateFormat = Format(Reads.jodaLocalDateReads("yyyy-MM-dd"), Writes.jodaLocalDateWrites("yyyy-MM-dd"))
 }
+
+object JsonImplicits extends JsonImplicits

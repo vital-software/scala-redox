@@ -1,6 +1,6 @@
 package com.github.vitalsoftware.scalaredox.models
 
-import com.github.vitalsoftware.util.JsonImplicits.jodaDateFormat
+import com.github.vitalsoftware.util.JsonImplicits._
 import com.github.vitalsoftware.macros._
 import org.joda.time.DateTime
 import play.api.libs.json.{Format, Reads, Writes}
@@ -58,9 +58,9 @@ object NoteContentTypes extends Enumeration {
   * @param Visit Requires only VisitNumber + VisitDateTime
   */
 @jsonDefaults case class NoteMessage(
-                                      Meta: Meta,
-                                      Patient: Patient,
-                                      Visit: Option[VisitInfo] = None,
-                                      Note: Note,
-                                      Orders: Seq[NoteOrder] = Seq.empty
+  Meta: Meta,
+  Patient: Patient,
+  Visit: Option[VisitInfo] = None,
+  Note: Note,
+  Orders: Seq[NoteOrder] = Seq.empty
 ) extends MetaLike
