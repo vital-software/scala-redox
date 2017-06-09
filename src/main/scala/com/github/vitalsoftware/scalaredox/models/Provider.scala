@@ -18,10 +18,10 @@ import com.github.vitalsoftware.macros._
   * @param Address Provider's address
   */
 @jsonDefaults case class Provider(
-  ID: String,
-  IDType: String,
-  FirstName: String,
-  LastName: String,
+  ID: Option[String],
+  IDType: Option[String],
+  FirstName: Option[String],
+  LastName: Option[String],
   Type: Option[String],
   Credentials: Seq[String] = Seq.empty,
   Address: Option[Address] = None,
@@ -29,7 +29,7 @@ import com.github.vitalsoftware.macros._
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[EmailAddress] = Seq.empty,
   Role: Option[BasicCode] = None
-) extends Person
+)
 
 trait Person {
   def FirstName: String
