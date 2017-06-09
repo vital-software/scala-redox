@@ -48,7 +48,7 @@ object Gender extends Enumeration {
   Sex: Gender.Value,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  EmailAddresses: Seq[String] = Seq.empty,
   Language: Option[String] = None, // TODO ISO 639-1
   Citizenship: Seq[String] = Seq.empty, // TODO ISO 3166
   Race: Option[String] = None,
@@ -66,7 +66,7 @@ object Gender extends Enumeration {
   LastName: String,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  EmailAddresses: Seq[String] = Seq.empty,
   RelationToPatient: Option[String] = None,
   Roles: Seq[String] = Seq.empty
 ) extends Person

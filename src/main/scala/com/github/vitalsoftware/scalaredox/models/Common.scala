@@ -104,8 +104,6 @@ trait Code {
   Bed: Option[String] = None
 )
 
-@jsonDefaults case class EmailAddress(Address: String) // Todo email validator?
-
 // In E. 164 Format. (e.g. +16085551234)
 @jsonDefaults case class PhoneNumber(
   Home: Option[String] = None,

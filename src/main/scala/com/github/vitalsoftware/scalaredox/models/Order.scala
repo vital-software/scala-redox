@@ -81,7 +81,7 @@ object ResultsStatusTypes extends Enumeration {
   Address: Option[Address] = None,
   Location: Option[CareLocation] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  EmailAddresses: Seq[String] = Seq.empty,
   Role: Option[BasicCode] = None
 ) extends Person
 

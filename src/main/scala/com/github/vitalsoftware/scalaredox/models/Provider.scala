@@ -27,7 +27,7 @@ import com.github.vitalsoftware.macros._
   Address: Option[Address] = None,
   Location: Option[CareLocation] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  EmailAddresses: Seq[String] = Seq.empty,
   Role: Option[BasicCode] = None
 ) extends Person
 
@@ -36,7 +36,7 @@ trait Person {
   def LastName: String
   def Address: Option[Address]
   def PhoneNumber: Option[PhoneNumber]
-  def EmailAddresses: Seq[EmailAddress]
+  def EmailAddresses: Seq[String]
 }
 
 @jsonDefaults case class BasicPerson(
@@ -44,6 +44,6 @@ trait Person {
   LastName: String,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  EmailAddresses: Seq[String] = Seq.empty,
   Credentials: Seq[String] = Seq.empty
 ) extends Person
