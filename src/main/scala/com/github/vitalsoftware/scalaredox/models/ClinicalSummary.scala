@@ -38,20 +38,6 @@ import com.github.vitalsoftware.macros._
   VitalSigns: Seq[VitalSigns] = Seq.empty
 ) extends ClinicalSummaryLike
 
-@jsonDefaults case class VisitQueryResponse
-(
-  Meta: Meta,
-  Header: Header,
-  Allergies: Seq[Allergy] = Seq.empty,
-  Assessment: Option[Assessment] = None,
-  Encounters: Seq[Encounter] = Seq.empty,
-  Medications: Seq[MedicationTaken] = Seq.empty,
-  PlanOfCare: Option[PlanOfCare]= None,
-  Problems: Seq[Problem]= Seq.empty,
-  Results: Seq[Result]= Seq.empty,
-  VitalSigns: Seq[VitalSigns] = Seq.empty
-)
-
 /**
   * TODO: Running into Function22 and Tuple22 limits here...
   * https://stackoverflow.com/questions/20258417/how-to-get-around-the-scala-case-class-limit-of-22-fields
@@ -92,16 +78,16 @@ import com.github.vitalsoftware.macros._
   Allergies: Seq[Allergy] = Seq.empty,
   AssessmentText: Option[String] = None,
   Assessment: Option[Assessment] = None,
-  ChiefComplaintText: String,
+  ChiefComplaintText: Option[String] = None,
   //EncountersText: Option[String],
   Encounters: Seq[Encounter] = Seq.empty,
   HistoryOfPresentIllness: Option[String] = None,
-  //InstructionsText: String,
-  //InterventionsText: String,
+  //InstructionsText: Option[String] = None,
+  //InterventionsText: Option[String] = None,
   MedicationsText: Option[String] = None,
   Medications: Seq[MedicationTaken] = Seq.empty,
-  //ObjectiveText: String,
-  PhysicalExamText: String,
+  //ObjectiveText: Option[String] = None,
+  PhysicalExamText: Option[String] = None,
   //PlanOfCareText: Option[String] = None,
   PlanOfCare: Option[PlanOfCare] = None,
   ProblemsText: Option[String] = None,
@@ -109,8 +95,8 @@ import com.github.vitalsoftware.macros._
   ReasonForVisitText: Option[String] = None,
   ResultText: Option[String] = None,
   Results: Seq[Result] = Seq.empty,
-  ReviewOfSystemsText: String,
-  SubjectiveText: String,
+  ReviewOfSystemsText: Option[String] = None,
+  SubjectiveText: Option[String] = None,
   VitalSignsText: Option[String] = None,
   VitalSigns: Seq[VitalSigns] = Seq.empty
 ) extends ClinicalSummaryLike
