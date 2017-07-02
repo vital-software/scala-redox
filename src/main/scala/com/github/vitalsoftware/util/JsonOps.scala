@@ -1,9 +1,10 @@
 package com.github.vitalsoftware.util
 
-import org.joda.time.DateTimeZone
+import org.joda.time.{DateTime, DateTimeZone}
 import org.joda.time.format.DateTimeFormatter
 import play.api.libs.json._
 import play.api.libs.json.Reads._
+import play.api.libs.json.Writes._
 import play.api.libs.functional.syntax._
 
 import scala.language.implicitConversions
@@ -78,7 +79,7 @@ trait JsonImplicits {
   implicit val jodaISO8601Format = Format(jodaISODateReads, jodaISODateWrites)
 
   // Will read ISO8061 and "yyyy-MM-dd" format
-  implicit val jodaLocalDateFormat = Format(Reads.jodaLocalDateReads("yyyy-MM-dd"), Writes.jodaLocalDateWrites("yyyy-MM-dd"))
+  implicit val jodaLocalDateFormat = Format(JodaReads.DefaultJodaLocalDateReads, JodaWrites.DefaultJodaLocalDateWrites)
 }
 
 object JsonImplicits extends JsonImplicits

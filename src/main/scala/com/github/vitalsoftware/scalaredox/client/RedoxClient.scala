@@ -1,17 +1,19 @@
 package com.github.vitalsoftware.scalaredox.client
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.model.Uri.Path._
-import akka.http.scaladsl.model._
+import akka.stream.ActorMaterializer
 import com.github.vitalsoftware.scalaredox._
 import com.typesafe.config.Config
 import net.ceedubs.ficus.Ficus._
+import org.joda.time.DateTime
+import play.api.libs.json._
 import play.api.libs.ws._
 import play.api.libs.ws.ahc._
-import play.api.libs.json._
-import org.joda.time.DateTime
+import play.api.libs.ws.JsonBodyReadables._
+import play.api.libs.ws.JsonBodyWritables._
 
 import scala.concurrent.{Future, SyncVar}
 import scala.concurrent.duration._
@@ -26,7 +28,7 @@ class RedoxClient(conf: Config) {
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
 
-  protected val client = AhcWSClient()
+  protected val client = StandaloneAhcWSClient()
 
   private[client] val apiKey = conf.as[String]("redox.apiKey")
   private[client] val apiSecret = conf.as[String]("redox.secret")
@@ -42,18 +44,18 @@ class RedoxClient(conf: Config) {
   private def basePost = baseRequest(baseRestUri.withPath(/("endpoint")).toString()).withMethod("POST")
 
   /** Send and receive an authorized request */
-  private def sendReceive[T](request: WSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
+  private def sendReceive[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
     for {
       auth <- authInfo.get match {
         case Some(info) => Future { info }
         case None => authorize()
       }
-      response <- execute[T](request.withHeaders("Authorization" -> s"Bearer ${auth.accessToken}"))
+      response <- execute[T](request.withHttpHeaders("Authorization" -> s"Bearer ${auth.accessToken}"))
     } yield response
   }
 
   /** Raw request execution */
-  private def execute[T](request: WSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
+  private def execute[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
     request.execute().map {
 
       // Failure status
@@ -67,7 +69,7 @@ class RedoxClient(conf: Config) {
       ).contains(r.status) =>
         Try {
           // In case we do not get valid JSON back, wrap everything in a Try block
-          (r.json \ "Meta").as[RedoxErrorResponse]
+          (r.body[JsValue] \ "Meta").as[RedoxErrorResponse]
         } match {
           case Success(t) => Left(t)
           case Failure(e) => Left(RedoxErrorResponse.simple(r.statusText))
@@ -78,7 +80,7 @@ class RedoxClient(conf: Config) {
         if (r.body.isEmpty) {
           Right(EmptyResponse .asInstanceOf[T])
         } else {
-          Json.fromJson(r.json).fold(
+          Json.fromJson(r.body[JsValue]).fold(
             // Json to Scala objects failed...force into RedoxError format
             invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
 

@@ -150,34 +150,34 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         """.stripMargin
 
       val query = validateJsonInput[VisitQuery](json)
-      val fut = client.get[VisitQuery, VisitQueryResponse](query)
+      val fut = client.get[VisitQuery, Visit](query)
       val maybe = handleResponse(fut)
       maybe must beSome
-      maybe.map { visitQueryResponse =>
+      maybe.map { visit =>
 
         // Meta
-        val meta = visitQueryResponse.Meta
+        val meta = visit.Meta
         meta.EventType must be equalTo RedoxEventTypes.VisitQuery
         meta.Destinations must not be empty
 
         // Vital Signs
-        val vs = visitQueryResponse.VitalSigns
+        val vs = visit.VitalSigns
         vs must not be empty
         vs.head.Observations.size must be_>=(3)
 
         // Problems
-        val pr = visitQueryResponse.Problems
+        val pr = visit.Problems
         pr must not be empty
         pr.size must be_>(1)
         pr.head.Status must beSome
 
         // Plan of Care
-        val pc = visitQueryResponse.PlanOfCare
+        val pc = visit.PlanOfCare
         pc must beSome
         pc.get.Orders must not be empty
 
         // Medications
-        val meds = visitQueryResponse.Medications
+        val meds = visit.Medications
         meds.size must be_>(1)
         meds.head.Dose must beSome
         meds.head.Rate must beSome
@@ -185,7 +185,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         meds.head.Frequency must beSome
 
         // Header
-        val header = visitQueryResponse.Header
+        val header = visit.Header
         header.Patient.Identifiers must not be empty
         header.Patient.Demographics must beSome
 
