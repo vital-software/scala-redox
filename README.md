@@ -56,8 +56,9 @@ You can of course create the ClinicalSummaryQuery object in Scala as well.
 #Installation
 
 ```scala
-resolvers += "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
-libraryDependencies += "com.github.vital-software" %% "scala-redox" % "0.1"
+resolvers += Resolver.sonatypeRepo("releases")
+resolvers += Resolver.sonatypeRepo("snapshots")
+libraryDependencies += "com.github.vital-software" %% "scala-redox" % "0.7"
 ```
 
 Tested with Scala 2.11.8
