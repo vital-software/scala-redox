@@ -15,8 +15,8 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % "2.6.3",
   "com.typesafe.play" %% "play-json-joda" % "2.6.3",
-  "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.0",
-  "com.typesafe.play" %% "play-ws-standalone-json" % "1.0.0",
+  "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.4",
+  "com.typesafe.play" %% "play-ws-standalone-json" % "1.0.4",
   "com.typesafe.akka" %% "akka-http" % "10.0.1",
   //"ai.x" %% "play-json-extensions" % "0.8.0",
   "com.iheart" %% "ficus" % "1.4.0",
