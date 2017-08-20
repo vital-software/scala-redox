@@ -7,7 +7,6 @@ import akka.http.scaladsl.model.Uri.Path._
 import akka.stream.ActorMaterializer
 import com.github.vitalsoftware.scalaredox._
 import com.typesafe.config.Config
-import net.ceedubs.ficus.Ficus._
 import org.joda.time.DateTime
 import play.api.libs.json._
 import play.api.libs.ws._
@@ -30,9 +29,9 @@ class RedoxClient(conf: Config) {
 
   protected val client = StandaloneAhcWSClient()
 
-  private[client] val apiKey = conf.as[String]("redox.apiKey")
-  private[client] val apiSecret = conf.as[String]("redox.secret")
-  private[client] val baseRestUri = Uri(conf.getOrElse[String]("redox.restApiBase", "https://api.redoxengine.com"))
+  private[client] val apiKey = conf.getString("redox.apiKey")
+  private[client] val apiSecret = conf.getString("redox.secret")
+  private[client] val baseRestUri = Uri(conf.getString("redox.restApiBase"))
   private[client] lazy val authInfo = {
     val auth = new SyncVar[Option[AuthInfo]]
     auth.put(None)

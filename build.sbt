@@ -19,7 +19,6 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.0.4",
   "com.typesafe.akka" %% "akka-http" % "10.0.1",
   //"ai.x" %% "play-json-extensions" % "0.8.0",
-  "com.iheart" %% "ficus" % "1.4.0",
   //"systems.uom" % "systems-common-java8" % "0.6",
   //"systems.uom" % "systems-unicode-java8" % "0.6",
   "com.github.vital-software" %% "json-annotation" % "0.3.1",
