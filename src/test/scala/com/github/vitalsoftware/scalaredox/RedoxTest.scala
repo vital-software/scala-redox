@@ -1,5 +1,7 @@
 package com.github.vitalsoftware.scalaredox
 
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
 import com.github.vitalsoftware.scalaredox.client.{RedoxClient, RedoxResponse}
 import com.typesafe.config.ConfigFactory
 import play.api.libs.json.{JsError, Json, Reads}
@@ -13,7 +15,9 @@ import scala.concurrent.duration._
 trait RedoxTest {
 
   val conf = ConfigFactory.load("resources/reference.conf")
-  val client = new RedoxClient(conf)
+  val system = ActorSystem("redox-test")
+  val materializer = ActorMaterializer()(system)
+  val client = new RedoxClient(conf, system, materializer)
 
   // Validate raw a raw JSON string, throwing a RuntimeException which will output detail to Specs2/Test console
   def validateJsonInput[T](json: String)(implicit reads: Reads[T]): T = {

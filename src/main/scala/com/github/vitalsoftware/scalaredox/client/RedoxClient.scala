@@ -22,12 +22,13 @@ import scala.util.{Try, Failure, Success}
 /**
   * Created by apatzer on 3/20/17.
   */
-class RedoxClient(conf: Config) {
+class RedoxClient(
+  conf: Config,
+  implicit val system: ActorSystem,
+  implicit val materializer: ActorMaterializer
+) {
 
-  implicit val system = ActorSystem()
-  implicit val materializer = ActorMaterializer()
-
-  protected val client = StandaloneAhcWSClient()
+  private val client = StandaloneAhcWSClient()
 
   private[client] val apiKey = conf.getString("redox.apiKey")
   private[client] val apiSecret = conf.getString("redox.secret")
