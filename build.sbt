@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json-joda" % "2.6.3",
   "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.4",
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.0.4",
-  "com.typesafe.akka" %% "akka-http" % "10.0.1",
+  "com.typesafe.akka" %% "akka-http" % "10.0.9",
   //"ai.x" %% "play-json-extensions" % "0.8.0",
   //"systems.uom" % "systems-common-java8" % "0.6",
   //"systems.uom" % "systems-unicode-java8" % "0.6",
