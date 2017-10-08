@@ -3,16 +3,16 @@ package com.github.vitalsoftware.scalaredox.models
 import com.github.vitalsoftware.macros._
 
 /**
-  * Created by apatzer on 3/17/17.
-  */
+ * Created by apatzer on 3/17/17.
+ */
 
 /**
-  * Result from laboratories, imaging procedures, and other procedures.
-  *
-  * @param Code The test performed and resulted. LOINC for Lab - SNOMED CT otherwise
-  * @param Status The status of the test (In Progress, Final)
-  * @param Observations A list of corresponding observations for the test (result components)
-  */
+ * Result from laboratories, imaging procedures, and other procedures.
+ *
+ * @param Code The test performed and resulted. LOINC for Lab - SNOMED CT otherwise
+ * @param Status The status of the test (In Progress, Final)
+ * @param Observations A list of corresponding observations for the test (result components)
+ */
 @jsonDefaults case class Result(
   Code: String,
   CodeSystem: String,
@@ -23,8 +23,8 @@ import com.github.vitalsoftware.macros._
 ) extends Code with Status
 
 /**
-  * Results messages communicate results of diagnostic tests such as labs, radiology imaging, etc.
-  */
+ * Results messages communicate results of diagnostic tests such as labs, radiology imaging, etc.
+ */
 @jsonDefaults case class ResultsMessage(
   Meta: Meta,
   Patient: Patient,

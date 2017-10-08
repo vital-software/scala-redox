@@ -4,12 +4,12 @@ import com.github.vitalsoftware.macros._
 import play.api.libs.json.JsError
 
 /**
-  * Created by apatzer on 3/20/17.
-  */
+ * Created by apatzer on 3/20/17.
+ */
 
 /**
-  * Wrapper for all responses, for common functionality.
-  */
+ * Wrapper for all responses, for common functionality.
+ */
 case class RedoxResponse[T](result: Either[RedoxErrorResponse, T]) {
   def asOpt: Option[T] = {
     result.fold(_ => None, t => Some(t))

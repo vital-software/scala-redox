@@ -1,8 +1,12 @@
+import scalariform.formatter.preferences._
+import com.typesafe.sbt.SbtScalariform
+import com.typesafe.sbt.SbtScalariform.ScalariformKeys
+
 organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-version := "0.8"
+version := "0.81-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
@@ -66,3 +70,13 @@ pomExtra := (
       <url>https://github.com/apatzer</url>
     </developer>
   </developers>)
+
+// Scalariform settings
+SbtScalariform.defaultScalariformSettings
+ScalariformKeys.preferences := ScalariformKeys.preferences.value
+  .setPreference(AlignSingleLineCaseStatements, true)
+  .setPreference(FormatXml, false)
+  .setPreference(DoubleIndentConstructorArguments, false)
+  .setPreference(DanglingCloseParenthesis, Force)
+// compile only unmanaged sources, not the generated (aka managed) sourced
+sourceDirectories in (Compile, scalariformFormat) := (unmanagedSourceDirectories in Compile).value

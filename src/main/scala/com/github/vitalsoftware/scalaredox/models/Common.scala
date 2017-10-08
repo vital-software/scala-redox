@@ -3,15 +3,15 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
-import play.api.libs.json.{Format, Reads, Writes}
+import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
-  * Created by apatzer on 3/17/17.
-  */
+ * Created by apatzer on 3/17/17.
+ */
 
 /**
-  * The state of the plan (intent, confirmed, etc). @see [Plan of care status](http://wiki.siframework.org/CDA+-+Plan+of+Care+Activity+Entries)
-  */
+ * The state of the plan (intent, confirmed, etc). @see [Plan of care status](http://wiki.siframework.org/CDA+-+Plan+of+Care+Activity+Entries)
+ */
 trait Status {
   def Status: Option[String]
 }
@@ -26,8 +26,8 @@ trait DateRange {
 }
 
 /**
-  * Code reference (like a foreign key into a SNOMED, ICD-9/10, or other data set)
-  */
+ * Code reference (like a foreign key into a SNOMED, ICD-9/10, or other data set)
+ */
 trait Code {
   def Code: String
   def CodeSystem: String
@@ -78,11 +78,11 @@ trait Code {
 )
 
 /**
-  * Location of provider or care given.
-  *
-  * @see https://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.6.259
-  * Note: Seems duplicative of CareLocation, but described using the generic 'Code' object
-  */
+ * Location of provider or care given.
+ *
+ * @see https://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.6.259
+ * Note: Seems duplicative of CareLocation, but described using the generic 'Code' object
+ */
 @jsonDefaults case class Location(
   Address: Address,
   Type: BasicCode,
@@ -90,12 +90,12 @@ trait Code {
 )
 
 /**
-  * Location of provider or care given.
-  *
-  * @param Type Type of location. Examples: Clinic, Department, Home, Nursing Unit, Provider's Office, Phone
-  * @param Facility Facility. Example: Community Hospital
-  * @param Department Department
-  */
+ * Location of provider or care given.
+ *
+ * @param Type Type of location. Examples: Clinic, Department, Home, Nursing Unit, Provider's Office, Phone
+ * @param Facility Facility. Example: Community Hospital
+ * @param Department Department
+ */
 @jsonDefaults case class CareLocation(
   Type: Option[String] = None,
   Facility: Option[String] = None,
@@ -112,14 +112,14 @@ trait Code {
 )
 
 /**
-  * Reference range for the result.
-  * Numeric result values will use the low and high properties.
-  * Non-numeric result values will put the normal value in the text property.
-  *
-  * @param Low Lower bound for a normal result
-  * @param High Upper bound for a normal result
-  * @param Text The normal value for non-numeric results
-  */
+ * Reference range for the result.
+ * Numeric result values will use the low and high properties.
+ * Non-numeric result values will put the normal value in the text property.
+ *
+ * @param Low Lower bound for a normal result
+ * @param High Upper bound for a normal result
+ * @param Text The normal value for non-numeric results
+ */
 @jsonDefaults case class ReferenceRange(
   Low: Option[Double] = None,
   High: Option[Double] = None,
@@ -135,13 +135,13 @@ object ValueTypes extends Enumeration {
 }
 
 /**
-  * Coded Observation of a patient.
-  *
-  * @param TargetSite Where (on or in the body) the observation is made. (e.g. "Entire hand (body structure)"). SNOMED CT
-  * @param Interpretation A flag indicating whether or not the observed value is normal, high, or low. [Supported Values](https://www.hl7.org/fhir/v3/ObservationInterpretation/index.html)
-  * @param ValueType Data type of the value. One of the following: "Numeric", "String", "Date", "Time", "DateTime", "Coded Entry", "Encapsulated Data". Derived from HL7 Table 0125.
-  *                  @param Units The units of the measurement. [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
-  */
+ * Coded Observation of a patient.
+ *
+ * @param TargetSite Where (on or in the body) the observation is made. (e.g. "Entire hand (body structure)"). SNOMED CT
+ * @param Interpretation A flag indicating whether or not the observed value is normal, high, or low. [Supported Values](https://www.hl7.org/fhir/v3/ObservationInterpretation/index.html)
+ * @param ValueType Data type of the value. One of the following: "Numeric", "String", "Date", "Time", "DateTime", "Coded Entry", "Encapsulated Data". Derived from HL7 Table 0125.
+ *                  @param Units The units of the measurement. [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
+ */
 @jsonDefaults case class Observation(
   Code: String,
   CodeSystem: String,
@@ -153,6 +153,6 @@ object ValueTypes extends Enumeration {
   ValueType: Option[ValueTypes.Value] = None,
   Units: Option[String] = None,
   ReferenceRange: Option[ReferenceRange] = None,
-  TargetSite: Option[BasicCode] = None,  // Used by Procedures
-  Interpretation: Option[String] = None  // Used by Result
+  TargetSite: Option[BasicCode] = None, // Used by Procedures
+  Interpretation: Option[String] = None // Used by Result
 ) extends Code with Status with DateStamped

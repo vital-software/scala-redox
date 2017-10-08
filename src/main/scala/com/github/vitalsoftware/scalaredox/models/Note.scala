@@ -3,11 +3,11 @@ package com.github.vitalsoftware.scalaredox.models
 import com.github.vitalsoftware.util.JsonImplicits._
 import com.github.vitalsoftware.macros._
 import org.joda.time.DateTime
-import play.api.libs.json.{Format, Reads, Writes}
+import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
-  * Created by apatzer on 3/23/17.
-  */
+ * Created by apatzer on 3/23/17.
+ */
 
 object NoteContentTypes extends Enumeration {
   val PlainText = Value("Plain Text")
@@ -17,21 +17,21 @@ object NoteContentTypes extends Enumeration {
 }
 
 /**
-  * @param ID ID of the order assigned by the placing system
-  * @param Name Name of the order assigned by the placing system
-  */
+ * @param ID ID of the order assigned by the placing system
+ * @param Name Name of the order assigned by the placing system
+ */
 @jsonDefaults case class NoteOrder(
   ID: String,
   Name: Option[String] = None
 )
 
 /**
-  *
-  * @param ID The ID of the discrete note component. A report ID, or documentation field ID
-  * @param Name The name of the discrete note component. e.g. 'Severity'
-  * @param Value The text of the note component. Plain text or RTF
-  * @param Comments Additional comments for the discrete note field
-  */
+ *
+ * @param ID The ID of the discrete note component. A report ID, or documentation field ID
+ * @param Name The name of the discrete note component. e.g. 'Severity'
+ * @param Value The text of the note component. Plain text or RTF
+ * @param Comments Additional comments for the discrete note field
+ */
 @jsonDefaults case class NoteComponent(
   ID: Option[String] = None,
   Name: Option[String] = None,
@@ -55,8 +55,8 @@ object NoteContentTypes extends Enumeration {
 )
 
 /**
-  * @param Visit Requires only VisitNumber + VisitDateTime
-  */
+ * @param Visit Requires only VisitNumber + VisitDateTime
+ */
 @jsonDefaults case class NoteMessage(
   Meta: Meta,
   Patient: Patient,

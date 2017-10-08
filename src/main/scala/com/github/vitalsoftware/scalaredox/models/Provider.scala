@@ -3,20 +3,20 @@ package com.github.vitalsoftware.scalaredox.models
 import com.github.vitalsoftware.macros._
 
 /**
-  * Created by apatzer on 3/17/17.
-  */
+ * Created by apatzer on 3/17/17.
+ */
 
 /**
-  * Provider responsible for a Document
-  *
-  * @param ID ID of the Provider responsible for the document. This ID is required for Inpatient Visits
-  * @param IDType ID type of the ID for the Provider responsible for the document
-  * @param FirstName First name of the Provider responsible for the document
-  * @param LastName Last name of the Provider responsible for the document
-  * @param Type The type of provider for this referral. One of the following: "Referring Provider", "Referred To Provider", "Other", "Patient PCP"
-  * @param Credentials List of credentials for the Provider responsible for the document. e.g. MD, PhD
-  * @param Address Provider's address
-  */
+ * Provider responsible for a Document
+ *
+ * @param ID ID of the Provider responsible for the document. This ID is required for Inpatient Visits
+ * @param IDType ID type of the ID for the Provider responsible for the document
+ * @param FirstName First name of the Provider responsible for the document
+ * @param LastName Last name of the Provider responsible for the document
+ * @param Type The type of provider for this referral. One of the following: "Referring Provider", "Referred To Provider", "Other", "Patient PCP"
+ * @param Credentials List of credentials for the Provider responsible for the document. e.g. MD, PhD
+ * @param Address Provider's address
+ */
 @jsonDefaults case class Provider(
   ID: Option[String],
   IDType: Option[String],

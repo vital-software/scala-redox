@@ -14,14 +14,14 @@ import play.api.libs.ws.ahc._
 import play.api.libs.ws.JsonBodyReadables._
 import play.api.libs.ws.JsonBodyWritables._
 
-import scala.concurrent.{Future, SyncVar}
+import scala.concurrent.{ Future, SyncVar }
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits._
-import scala.util.{Try, Failure, Success}
+import scala.util.{ Try, Failure, Success }
 
 /**
-  * Created by apatzer on 3/20/17.
-  */
+ * Created by apatzer on 3/20/17.
+ */
 class RedoxClient(
   conf: Config,
   implicit val system: ActorSystem,
@@ -48,7 +48,7 @@ class RedoxClient(
     for {
       auth <- authInfo.get match {
         case Some(info) => Future { info }
-        case None => authorize()
+        case None       => authorize()
       }
       response <- execute[T](request.withHttpHeaders("Authorization" -> s"Bearer ${auth.accessToken}"))
     } yield response
@@ -78,7 +78,7 @@ class RedoxClient(
       // Success status
       case r =>
         if (r.body.isEmpty) {
-          Right(EmptyResponse .asInstanceOf[T])
+          Right(EmptyResponse.asInstanceOf[T])
         } else {
           Json.fromJson(r.body[JsValue]).fold(
             // Json to Scala objects failed...force into RedoxError format
@@ -93,9 +93,11 @@ class RedoxClient(
     }
   }
 
-  private def optionalQueryParam[T](el: Option[T],
-                                    key: String,
-                                    f: T => String = (o: T) => o.toString): Map[String, String] = {
+  private def optionalQueryParam[T](
+    el: Option[T],
+    key: String,
+    f: T => String = (o: T) => o.toString
+  ): Map[String, String] = {
     el.map(e => Map(key -> f(e))).getOrElse(Map.empty)
   }
 
@@ -143,17 +145,17 @@ class RedoxClient(
   }
 
   /**
-    * Send a query/read-request of type 'T' expecting a response of type 'U'
-    * Ex. get[PatientQuery => case  ClinicalSummary](query)
-    */
+   * Send a query/read-request of type 'T' expecting a response of type 'U'
+   * Ex. get[PatientQuery => case  ClinicalSummary](query)
+   */
   def get[T, U](query: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
     sendReceive[U](baseQuery.withBody(Json.toJson(query)))
   }
 
   /**
-    * Send a post/write-request of type 'T' expecting a response of type 'U'
-    * Ex. post[ClinicalSummary => case  EmptyResponse](data)
-    */
+   * Send a post/write-request of type 'T' expecting a response of type 'U'
+   * Ex. post[ClinicalSummary => case  EmptyResponse](data)
+   */
   def post[T, U](data: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
     sendReceive[U](basePost.withBody(Json.toJson(data)))
   }
@@ -162,9 +164,9 @@ class RedoxClient(
 object RedoxClient {
 
   /**
-    * Receive a webhook message and turn it into a Scala class based on the message type Meta.DataModel
-    * Ex. def webhook() = Action.async(parse.json) { implicit request => RedoxClient.webhook(request.body) }
-    */
+   * Receive a webhook message and turn it into a Scala class based on the message type Meta.DataModel
+   * Ex. def webhook() = Action.async(parse.json) { implicit request => RedoxClient.webhook(request.body) }
+   */
   def webhook(json: JsValue): Either[JsError, AnyRef] = {
     import com.github.vitalsoftware.scalaredox.models.DataModelTypes._
     import com.github.vitalsoftware.scalaredox.models.RedoxEventTypes._
@@ -177,24 +179,24 @@ object RedoxClient {
       invalid = errors => Left(errors),
       valid = { meta =>
         meta.DataModel match {
-          case Claim =>               Left(unsupported)
-          case Device =>              Left(unsupported)
-          case Financial =>           Left(unsupported)
-          case Flowsheet =>           Left(unsupported)
-          case Inventory =>           Left(unsupported)
-          case Media =>               json.validate[models.MediaMessage].asEither
-          case Notes =>               json.validate[models.NoteMessage].asEither
-          case Order =>               json.validate[models.OrderMessage].asEither
-          case PatientAdmin =>        Left(unsupported)
-          case PatientSearch =>       json.validate[models.PatientSearch].asEither
-          case Referral =>            Left(unsupported)
-          case Results =>             json.validate[models.ResultsMessage].asEither
-          case Scheduling =>          Left(unsupported)
-          case SurgicalScheduling =>  Left(unsupported)
-          case Vaccination =>         Left(unsupported)
+          case Claim => Left(unsupported)
+          case Device => Left(unsupported)
+          case Financial => Left(unsupported)
+          case Flowsheet => Left(unsupported)
+          case Inventory => Left(unsupported)
+          case Media => json.validate[models.MediaMessage].asEither
+          case Notes => json.validate[models.NoteMessage].asEither
+          case Order => json.validate[models.OrderMessage].asEither
+          case PatientAdmin => Left(unsupported)
+          case PatientSearch => json.validate[models.PatientSearch].asEither
+          case Referral => Left(unsupported)
+          case Results => json.validate[models.ResultsMessage].asEither
+          case Scheduling => Left(unsupported)
+          case SurgicalScheduling => Left(unsupported)
+          case Vaccination => Left(unsupported)
           case _ if clinicalSummaryTypes.contains(meta.EventType) => json.validate[models.ClinicalSummary].asEither
           case _ if visitTypes.contains(meta.EventType) => json.validate[models.Visit].asEither
-          case _ =>                   Left(unsupported)
+          case _ => Left(unsupported)
         }
       }
     ).left.map(err => JsError(err))
