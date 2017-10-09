@@ -88,6 +88,8 @@ import com.github.vitalsoftware.macros._
   Type: Option[String] = None, // Claims[].Visit
   DateTime: Option[DateTime] = None,
   DischargeDateTime: Option[DateTime] = None,
+  DischargeStatus: Option[CodeSet],
+  DischargeLocation: Option[CareLocation],
 
   StartDateTime: Option[DateTime] = None, // Header.Document.Visit only
   EndDateTime: Option[DateTime] = None
