@@ -20,7 +20,7 @@ object DataModelTypes extends Enumeration {
 
 object RedoxEventTypes extends Enumeration {
   val QueryResponse = Value("Query Response")
-  val Arrival, AvailableSlots, AvailableSlotsResponse, Booked, BookedResponse, Cancel, Delete, Deplete, Discharge, GroupedOrders, Modification, Modify, New, NewPatient, NewUnsolicited, NoShow, PatientMerge, PatientQuery, PatientQueryResponse, PatientPush, PatientUpdate, Payment, PreAdmit, Push, Query, Registration, Replace, Reschedule, Response, Submission, Transaction, Transfer, Update, VisitQuery, VisitQueryResponse, VisitPush, VisitUpdate = Value
+  val Arrival, AvailableSlots, AvailableSlotsResponse, Booked, BookedResponse, Cancel, Delete, Deplete, Discharge, GroupedOrders, Modification, Modify, New, NewPatient, NewUnsolicited, NoShow, PatientMerge, PatientQuery, PatientQueryResponse, PatientPush, PatientUpdate, Payment, PreAdmit, Push, Query, Registration, Replace, Reschedule, Response, Submission, Transaction, Transfer, Update, VisitMerge, VisitQuery, VisitQueryResponse, VisitPush, VisitUpdate = Value
 
   implicit lazy val jsonFormat: Format[RedoxEventTypes.Value] = Format(Reads.enumNameReads(RedoxEventTypes), Writes.enumNameWrites)
 }
