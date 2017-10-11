@@ -5,9 +5,9 @@ import com.github.vitalsoftware.scalaredox.models._
 import org.joda.time.DateTime
 import org.specs2.mutable.Specification
 import org.specs2.time.NoTimeConversions
-import play.api.libs.json.{JsError, Json}
+import play.api.libs.json.{ JsError, Json }
 
-import concurrent.{Await, Future}
+import concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
 class ConnectionTest extends Specification with NoTimeConversions with RedoxTest {

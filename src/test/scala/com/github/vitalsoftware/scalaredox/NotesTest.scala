@@ -6,8 +6,8 @@ import org.specs2.mutable.Specification
 import org.specs2.time.NoTimeConversions
 
 /**
-  * Created by apatzer on 3/23/17.
-  */
+ * Created by apatzer on 3/23/17.
+ */
 class NotesTest extends Specification with NoTimeConversions with RedoxTest {
 
   "alter Notes" should {

@@ -8,8 +8,8 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 /**
-  * Created by apatzer on 3/23/17.
-  */
+ * Created by apatzer on 3/23/17.
+ */
 class PatientSearchTest extends Specification with NoTimeConversions with RedoxTest {
 
   "query PatientSearch" should {
