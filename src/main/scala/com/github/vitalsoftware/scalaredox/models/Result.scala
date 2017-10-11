@@ -3,7 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import com.github.vitalsoftware.macros.jsonDefaults
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import org.joda.time.DateTime
-import play.api.libs.json.{Format, Reads, Writes}
+import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
  * Created by apatzer on 3/17/17.
@@ -26,8 +26,8 @@ import play.api.libs.json.{Format, Reads, Writes}
 ) extends Code with Status
 
 /**
-  * Person who produced the order result.
-  */
+ * Person who produced the order result.
+ */
 // This is so similar to 'Provider' but 'PhoneNumber' has the same name and a different object type so will not deserialize.
 @jsonDefaults case class ResultPerformer(
   ID: Option[String],
@@ -42,26 +42,26 @@ import play.api.libs.json.{Format, Reads, Writes}
 ) extends ProviderLike
 
 /**
-  * Results messages communicate results of diagnostic tests such as labs, radiology imaging, etc.
-  *
-  * @param Value Value of the result component. If ValueType is "Encapsulated Data" this field includes the Redox BLOB URI
-  * @param ValueType Data type for the result value. One of the following: "Numeric", "String", "Date", "Time", "DateTime",
-  *                  "Coded Entry", "Encapsulated Data". Derived from [HL7 Table 0125](https://phinvads.cdc.gov/vads/ViewValueSet.action?id=86E09BA6-0767-E011-8B0C-00188B39829B).
-  * @param FileType If ValueType is "Encapsulated Data", this field includes the type of file. E.g. PDF, JPG
-  * @param Units Units of the result
-  * @param Notes Notes about the result component/observation
-  * @param AbnormalFlag Indication of whether the result was abnormal. One of the following: "Normal", "Low", "Very Low",
-  *                     "High", "Very High", "Abnormal", "Very Abnormal". Abnormal flags starting with "Very" indicate a
-  *                     panic level. The "High" and "Low" flags should be used with Numeric result values while "Abnormal"
-  *                     should be used with non-numeric values.
-  * @param Status Current status of the result. One of the following: "Final", "Incomplete", "Preliminary", "Corrected", "Preliminary"
-  * @param Producer The "Producer" is typically the Lab which did the resulting.
-  * @param Performer The provider who produced this result
-  * @param ReferenceRange Reference range for the result. Numeric result values will use the low and high properties.
-  *                       Non-numeric result values will put the normal value in the text property.
-  * @param ObservationMethod Method used to obtain the observation. This field is used when an observation may be
-  *                          obtained by different methods and the sending system wishes to indicate which method was used.
-  */
+ * Results messages communicate results of diagnostic tests such as labs, radiology imaging, etc.
+ *
+ * @param Value Value of the result component. If ValueType is "Encapsulated Data" this field includes the Redox BLOB URI
+ * @param ValueType Data type for the result value. One of the following: "Numeric", "String", "Date", "Time", "DateTime",
+ *                  "Coded Entry", "Encapsulated Data". Derived from [HL7 Table 0125](https://phinvads.cdc.gov/vads/ViewValueSet.action?id=86E09BA6-0767-E011-8B0C-00188B39829B).
+ * @param FileType If ValueType is "Encapsulated Data", this field includes the type of file. E.g. PDF, JPG
+ * @param Units Units of the result
+ * @param Notes Notes about the result component/observation
+ * @param AbnormalFlag Indication of whether the result was abnormal. One of the following: "Normal", "Low", "Very Low",
+ *                     "High", "Very High", "Abnormal", "Very Abnormal". Abnormal flags starting with "Very" indicate a
+ *                     panic level. The "High" and "Low" flags should be used with Numeric result values while "Abnormal"
+ *                     should be used with non-numeric values.
+ * @param Status Current status of the result. One of the following: "Final", "Incomplete", "Preliminary", "Corrected", "Preliminary"
+ * @param Producer The "Producer" is typically the Lab which did the resulting.
+ * @param Performer The provider who produced this result
+ * @param ReferenceRange Reference range for the result. Numeric result values will use the low and high properties.
+ *                       Non-numeric result values will put the normal value in the text property.
+ * @param ObservationMethod Method used to obtain the observation. This field is used when an observation may be
+ *                          obtained by different methods and the sending system wishes to indicate which method was used.
+ */
 @jsonDefaults case class Result(
   Code: String,
   Codeset: Option[String] = None,
@@ -89,22 +89,22 @@ object ResultsStatusTypes extends Enumeration {
 }
 
 /**
-  * Results from an Order
-  *
-  * @param ID ID of the order assigned by the placing system
-  * @param ApplicationOrderID ID assigned by the application fulfilling the order
-  * @param TransactionDateTime DateTime at which the order status was updated.
-  * @param CollectionDateTime DateTime the specimen was collected
-  * @param CompletionDateTime Date and time the results were composed into a report and released.
-  * @param Notes Order-level notes
-  * @param ResultsStatus Current overall status of the order. One of the following: "Final", "Preliminary", "In Process", "Corrected", "Canceled".
-  * @param Procedure Procedure that was ordered
-  * @param Provider Provider making the order
-  * @param Status Current status of the order. The default value is "Resulted".
-  * @param ResponseFlag Specificity of the response requested from the receiving system. One of the following: "Acknowledgement", "Exceptions", "Replacements", "Associated Segments", "Confirmations" . This list is in increasing specificity, and the value selected will incorpate all previous options. Derived from HL7 Table 0121. The default value is "Associated Segments".
-  * @param Priority Priority of the order. One of the following: "Stat", "ASAP", "Routine", "Preoperative", "Timing Critical".
-  * @param Results List of result components and their values
-  */
+ * Results from an Order
+ *
+ * @param ID ID of the order assigned by the placing system
+ * @param ApplicationOrderID ID assigned by the application fulfilling the order
+ * @param TransactionDateTime DateTime at which the order status was updated.
+ * @param CollectionDateTime DateTime the specimen was collected
+ * @param CompletionDateTime Date and time the results were composed into a report and released.
+ * @param Notes Order-level notes
+ * @param ResultsStatus Current overall status of the order. One of the following: "Final", "Preliminary", "In Process", "Corrected", "Canceled".
+ * @param Procedure Procedure that was ordered
+ * @param Provider Provider making the order
+ * @param Status Current status of the order. The default value is "Resulted".
+ * @param ResponseFlag Specificity of the response requested from the receiving system. One of the following: "Acknowledgement", "Exceptions", "Replacements", "Associated Segments", "Confirmations" . This list is in increasing specificity, and the value selected will incorpate all previous options. Derived from HL7 Table 0121. The default value is "Associated Segments".
+ * @param Priority Priority of the order. One of the following: "Stat", "ASAP", "Routine", "Preoperative", "Timing Critical".
+ * @param Results List of result components and their values
+ */
 @jsonDefaults case class OrderResult(
   ID: String,
   ApplicationOrderID: Option[String] = None,

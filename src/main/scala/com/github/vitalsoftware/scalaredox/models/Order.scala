@@ -5,7 +5,7 @@ import java.time.LocalDate
 import com.github.vitalsoftware.macros.jsonDefaults
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import org.joda.time.DateTime
-import play.api.libs.json.{Format, Reads, Writes}
+import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
  * Order messages communicate details of diagnostic tests such as labs, radiology imaging, etc.
