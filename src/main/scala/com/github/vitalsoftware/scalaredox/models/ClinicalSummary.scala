@@ -33,7 +33,7 @@ import com.github.vitalsoftware.macros._
   PlanOfCare: Option[PlanOfCare] = None,
   Problems: Seq[Problem] = Seq.empty,
   Procedures: Option[Procedures] = None,
-  Results: Seq[Result] = Seq.empty,
+  Results: Seq[ChartResult] = Seq.empty,
   SocialHistory: Option[SocialHistory] = None,
   VitalSigns: Seq[VitalSigns] = Seq.empty
 ) extends ClinicalSummaryLike
@@ -94,7 +94,7 @@ import com.github.vitalsoftware.macros._
   Problems: Seq[Problem] = Seq.empty,
   ReasonForVisitText: Option[String] = None,
   ResultText: Option[String] = None,
-  Results: Seq[Result] = Seq.empty,
+  Results: Seq[ChartResult] = Seq.empty,
   ReviewOfSystemsText: Option[String] = None,
   SubjectiveText: Option[String] = None,
   VitalSignsText: Option[String] = None,
@@ -108,7 +108,7 @@ trait ClinicalSummaryLike extends MetaLike {
   def Medications: Seq[MedicationTaken]
   def PlanOfCare: Option[PlanOfCare]
   def Problems: Seq[Problem]
-  def Results: Seq[Result]
+  def Results: Seq[ChartResult]
   def VitalSigns: Seq[VitalSigns]
 }
 

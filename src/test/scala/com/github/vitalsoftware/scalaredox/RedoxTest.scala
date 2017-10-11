@@ -29,7 +29,7 @@ trait RedoxTest {
   }
 
   def handleResponse[T](fut: Future[RedoxResponse[T]]): Option[T] = {
-    val resp = Await.result(fut, 5.seconds)
+    val resp = Await.result(fut, 10.seconds)
     if (resp.isError) throw new RuntimeException(resp.getError.Errors.map(_.Text).mkString(","))
     resp.asOpt
   }

@@ -29,7 +29,18 @@ import com.github.vitalsoftware.macros._
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[String] = Seq.empty,
   Role: Option[BasicCode] = None
-)
+) extends ProviderLike
+
+trait ProviderLike {
+  def ID: Option[String]
+  def IDType: Option[String]
+  def FirstName: Option[String]
+  def LastName: Option[String]
+  def Type: Option[String]
+  def Credentials: Seq[String]
+  def Address: Option[Address]
+  def Location: Option[CareLocation]
+}
 
 trait Person {
   def FirstName: String
