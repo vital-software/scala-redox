@@ -2,16 +2,16 @@ package com.github.vitalsoftware.scalaredox
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import com.github.vitalsoftware.scalaredox.client.{RedoxClient, RedoxResponse}
+import com.github.vitalsoftware.scalaredox.client.{ RedoxClient, RedoxResponse }
 import com.typesafe.config.ConfigFactory
-import play.api.libs.json.{JsError, Json, Reads}
+import play.api.libs.json.{ JsError, Json, Reads }
 
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
 /**
-  * Created by apatzer on 3/23/17.
-  */
+ * Created by apatzer on 3/23/17.
+ */
 trait RedoxTest {
 
   val conf = ConfigFactory.load("resources/reference.conf")
