@@ -22,7 +22,7 @@ import com.github.vitalsoftware.macros._
   IDType: Option[String],
   FirstName: Option[String],
   LastName: Option[String],
-  Type: Option[String],
+  Type: Option[String] = None,
   Credentials: Seq[String] = Seq.empty,
   Address: Option[Address] = None,
   Location: Option[CareLocation] = None,
