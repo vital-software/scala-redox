@@ -74,7 +74,7 @@ import com.github.vitalsoftware.macros._
   Reason: Option[String] = None,
   PatientClass: Option[String] = None,
   Location: Option[CareLocation] = None,
-  PreviousLocation: Option[CareLocation],
+  PreviousLocation: Option[CareLocation] = None,
   AttendingProvider: Option[Provider] = None,
   ConsultingProvider: Option[Provider] = None,
   ReferringProvider: Option[Provider] = None,
@@ -87,8 +87,8 @@ import com.github.vitalsoftware.macros._
   Type: Option[String] = None, // Claims[].Visit
   DateTime: Option[DateTime] = None,
   DischargeDateTime: Option[DateTime] = None,
-  DischargeStatus: Option[CodeSet],
-  DischargeLocation: Option[CareLocation],
+  DischargeStatus: Option[CodeSet] = None,
+  DischargeLocation: Option[CareLocation] = None,
 
   StartDateTime: Option[DateTime] = None, // Header.Document.Visit only
   EndDateTime: Option[DateTime] = None
