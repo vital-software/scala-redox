@@ -187,7 +187,7 @@ object RedoxClient {
           case Media => json.validate[models.MediaMessage].asEither
           case Notes => json.validate[models.NoteMessage].asEither
           case Order => json.validate[models.OrderMessage].asEither
-          case PatientAdmin => Left(unsupported)
+          case PatientAdmin => json.validate[models.PatientAdminMessage].asEither
           case PatientSearch => json.validate[models.PatientSearch].asEither
           case Referral => Left(unsupported)
           case Results => json.validate[models.ResultsMessage].asEither
