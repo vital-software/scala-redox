@@ -123,16 +123,25 @@ object OrderPriorityTypes extends Enumeration {
   ClinicalInfo: Seq[ClinicalInfo] = Seq.empty
 )
 
+trait OrdersMessageLike {
+  def Meta: Meta
+  def Patient: Patient
+  def Visit: Option[VisitInfo]
+  def Orders: Seq[Order]
+}
+
 @jsonDefaults case class OrderMessage(
   Meta: Meta,
   Patient: Patient,
   Visit: Option[VisitInfo] = None,
   Order: Order
-) extends MetaLike
+) extends MetaLike with OrdersMessageLike {
+  def Orders = Seq(Order)
+}
 
 @jsonDefaults case class GroupedOrdersMessage(
   Meta: Meta,
   Patient: Patient,
   Visit: Option[VisitInfo] = None,
   Orders: Seq[Order] = Seq.empty
-) extends MetaLike
+) extends MetaLike with OrdersMessageLike
