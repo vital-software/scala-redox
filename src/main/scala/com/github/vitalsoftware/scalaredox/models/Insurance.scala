@@ -16,9 +16,9 @@ import play.api.libs.json.{ Format, Reads, Writes }
  * @param Name Name of insurance plan
  */
 @jsonDefaults case class InsurancePlan(
-  ID: String,
-  IDType: String,
-  Name: String
+  ID: Option[String] = None,
+  IDType: Option[String] = None,
+  Name: Option[String] = None
 )
 
 /**
@@ -30,7 +30,7 @@ import play.api.libs.json.{ Format, Reads, Writes }
  * @param PhoneNumber Insurance companys phone number. In E. 164 Format (i.e. +16085551234)
  */
 @jsonDefaults case class InsuranceCompany(
-  ID: String,
+  ID: Option[String] = None,
   IDType: Option[String] = None,
   Name: Option[String] = None,
   Address: Option[Address] = None,
@@ -102,7 +102,7 @@ object InsuranceCoverageTypes extends Enumeration {
  */
 @jsonDefaults case class Insurance(
   Plan: InsurancePlan,
-  Company: InsuranceCompany,
+  Company: Option[InsuranceCompany] = None,
   GroupNumber: Option[String] = None,
   GroupName: Option[String] = None,
   EffectiveDate: Option[LocalDate] = None,

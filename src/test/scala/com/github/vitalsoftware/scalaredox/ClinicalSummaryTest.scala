@@ -103,6 +103,12 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         meds.head.Route must beSome
         meds.head.Frequency must beSome
 
+        // Insurances
+        //val ins = clinicalSummary.Insurances
+        //ins must not be empty
+        //ins.head.GroupNumber must beSome
+        //ins.head.PolicyNumber must beSome
+
         // Family History
         val fh = clinicalSummary.FamilyHistory
         fh must not be empty

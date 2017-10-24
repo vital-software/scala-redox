@@ -28,6 +28,7 @@ import com.github.vitalsoftware.macros._
   Encounters: Seq[Encounter] = Seq.empty,
   FamilyHistory: Seq[FamilyHistory] = Seq.empty,
   Immunizations: Seq[Immunization] = Seq.empty,
+  Insurances: Seq[Insurance] = Seq.empty,
   MedicalEquipment: Seq[MedicalEquipment] = Seq.empty,
   Medications: Seq[MedicationTaken] = Seq.empty,
   PlanOfCare: Option[PlanOfCare] = None,
