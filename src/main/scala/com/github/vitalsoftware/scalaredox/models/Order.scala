@@ -129,3 +129,10 @@ object OrderPriorityTypes extends Enumeration {
   Visit: Option[VisitInfo] = None,
   Order: Order
 ) extends MetaLike
+
+@jsonDefaults case class GroupedOrdersMessage(
+  Meta: Meta,
+  Patient: Patient,
+  Visit: Option[VisitInfo] = None,
+  Orders: Seq[Order] = Seq.empty
+) extends MetaLike
