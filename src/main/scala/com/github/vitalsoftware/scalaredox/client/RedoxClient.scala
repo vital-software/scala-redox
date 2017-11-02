@@ -1,11 +1,15 @@
 package com.github.vitalsoftware.scalaredox.client
 
+import java.io.File
+
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.model.Uri.Path._
 import akka.stream.ActorMaterializer
+import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
+import com.github.vitalsoftware.scalaredox.models.Upload
 import com.typesafe.config.Config
 import org.joda.time.DateTime
 import play.api.libs.json._
@@ -13,11 +17,12 @@ import play.api.libs.ws._
 import play.api.libs.ws.ahc._
 import play.api.libs.ws.JsonBodyReadables._
 import play.api.libs.ws.JsonBodyWritables._
+import play.api.mvc.MultipartFormData.FilePart
 
 import scala.concurrent.{ Future, SyncVar }
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits._
-import scala.util.{ Try, Failure, Success }
+import scala.util.{ Failure, Success, Try }
 
 /**
  * Created by apatzer on 3/20/17.
@@ -42,6 +47,7 @@ class RedoxClient(
   private def baseRequest(url: String) = client.url(url)
   private def baseQuery = baseRequest(baseRestUri.withPath(/("query")).toString()).withMethod("POST")
   private def basePost = baseRequest(baseRestUri.withPath(/("endpoint")).toString()).withMethod("POST")
+  private def baseUpload = baseRequest(baseRestUri.withPath(/("upload")).toString()).withMethod("POST")
 
   /** Send and receive an authorized request */
   private def sendReceive[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
@@ -50,7 +56,7 @@ class RedoxClient(
         case Some(info) => Future { info }
         case None       => authorize()
       }
-      response <- execute[T](request.withHttpHeaders("Authorization" -> s"Bearer ${auth.accessToken}"))
+      response <- execute[T](request.addHttpHeaders("Authorization" -> s"Bearer ${auth.accessToken}"))
     } yield response
   }
 
@@ -72,7 +78,7 @@ class RedoxClient(
           (r.body[JsValue] \ "Meta").as[RedoxErrorResponse]
         } match {
           case Success(t) => Left(t)
-          case Failure(e) => Left(RedoxErrorResponse.simple(r.statusText))
+          case Failure(e) => Left(RedoxErrorResponse.simple(r.statusText, r.body))
         }
 
       // Success status
@@ -158,6 +164,36 @@ class RedoxClient(
    */
   def post[T, U](data: T)(implicit writes: Writes[T], reads: Reads[U]): Future[RedoxResponse[U]] = {
     sendReceive[U](basePost.withBody(Json.toJson(data)))
+  }
+
+  /**
+   * Uploads a file to the Redox /uploads endpoint. Provides sensible defaults for
+   * file content type and content length.
+   *
+   * @param file The file to upload to Redox.
+   * @param fileContentType The content type of the file (used when converting the file to a source stream.
+   *                        Defaults to 'text/plain'.
+   * @param contentLength The length that will be used to set the 'content-length' on the request.
+   *                      Provides a default value of of ~2MB (2,097,000 octets). This is needed as when we provide
+   *                      a Source we have to manually set the length or the backend http client will chunk the
+   *                      request. (src: play.api.libs.ws.ahc.StandaloneAhcWSRequest#buildRequest() line: 303).
+   * @return A future containing the redox upload response.
+   */
+  def upload(file: File, fileContentType: String = "text/plain", contentLength: Long = 2097000L): Future[RedoxResponse[Upload]] = {
+    sendReceive[Upload] {
+      baseUpload
+        .withBody(
+          Source(
+            FilePart(
+              key = "file",
+              filename = file.getName,
+              contentType = Some(fileContentType),
+              ref = FileIO.fromPath(file.toPath)
+            ) :: List()
+          )
+        )
+        .addHttpHeaders("Content-Length" -> contentLength.toString)
+    }
   }
 }
 

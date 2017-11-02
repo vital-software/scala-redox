@@ -28,7 +28,7 @@ case class RedoxResponse[T](result: Either[RedoxErrorResponse, T]) {
 
 object RedoxErrorResponse {
   val NotFound = simple("Error: JSON response not found")
-  def simple(msg: String) = RedoxErrorResponse(Seq(RedoxError(0, msg)))
+  def simple(msgs: String*) = RedoxErrorResponse(msgs.zipWithIndex.map(msg => RedoxError(msg._2, msg._1)))
   def fromJsError(jsError: JsError) = simple(JsError.toJson(jsError).toString())
 }
 
