@@ -10,6 +10,7 @@ import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
 import com.github.vitalsoftware.scalaredox.models.Upload
+import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
 import com.typesafe.config.Config
 import org.joda.time.DateTime
 import play.api.libs.json._
@@ -86,7 +87,8 @@ class RedoxClient(
         if (r.body.isEmpty) {
           Right(EmptyResponse.asInstanceOf[T])
         } else {
-          Json.fromJson(r.body[JsValue]).fold(
+          val json = r.body[JsValue].reduceNullSubtrees
+          Json.fromJson(json).fold(
             // Json to Scala objects failed...force into RedoxError format
             invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
 

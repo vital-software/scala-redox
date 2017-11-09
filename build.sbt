@@ -6,7 +6,7 @@ organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-version := "0.90"
+version := "0.91-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
