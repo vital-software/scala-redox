@@ -53,8 +53,8 @@ class RedoxClient(
   private def sendReceive[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
     for {
       auth <- authInfo.get match {
-        case Some(info) => Future { info }
-        case None       => authorize()
+        case Some(info) => Future.successful(info)
+        case None       => setAuthAndScheduleRefresh(authorize())
       }
       response <- execute[T](request.addHttpHeaders("Authorization" -> s"Bearer ${auth.accessToken}"))
     } yield response
@@ -107,47 +107,56 @@ class RedoxClient(
     el.map(e => Map(key -> f(e))).getOrElse(Map.empty)
   }
 
-  /** Authorize to Redox and save the auth tokens */
+  /** Authorize to Redox, returning a Future containing the access and refresh tokens. */
   def authorize(): Future[AuthInfo] = {
     val req = baseRequest(baseRestUri.withPath(/("auth") / "authenticate").toString())
       .withMethod("POST")
       .withBody(Map("apiKey" -> Seq(apiKey), "secret" -> Seq(apiSecret)))
-    setAuth(execute[AuthInfo](req), "Cannot authenticate. Check configuration 'redox.apiKey' & 'redox.secret'")
+    execute[AuthInfo](req).map { result =>
+      parseAuthResponse(result, "Cannot authenticate. Check configuration 'redox.apiKey' & 'redox.secret'")
+    }
+  }
+
+  /**
+    * Refresh the auth token a minute before it expires. Set and schedule a new refresh to occur.
+    * NOTE: If this method is overridden, scheduling and storing the new auth token will
+    * not be available to the implementing class.
+    */
+  protected def scheduleRefresh(auth: AuthInfo): Unit = {
+    val delay = auth.expires.getMillis - DateTime.now.getMillis - 60 * 1000
+    system.scheduler.scheduleOnce(delay.millis) {
+      setAuthAndScheduleRefresh(refresh(auth))
+    }
+  }
+
+  /** Refresh the access and refresh tokens. */
+  def refresh(auth: AuthInfo): Future[AuthInfo] = {
+    val req = baseRequest(baseRestUri.withPath(/("auth") / "refreshToken").toString())
+      .withMethod("POST")
+      .withBody(Map("apiKey" -> Seq(apiKey), "refreshToken" -> Seq(auth.refreshToken)))
+    sendReceive[AuthInfo](req).map(result => parseAuthResponse(result, "Cannot refresh OAuth2 token"))
+  }
+
+  /** Set a thread-safe auth-token, and schedule a refresh. */
+  private def setAuthAndScheduleRefresh(authFuture: Future[AuthInfo]): Future[AuthInfo] = {
+    authFuture
+      .map { auth =>
+        authInfo.take()
+        authInfo.put(Some(auth))
+        auth
+      }
       .map { auth =>
         scheduleRefresh(auth)
         auth
       }
   }
 
-  /** Refresh the auth token a minute before it expires */
-  protected def scheduleRefresh(auth: AuthInfo): Unit = {
-    val delay = auth.expires.getMillis - DateTime.now.getMillis - 60 * 1000
-    system.scheduler.scheduleOnce(delay.millis) {
-      refresh(auth)
-    }
-  }
-
-  /** Refresh and replace the auth token */
-  def refresh(auth: AuthInfo): Future[AuthInfo] = {
-    val req = baseRequest(baseRestUri.withPath(/("auth") / "refreshToken").toString())
-      .withMethod("POST")
-      .withBody(Map("apiKey" -> Seq(apiKey), "refreshToken" -> Seq(auth.refreshToken)))
-
-    setAuth(sendReceive[AuthInfo](req), "Cannot refresh OAuth2 token")
-  }
-
-  /** Set a thread-safe auth-token, throwing an exception if the client authorization fails */
-  private def setAuth(response: Future[RedoxResponse[AuthInfo]], errMsg: String) = {
-    response.map { resp =>
-      resp.result.fold(
-        error => throw RedoxAuthorizationException(s"$errMsg: ${error.Errors.map(_.Text).mkString(",")}"),
-        t => t
-      )
-    }.map { auth =>
-      authInfo.take()
-      authInfo.put(Some(auth))
-      auth
-    }
+  /** Parse the result of an auth request, either returning a new AuthInfo object, or throwing an error. */
+  private def parseAuthResponse(authResult: RedoxResponse[AuthInfo], errMsg: String) = {
+    authResult.result.fold(
+      error => throw RedoxAuthorizationException(s"$errMsg: ${error.Errors.map(_.Text).mkString(",")}"),
+      identity
+    )
   }
 
   /**
