@@ -7,4 +7,8 @@ import com.github.vitalsoftware.macros._
 /**
  * Created by apatzer on 3/20/17.
  */
+@json case class AuthRequest(apiKey: String, secret: String)
+
+@json case class RefreshRequest(apiKey: String, refreshToken: String)
+
 @json case class AuthInfo(accessToken: String, expires: DateTime, refreshToken: String)
