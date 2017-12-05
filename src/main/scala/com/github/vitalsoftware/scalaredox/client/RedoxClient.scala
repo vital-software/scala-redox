@@ -120,10 +120,10 @@ class RedoxClient(
   }
 
   /**
-    * Refresh the auth token a minute before it expires. Set and schedule a new refresh to occur.
-    * NOTE: If this method is overridden, scheduling and storing the new auth token will
-    * not be available to the implementing class.
-    */
+   * Refresh the auth token a minute before it expires. Set and schedule a new refresh to occur.
+   * NOTE: If this method is overridden, scheduling and storing the new auth token will
+   * not be available to the implementing class.
+   */
   protected def scheduleRefresh(auth: AuthInfo): Unit = {
     val delay = auth.expires.getMillis - DateTime.now.getMillis - 60 * 1000
     system.scheduler.scheduleOnce(delay.millis) {
