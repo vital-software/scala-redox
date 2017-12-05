@@ -113,7 +113,7 @@ class RedoxClient(
   def authorize(): Future[AuthInfo] = {
     val req = baseRequest(baseRestUri.withPath(/("auth") / "authenticate").toString())
       .withMethod("POST")
-      .withBody(Map("apiKey" -> Seq(apiKey), "secret" -> Seq(apiSecret)))
+      .withBody(Json.toJson(AuthRequest(apiKey = apiKey, secret = apiSecret)))
     setAuth(execute[AuthInfo](req), "Cannot authenticate. Check configuration 'redox.apiKey' & 'redox.secret'")
       .map { auth =>
         scheduleRefresh(auth)
@@ -133,7 +133,7 @@ class RedoxClient(
   def refresh(auth: AuthInfo): Future[AuthInfo] = {
     val req = baseRequest(baseRestUri.withPath(/("auth") / "refreshToken").toString())
       .withMethod("POST")
-      .withBody(Map("apiKey" -> Seq(apiKey), "refreshToken" -> Seq(auth.refreshToken)))
+      .withBody(Json.toJson(RefreshRequest(apiKey = apiKey, refreshToken = auth.refreshToken)))
 
     setAuth(sendReceive[AuthInfo](req), "Cannot refresh OAuth2 token")
   }
