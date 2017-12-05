@@ -10,6 +10,7 @@ import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
 import com.github.vitalsoftware.scalaredox.models.Upload
+import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
 import com.typesafe.config.Config
 import org.joda.time.DateTime
 import play.api.libs.json._
@@ -86,7 +87,8 @@ class RedoxClient(
         if (r.body.isEmpty) {
           Right(EmptyResponse.asInstanceOf[T])
         } else {
-          Json.fromJson(r.body[JsValue]).fold(
+          val json = r.body[JsValue].reduceNullSubtrees
+          Json.fromJson(json).fold(
             // Json to Scala objects failed...force into RedoxError format
             invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
 
@@ -111,7 +113,7 @@ class RedoxClient(
   def authorize(): Future[AuthInfo] = {
     val req = baseRequest(baseRestUri.withPath(/("auth") / "authenticate").toString())
       .withMethod("POST")
-      .withBody(Map("apiKey" -> Seq(apiKey), "secret" -> Seq(apiSecret)))
+      .withBody(Json.toJson(AuthRequest(apiKey = apiKey, secret = apiSecret)))
     execute[AuthInfo](req).map { result =>
       parseAuthResponse(result, "Cannot authenticate. Check configuration 'redox.apiKey' & 'redox.secret'")
     }
@@ -133,7 +135,7 @@ class RedoxClient(
   def refresh(auth: AuthInfo): Future[AuthInfo] = {
     val req = baseRequest(baseRestUri.withPath(/("auth") / "refreshToken").toString())
       .withMethod("POST")
-      .withBody(Map("apiKey" -> Seq(apiKey), "refreshToken" -> Seq(auth.refreshToken)))
+      .withBody(Json.toJson(RefreshRequest(apiKey = apiKey, refreshToken = auth.refreshToken)))
     sendReceive[AuthInfo](req).map(result => parseAuthResponse(result, "Cannot refresh OAuth2 token"))
   }
 

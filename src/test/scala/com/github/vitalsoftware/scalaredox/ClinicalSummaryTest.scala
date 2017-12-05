@@ -99,15 +99,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         val meds = clinicalSummary.Medications
         meds.size must be_>(10)
         meds.head.Dose must beSome
-        meds.head.Rate must beSome
         meds.head.Route must beSome
-        meds.head.Frequency must beSome
-
-        // Insurances
-        //val ins = clinicalSummary.Insurances
-        //ins must not be empty
-        //ins.head.GroupNumber must beSome
-        //ins.head.PolicyNumber must beSome
 
         // Family History
         val fh = clinicalSummary.FamilyHistory
@@ -186,9 +178,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         val meds = visit.Medications
         meds.size must be_>(1)
         meds.head.Dose must beSome
-        meds.head.Rate must beSome
         meds.head.Route must beSome
-        meds.head.Frequency must beSome
 
         // Header
         val header = visit.Header
@@ -226,7 +216,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
           |{
           |	"Meta": {
           |		"DataModel": "Clinical Summary",
-          |		"EventType": "Push",
+          |		"EventType": "PatientPush",
           |		"EventDateTime": "2017-03-14T19:35:06.047Z",
           |		"Test": true,
           |		"Source": {
@@ -1094,8 +1084,53 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
           |}
         """.stripMargin
 
-      val post = validateJsonInput[ClinicalSummary](json)
-      val fut = client.post[ClinicalSummary, EmptyResponse](post)
+      val clinicalSummary = validateJsonInput[ClinicalSummary](json)
+
+      // Check chart deserialization
+
+      // Meta
+      val meta = clinicalSummary.Meta
+      meta.EventType must be equalTo RedoxEventTypes.PatientPush
+      meta.Destinations must not be empty
+
+      // Header
+      val h = clinicalSummary.Header
+      h.Document.Author must beSome
+      h.Document.Author.flatMap(_.Address) must beSome
+      h.Document.Visit must beSome
+      h.Patient.Identifiers must not be empty
+      h.Patient.Demographics must beSome
+      h.Patient.Demographics.flatMap(_.Address) must beSome
+      h.Patient.Demographics.flatMap(_.PhoneNumber) must beSome
+
+      // Collections
+      clinicalSummary.AdvanceDirectives must not be empty
+      clinicalSummary.Allergies must not be empty
+      clinicalSummary.Encounters must not be empty
+      clinicalSummary.FamilyHistory must not be empty
+      clinicalSummary.Immunizations must not be empty
+      clinicalSummary.MedicalEquipment must not be empty
+      clinicalSummary.Medications must not be empty
+      clinicalSummary.PlanOfCare must beSome
+      clinicalSummary.PlanOfCare.get.Encounters must not be empty
+      clinicalSummary.PlanOfCare.get.MedicationAdministration must not be empty
+      clinicalSummary.PlanOfCare.get.Orders must not be empty
+      clinicalSummary.PlanOfCare.get.Procedures must not be empty
+      clinicalSummary.PlanOfCare.get.Services must not be empty
+      clinicalSummary.Problems must not be empty
+      clinicalSummary.Procedures must beSome
+      clinicalSummary.Procedures.get.Observations must not be empty
+      clinicalSummary.Procedures.get.Procedures must not be empty
+      clinicalSummary.Procedures.get.Services must not be empty
+      clinicalSummary.SocialHistory must beSome
+      clinicalSummary.SocialHistory.get.Observations must not be empty
+      clinicalSummary.SocialHistory.get.TobaccoUse must not be empty
+      clinicalSummary.VitalSigns must not be empty
+      clinicalSummary.VitalSigns.head.Observations must not be empty
+
+      // Check request and response message
+
+      val fut = client.post[ClinicalSummary, EmptyResponse](clinicalSummary)
       val maybe = handleResponse(fut)
       maybe must beSome
     }

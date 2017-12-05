@@ -1,14 +1,12 @@
 import scalariform.formatter.preferences._
-import com.typesafe.sbt.SbtScalariform
-import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 
 organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-version := "0.90"
+version := "0.91-SNAPSHOT"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.11"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
@@ -17,16 +15,14 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-json" % "2.6.3",
-  "com.typesafe.play" %% "play-json-joda" % "2.6.3",
-  "com.typesafe.play" %% "play-ahc-ws" % "2.6.3",
-//  "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.0.4",
-  "com.typesafe.play" %% "play-ws-standalone-json" % "1.0.4",
+  "com.typesafe.play" %% "play-json" % "2.6.7",
+  "com.typesafe.play" %% "play-json-joda" % "2.6.7",
+  "com.typesafe.play" %% "play-ahc-ws" % "2.6.7",
+  //"com.typesafe.play" %% "play-ahc-ws-standalone" % "1.1.3",
+  "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.3",
   "com.typesafe.akka" %% "akka-http" % "10.0.9",
   //"ai.x" %% "play-json-extensions" % "0.8.0",
-  //"systems.uom" % "systems-common-java8" % "0.6",
-  //"systems.uom" % "systems-unicode-java8" % "0.6",
-  "com.github.vital-software" %% "json-annotation" % "0.3.1",
+  "com.github.vital-software" %% "json-annotation" % "0.3.2",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
   "org.specs2" %% "specs2" % "2.3.13" % Test
 )
@@ -73,8 +69,7 @@ pomExtra := (
   </developers>)
 
 // Scalariform settings
-SbtScalariform.defaultScalariformSettings
-ScalariformKeys.preferences := ScalariformKeys.preferences.value
+scalariformPreferences := scalariformPreferences.value
   .setPreference(AlignSingleLineCaseStatements, true)
   .setPreference(FormatXml, false)
   .setPreference(DoubleIndentConstructorArguments, false)

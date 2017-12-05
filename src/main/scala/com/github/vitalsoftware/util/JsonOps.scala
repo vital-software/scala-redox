@@ -82,6 +82,24 @@ trait JsonImplicits {
 
   // Will read ISO8061 and "yyyy-MM-dd" format
   implicit val jodaLocalDateFormat = Format(JodaReads.DefaultJodaLocalDateReads, JodaWrites.DefaultJodaLocalDateWrites)
+
+  implicit class JsValueExtensions(jsValue: JsValue) {
+    def reduceNullSubtrees: JsValue = reduceNullSubtreesImpl(jsValue)
+    private def reduceNullSubtreesImpl(jv: JsValue): JsValue = {
+      jv match {
+        case JsObject(o) =>
+          if (o.valuesIterator.forall(_ == JsNull)) {
+            JsNull
+          } else {
+            JsObject(o.map { case (s, childVal) => s -> reduceNullSubtreesImpl(childVal) })
+          }
+        case JsArray(ts) =>
+          JsArray(ts.map(reduceNullSubtreesImpl))
+        case _ =>
+          jv
+      }
+    }
+  }
 }
 
 object JsonImplicits extends JsonImplicits
