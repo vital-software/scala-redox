@@ -19,6 +19,7 @@ trait RedoxTest {
   val system = ActorSystem("redox-test")
   val materializer = ActorMaterializer()(system)
   val client = new RedoxClient(conf, system, materializer)
+  val timeout: FiniteDuration = 20.seconds
 
   // Validate raw a raw JSON string, throwing a RuntimeException which will output detail to Specs2/Test console
   def validateJsonInput[T](json: String)(implicit reads: Reads[T]): T = {
@@ -31,7 +32,7 @@ trait RedoxTest {
   }
 
   def handleResponse[T](fut: Future[RedoxResponse[T]]): Option[T] = {
-    val resp = Await.result(fut, 10.seconds)
+    val resp = Await.result(fut, timeout)
     if (resp.isError) throw new RuntimeException(resp.getError.Errors.map(_.Text).mkString(", "))
     resp.asOpt
   }

@@ -22,7 +22,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
         Patient(Demographics = Some(Demographics("John", "Doe", DateTime.parse("1970-1-1"), Sex = Gender.Male)))
       )
       val fut = client.get[PatientQuery, ClinicalSummary](shouldFailQuery)
-      val resp = Await.result(fut, 5.seconds)
+      val resp = Await.result(fut, timeout)
       resp.isError must beTrue
       resp.get must throwA[Exception]
       resp.getError.Errors must not be empty

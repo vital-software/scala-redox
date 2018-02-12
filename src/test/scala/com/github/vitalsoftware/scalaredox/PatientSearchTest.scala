@@ -35,7 +35,7 @@ class PatientSearchTest extends Specification with NoTimeConversions with RedoxT
 
       val query = validateJsonInput[PatientSearch](json)
       val fut = client.get[PatientSearch, PatientSearch](query)
-      val resp = Await.result(fut, 5.seconds)
+      val resp = Await.result(fut, timeout)
       resp.isSuccess must beTrue
       resp.asOpt.map { searchResult =>
         searchResult.Patient must beNone
@@ -73,7 +73,7 @@ class PatientSearchTest extends Specification with NoTimeConversions with RedoxT
 
       val query = validateJsonInput[PatientSearch](json)
       val fut = client.get[PatientSearch, PatientSearch](query)
-      val resp = Await.result(fut, 5.seconds)
+      val resp = Await.result(fut, timeout)
       val maybe = handleResponse(fut)
       maybe must beSome
       maybe.map { searchResult =>
