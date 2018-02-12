@@ -11,7 +11,10 @@ import com.github.vitalsoftware.macros._
  * @param Meta Message header
  * @param Patient List of IDs and IDTypes for the patient
  */
-@jsonDefaults case class PatientQuery(Meta: Meta, Patient: Patient)
+@jsonDefaults case class PatientQuery(
+  Meta: Meta,
+  Patient: Patient
+) extends HasPatient
 
 /**
  * A Clinical Summary represents a snapshot of the patient's chart at a moment in time. It is structured in sections,
