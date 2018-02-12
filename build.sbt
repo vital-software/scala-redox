@@ -4,9 +4,11 @@ organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-version := "0.92"
+version := "0.94"
 
 scalaVersion := "2.11.11"
+
+crossScalaVersions := Seq("2.11.8", "2.11.9", "2.11.10", "2.11.11", "2.12.0", "2.12.1", "2.12.2")
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
@@ -22,7 +24,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.3",
   "com.typesafe.akka" %% "akka-http" % "10.0.9",
   //"ai.x" %% "play-json-extensions" % "0.8.0",
-  "com.github.vital-software" %% "json-annotation" % "0.3.2",
+  "com.github.vital-software" %% "json-annotation" % "0.4.0",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
   "org.specs2" %% "specs2" % "2.3.13" % Test
 )
