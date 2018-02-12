@@ -48,4 +48,4 @@ object MediaAvailability extends Enumeration {
   Patient: Patient,
   Media: Media,
   Visit: Option[VisitInfo] = None
-) extends MetaLike
+) extends MetaLike with HasPatient

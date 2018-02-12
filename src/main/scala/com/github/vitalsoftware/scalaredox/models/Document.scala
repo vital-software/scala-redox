@@ -37,4 +37,4 @@ import com.github.vitalsoftware.macros._
 @jsonDefaults case class Header(
   Document: Document,
   Patient: Patient
-)
+) extends HasPatient

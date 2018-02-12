@@ -36,7 +36,7 @@ import com.github.vitalsoftware.macros._
   Meta: Meta,
   Patient: Patient,
   Visit: VisitQueryParams
-)
+) extends HasPatient
 
 /**
  * @param Value The diagnosis as free text

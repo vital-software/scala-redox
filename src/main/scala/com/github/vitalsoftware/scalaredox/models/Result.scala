@@ -129,4 +129,4 @@ object ResultsStatusTypes extends Enumeration {
   Patient: Patient,
   Orders: Seq[OrderResult] = Seq.empty,
   Visit: Option[VisitInfo] = None
-) extends MetaLike
+) extends MetaLike with HasPatient
