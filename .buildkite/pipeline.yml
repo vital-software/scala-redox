@@ -1,0 +1,5 @@
+steps:
+  - label: ":docker: :sbt: Run tests"
+    command:
+      - docker build --tag scala-redox:${BUILDKITE_COMMIT} -f .buildkite/Dockerfile .
+      - docker run -e REDOX_API_SECRET -e REDOX_API_KEY scala-redox:${BUILDKITE_COMMIT} test

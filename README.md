@@ -1,6 +1,6 @@
 # scala-redox
 
-[ ![Codeship Status for vital-software/scala-redox](https://app.codeship.com/projects/e7ee7910-27a6-0135-d25d-5ece7f76f3e5/status?branch=master)](https://app.codeship.com/projects/223013)
+[![Build status](https://badge.buildkite.com/b0bbb5518c0cee6021cd4f31c5ac97537aa0a2a17bf88bee2b.svg)](https://buildkite.com/vital/scala-redox)
 
 Scala rest-client (Java compatible) for sending and receiving messages from the Redox healthcare APIs. Messages are sent
 and received asynchronously, returning Future[RedoxResponse[T]] objects that are either a type T or a RedoxErrorResponse 
