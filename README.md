@@ -53,12 +53,12 @@ See [tests](https://github.com/vital-software/scala-redox/tree/master/src/test/s
 
 You can of course create the ClinicalSummaryQuery object in Scala as well.
 
-#Installation
+# Installation
 
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
 resolvers += Resolver.sonatypeRepo("snapshots")
-libraryDependencies += "com.github.vital-software" %% "scala-redox" % "0.92"
+libraryDependencies += "com.github.vital-software" %% "scala-redox" % "0.94"
 ```
 
 Tested with Scala 2.11.11
