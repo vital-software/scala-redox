@@ -17,8 +17,8 @@ import play.api.libs.json.{ Format, Reads, Writes }
  * @param Observations A list of corresponding observations for the test (result components)
  */
 @jsonDefaults case class ChartResult(
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Status: Option[String] = None,

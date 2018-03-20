@@ -20,8 +20,8 @@ import com.github.vitalsoftware.macros._
  */
 @jsonDefaults case class AdvanceDirective(
   Type: BasicCode,
-  Code: String, // Todo Question: Seems to duplicate 'Type' field
-  CodeSystem: String,
+  Code: Option[String] = None, // Todo Question: Seems to duplicate 'Type' field
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String],
   StartDate: DateTime,

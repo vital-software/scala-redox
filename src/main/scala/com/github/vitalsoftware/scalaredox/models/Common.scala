@@ -29,30 +29,30 @@ trait DateRange {
  * Code reference (like a foreign key into a SNOMED, ICD-9/10, or other data set)
  */
 trait Code {
-  def Code: String
-  def CodeSystem: String
+  def Code: Option[String]
+  def CodeSystem: Option[String]
   def CodeSystemName: Option[String]
   def Name: Option[String]
 }
 
 @jsonDefaults case class BasicCode(
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None
 ) extends Code
 
 @jsonDefaults case class CodeWithText(
-  Code: String,
+  Code: Option[String] = None,
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Text: Option[String] = None
-)
+) extends Code
 
 @jsonDefaults case class CodeWithStatus(
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Status: Option[String] = None,
@@ -143,8 +143,8 @@ object ValueTypes extends Enumeration {
  *                  @param Units The units of the measurement. [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
  */
 @jsonDefaults case class Observation(
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   DateTime: DateTime,

@@ -18,8 +18,8 @@ import com.github.vitalsoftware.macros._
  * @param LotNumber The lot number of the vaccine
  */
 @jsonDefaults case class ImmunizationProduct(
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Manufacturer: Option[String] = None,
