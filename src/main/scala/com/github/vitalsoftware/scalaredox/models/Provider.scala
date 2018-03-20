@@ -56,5 +56,5 @@ trait Person {
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[String] = Seq.empty,
-  Credentials: Seq[String] = Seq.empty
+  Credentials: Option[String] = None
 ) extends Person
