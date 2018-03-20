@@ -18,8 +18,8 @@ import com.github.vitalsoftware.macros._
 )
 
 @jsonDefaults case class Relation(
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Demographics: FamilyDemographics,
@@ -43,8 +43,8 @@ import com.github.vitalsoftware.macros._
  * @param Type The general class of the problem. (disease, problem, etc.).
  */
 @jsonDefaults case class FamilyHistoryProblem(
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Type: BasicCode,

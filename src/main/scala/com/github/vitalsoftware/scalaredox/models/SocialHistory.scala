@@ -14,8 +14,8 @@ import com.github.vitalsoftware.macros._
  * @param ValueText The observed value for the code
  */
 @jsonDefaults case class SocialHistoryObservation(
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   StartDate: DateTime,
@@ -41,8 +41,8 @@ import com.github.vitalsoftware.macros._
  * @param EndDate Date status ended. If this is null, the status is current.
  */
 @jsonDefaults case class TobaccoUse(
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   StartDate: Option[DateTime] = None,

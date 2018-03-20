@@ -6,9 +6,9 @@ name := "scala-redox"
 
 version := "0.95-SNAPSHOT"
 
-scalaVersion := "2.11.11"
+scalaVersion := "2.11.12"
 
-crossScalaVersions := Seq("2.11.8", "2.11.9", "2.11.10", "2.11.11", "2.12.0", "2.12.1", "2.12.2")
+crossScalaVersions := Seq("2.11.8", "2.11.9", "2.11.10", "2.11.11", "2.11.12", "2.12.0", "2.12.1", "2.12.2")
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
@@ -17,11 +17,11 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-json" % "2.6.7",
-  "com.typesafe.play" %% "play-json-joda" % "2.6.7",
-  "com.typesafe.play" %% "play-ahc-ws" % "2.6.7",
-  //"com.typesafe.play" %% "play-ahc-ws-standalone" % "1.1.3",
-  "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.3",
+  "com.typesafe.play" %% "play-json" % "2.6.8",
+  "com.typesafe.play" %% "play-json-joda" % "2.6.8",
+  "com.typesafe.play" %% "play-ahc-ws" % "2.6.12",
+  //"com.typesafe.play" %% "play-ahc-ws-standalone" % "1.1.6",
+  "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.6",
   "com.typesafe.akka" %% "akka-http" % "10.0.9",
   //"ai.x" %% "play-json-extensions" % "0.8.0",
   "com.github.vital-software" %% "json-annotation" % "0.4.0",

@@ -20,8 +20,8 @@ import com.github.vitalsoftware.macros._
 @jsonDefaults case class Problem(
   StartDate: Option[DateTime] = None,
   EndDate: Option[DateTime] = None,
-  Code: String,
-  CodeSystem: String,
+  Code: Option[String] = None,
+  CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Category: BasicCode,
