@@ -485,6 +485,16 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
           |	],
           |	"Encounters": [
           |		{
+          |  "Identifiers": [
+          |        {
+          |           "ID": "2376492",
+          |           "IDType": "URMC Epic CSN"
+          |        },
+          |        {
+          |           "ID": "8237334",
+          |           "IDType": "1.35.829.5.238422.9.10"
+          |        }
+          |     ],
           |			"Type": {
           |				"Code": "99222",
           |				"CodeSystem": "2.16.840.1.113883.6.12",

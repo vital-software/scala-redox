@@ -16,7 +16,7 @@ import play.api.libs.json.{ Format, Reads, Writes }
  * @param ID The actual identifier for the patient.
  * @param IDType An ID type associated with identifier (Medical Record Number, etc.)
  */
-@jsonDefaults case class PatientIdentifier(
+@jsonDefaults case class Identifier(
   ID: String,
   IDType: String
 )
@@ -75,7 +75,7 @@ object Gender extends Enumeration {
  * Patient
  */
 @jsonDefaults case class Patient(
-  Identifiers: Seq[PatientIdentifier] = Seq.empty,
+  Identifiers: Seq[Identifier] = Seq.empty,
   Demographics: Option[Demographics] = None,
   Notes: Seq[String] = Seq.empty,
   Contacts: Seq[Contact] = Seq.empty,

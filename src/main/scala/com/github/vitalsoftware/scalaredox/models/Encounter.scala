@@ -19,6 +19,7 @@ import com.github.vitalsoftware.macros._
  * @param ReasonForVisit The reason for the visit (usually this is what the patient reports). SNOMED CT
  */
 @jsonDefaults case class Encounter(
+  Identifiers: Seq[Identifier] = Seq.empty,
   Type: BasicCode,
   DateTime: DateTime,
   EndDateTime: Option[DateTime] = None,
