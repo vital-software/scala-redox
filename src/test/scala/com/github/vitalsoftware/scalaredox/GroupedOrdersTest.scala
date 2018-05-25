@@ -412,7 +412,17 @@ class GroupedOrdersTest extends Specification with NoTimeConversions with RedoxT
           |          "Type": null
           |        }
           |      ],
-          |      "ClinicalInfo": []
+          |      "ClinicalInfo": [
+          |        {
+          |          "Code": null,
+          |          "Codeset": null,
+          |          "Description": null,
+          |          "Value": null,
+          |          "Units": null,
+          |          "Abbreviation": null,
+          |          "Notes": []
+          |        }
+          |      ]
           |    }
           |  ]
           |}

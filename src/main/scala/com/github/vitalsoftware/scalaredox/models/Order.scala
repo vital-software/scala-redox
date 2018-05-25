@@ -47,7 +47,7 @@ object OrderPriorityTypes extends Enumeration {
  * @param Notes Notes related to the clinical info
  */
 @jsonDefaults case class ClinicalInfo(
-  Code: String,
+  Code: Option[String] = None,
   CodeSet: Option[String] = None,
   Description: Option[String] = None,
   Value: Option[String] = None,
@@ -68,7 +68,7 @@ object OrderPriorityTypes extends Enumeration {
  * @param NPI A National Provider Identifier or NPI is a unique 10-digit identification number issued to health care providers in the United States
  */
 @jsonDefaults case class OrderProvider(
-  NPI: String,
+  NPI: Option[String] = None,
   FirstName: Option[String] = None,
   LastName: Option[String] = None,
   Type: Option[String],
@@ -79,7 +79,7 @@ object OrderPriorityTypes extends Enumeration {
   EmailAddresses: Seq[String] = Seq.empty,
   Role: Option[BasicCode] = None
 ) extends ProviderLike {
-  def ID: Option[String] = Some(NPI)
+  def ID: Option[String] = NPI
   def IDType: Option[String] = Some("NPI")
 }
 
