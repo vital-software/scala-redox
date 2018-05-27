@@ -78,3 +78,19 @@ scalariformPreferences := scalariformPreferences.value
   .setPreference(DanglingCloseParenthesis, Force)
 // compile only unmanaged sources, not the generated (aka managed) sourced
 sourceDirectories in (Compile, scalariformFormat) := (unmanagedSourceDirectories in Compile).value
+
+// Release settings
+import ReleaseTransformations._
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+//  publishArtifacts,
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
+)
