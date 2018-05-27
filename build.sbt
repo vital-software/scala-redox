@@ -4,8 +4,6 @@ organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-version := "0.97-SNAPSHOT"
-
 scalaVersion := "2.11.12"
 
 crossScalaVersions := Seq("2.11.8", "2.11.9", "2.11.10", "2.11.11", "2.11.12", "2.12.0", "2.12.1", "2.12.2")
@@ -78,3 +76,19 @@ scalariformPreferences := scalariformPreferences.value
   .setPreference(DanglingCloseParenthesis, Force)
 // compile only unmanaged sources, not the generated (aka managed) sourced
 sourceDirectories in (Compile, scalariformFormat) := (unmanagedSourceDirectories in Compile).value
+
+// Release settings
+import ReleaseTransformations._
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+//  publishArtifacts,
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
+)
