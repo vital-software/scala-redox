@@ -79,12 +79,17 @@ sourceDirectories in (Compile, scalariformFormat) := (unmanagedSourceDirectories
 
 // Release settings
 import ReleaseTransformations._
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import scala.io.{ Codec, Source }
+import scala.sys.process.ProcessLogger
 
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
   runClean,
   setReleaseVersion,
+  updateReadmeVersion,
   commitReleaseVersion,
   tagRelease,
 //  publishArtifacts,
@@ -92,3 +97,39 @@ releaseProcess := Seq[ReleaseStep](
   commitNextVersion,
   pushChanges
 )
+
+val updateReadmeVersion = ReleaseStep { state =>
+  val logger = new ProcessLogger {
+    override def err(s: => String): Unit = state.log.info(s)
+    override def out(s: => String): Unit = state.log.info(s)
+    override def buffer[T](f: => T): T = state.log.buffer(f)
+  }
+
+  val vcs = Project.extract(state).get(releaseVcs).getOrElse {
+    sys.error("VCS not set")
+  }
+
+  val (releaseVer, _) = state.get(ReleaseKeys.versions).getOrElse {
+    sys.error(s"${ReleaseKeys.versions.label} key not set")
+  }
+
+  val baseDir = Project.extract(state).get(baseDirectory.in(ThisBuild))
+  val readmeFile = baseDir / "README.md"
+
+  val lines = Source.fromFile(readmeFile)(Codec.UTF8).getLines().toList
+
+  val markerText = "libraryDependencies += \"com.github.vital-software\" %% \"scala-redox\" % "
+  val lineNumberOfMarker = lines.indexWhere(_.contains(markerText))
+
+  if (lineNumberOfMarker == -1) {
+    throw new RuntimeException(s"Could not find marker '$markerText' in file '${readmeFile.getPath}'")
+  }
+
+  val newLine = markerText + s""""$releaseVer""""
+  val newContent = lines.updated(lineNumberOfMarker, newLine).mkString("\n")
+
+  Files.write(readmeFile.toPath, newContent.getBytes(StandardCharsets.UTF_8))
+  vcs.add(readmeFile.getAbsolutePath) !! logger
+
+  state
+}
