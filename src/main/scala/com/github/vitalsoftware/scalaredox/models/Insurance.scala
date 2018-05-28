@@ -101,7 +101,7 @@ object InsuranceCoverageTypes extends Enumeration {
  * @param Insured Individual who has the agreement with the insurance company for the related policy
  */
 @jsonDefaults case class Insurance(
-  Plan: InsurancePlan,
+  Plan: Option[InsurancePlan] = None,
   Company: Option[InsuranceCompany] = None,
   GroupNumber: Option[String] = None,
   GroupName: Option[String] = None,
