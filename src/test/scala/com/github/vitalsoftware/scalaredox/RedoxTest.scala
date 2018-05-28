@@ -23,12 +23,15 @@ trait RedoxTest {
 
   // Validate raw a raw JSON string, throwing a RuntimeException which will output detail to Specs2/Test console
   def validateJsonInput[T](json: String)(implicit reads: Reads[T]): T = {
-    val jsValue = Json.parse(json).reduceNullSubtrees
     Json.parse(json).validate[T].fold(
       invalid = err => throw new RuntimeException(JsError.toJson(JsError(err)).toString()),
       valid = identity
     )
-    Json.fromJson[T](jsValue).get
+
+    Json.fromJson[T](Json.parse(json).reduceNullSubtrees).fold(
+      invalid = err => throw new RuntimeException(JsError.toJson(JsError(err)).toString()),
+      valid = identity
+    )
   }
 
   def handleResponse[T](fut: Future[RedoxResponse[T]]): Option[T] = {

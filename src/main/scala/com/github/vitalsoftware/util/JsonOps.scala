@@ -94,7 +94,10 @@ trait JsonImplicits {
             JsObject(o.map { case (s, childVal) => s -> reduceNullSubtreesImpl(childVal) })
           }
         case JsArray(ts) =>
-          JsArray(ts.map(reduceNullSubtreesImpl))
+          JsArray(ts.map(reduceNullSubtreesImpl).filter(_ match {
+            case JsNull => false
+            case _      => true
+          }))
         case _ =>
           jv
       }
