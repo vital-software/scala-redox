@@ -7,6 +7,7 @@
 ### Changed
 
 - Version numbers now have a patch part, so we can indicate backward compatible changes
+- Version appearing in README is automatically updated on release
 
 ### Added
 
