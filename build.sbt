@@ -128,7 +128,7 @@ val updateReadmeVersion = ReleaseStep { state =>
   }
 
   val newLine = markerText + s""""$releaseVer""""
-  val newContent = lines.updated(lineNumberOfMarker, newLine).mkString("\n")
+  val newContent = lines.updated(lineNumberOfMarker, newLine).mkString("\n") + "\n"
 
   Files.write(readmeFile.toPath, newContent.getBytes(StandardCharsets.UTF_8))
   vcs.add(readmeFile.getAbsolutePath) !! logger
