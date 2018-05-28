@@ -84,6 +84,8 @@ import java.nio.file.Files
 import scala.io.{ Codec, Source }
 import scala.sys.process.ProcessLogger
 
+releaseTagName := s"${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}" // Remove v prefix
+
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
