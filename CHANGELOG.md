@@ -2,11 +2,10 @@
 
 ## [Unreleased]
 
-## [0.97.0] - 2018-05-28
+## [0.97] - 2018-05-28
 
 ### Changed
 
-- Version numbers now have a patch part, so we can indicate backward compatible changes
 - Version appearing in README is automatically updated on release
 
 ### Added
