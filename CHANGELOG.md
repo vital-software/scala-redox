@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.98] - 2018-05-28
+
 ### Changed
 
 - `Insurance.Plan` changed from `InsurancePlan` to `Option[InsurancePlan]`
