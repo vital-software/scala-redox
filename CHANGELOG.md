@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.99] - 2018-06-01
+
 ### Changed
 
 - Messages were previously matched to a data type using the `Meta.DataModel` field only. However, this doesn't completely

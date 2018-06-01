@@ -58,7 +58,7 @@ You can of course create the ClinicalSummaryQuery object in Scala as well.
 ```scala
 resolvers += Resolver.sonatypeRepo("releases")
 resolvers += Resolver.sonatypeRepo("snapshots")
-libraryDependencies += "com.github.vital-software" %% "scala-redox" % "0.98"
+libraryDependencies += "com.github.vital-software" %% "scala-redox" % "0.99"
 ```
 
 Tested with Scala 2.11.11
