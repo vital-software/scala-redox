@@ -12,6 +12,9 @@
 
   We now take both the `Meta.DataModel` and `Meta.EventType` into account when deciding how to parse a message.
 
+- `Patient.Demographics.Sex` now defaults to a value of `Unknown`. This was previously a required value, but Redox only
+  define it as "reliable" and not "required" (we've seen messages in-the-wild with `null` for this property.)
+
 ## [0.98] - 2018-05-28
 
 ### Changed
