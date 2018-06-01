@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+## [0.99] - Unreleased
+
+### Changed
+
+- Messages were previously matched to a data type using the `Meta.DataModel` field only. However, this doesn't completely
+  determine the shape of the message; for example, a message with `DataModel == Order` may not have an `Order` key,
+  because `Meta.EventType` might be `GroupedOrders` (i.e. it has an `Orders` key, not an `Order` key).
+
+  We now take both the `Meta.DataModel` and `Meta.EventType` into account when deciding how to parse a message.
+
+- `Patient.Demographics.Sex` now defaults to a value of `Unknown`. This was previously a required value, but Redox only
+  define it as "reliable" and not "required" (we've seen messages in-the-wild with `null` for this property.)
+
 ## [0.98] - 2018-05-28
 
 ### Changed

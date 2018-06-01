@@ -3,9 +3,9 @@ package com.github.vitalsoftware.scalaredox.client
 import java.io.File
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.model.Uri.Path._
+import akka.http.scaladsl.model._
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
@@ -14,15 +14,15 @@ import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
 import com.typesafe.config.Config
 import org.joda.time.DateTime
 import play.api.libs.json._
-import play.api.libs.ws._
-import play.api.libs.ws.ahc._
 import play.api.libs.ws.JsonBodyReadables._
 import play.api.libs.ws.JsonBodyWritables._
+import play.api.libs.ws._
+import play.api.libs.ws.ahc._
 import play.api.mvc.MultipartFormData.FilePart
 
-import scala.concurrent.{ Future, SyncVar }
-import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent.duration._
+import scala.concurrent.{ Future, SyncVar }
 import scala.util.{ Failure, Success, Try }
 
 /**
@@ -226,6 +226,10 @@ object RedoxClient {
       invalid = errors => Left(errors),
       valid = { meta =>
         meta.DataModel match {
+          case Order => meta.EventType match {
+            case GroupedOrders => json.validate[models.GroupedOrdersMessage].asEither
+            case _             => json.validate[models.OrderMessage].asEither
+          }
           case Claim => Left(unsupported)
           case Device => Left(unsupported)
           case Financial => Left(unsupported)
@@ -233,7 +237,6 @@ object RedoxClient {
           case Inventory => Left(unsupported)
           case Media => json.validate[models.MediaMessage].asEither
           case Notes => json.validate[models.NoteMessage].asEither
-          case Order => json.validate[models.OrderMessage].asEither
           case PatientAdmin => json.validate[models.PatientAdminMessage].asEither
           case PatientSearch => json.validate[models.PatientSearch].asEither
           case Referral => Left(unsupported)

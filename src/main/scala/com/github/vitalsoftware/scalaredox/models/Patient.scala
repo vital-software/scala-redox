@@ -45,7 +45,7 @@ object Gender extends Enumeration {
   LastName: String,
   DOB: DateTime,
   SSN: Option[String] = None,
-  Sex: Gender.Value,
+  Sex: Gender.Value = Gender.Unknown,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[String] = Seq.empty,
