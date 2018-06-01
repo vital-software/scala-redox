@@ -91,7 +91,7 @@ releaseProcess := Seq[ReleaseStep](
   inquireVersions,
   runClean,
   setReleaseVersion,
-  updateReadmeVersion,
+  updateReleaseFiles,
   commitReleaseVersion,
   tagRelease,
 //  publishArtifacts,
@@ -100,7 +100,23 @@ releaseProcess := Seq[ReleaseStep](
   pushChanges
 )
 
-val updateReadmeVersion = ReleaseStep { state =>
+val updateReleaseFiles = ReleaseStep { state =>
+  updateLine(
+    state,
+    "README.md",
+    """libraryDependencies += "com.github.vital-software" %% "scala-redox" % """,
+    v => s"""libraryDependencies += "com.github.vital-software" %% "scala-redox" % "$v""""
+  )
+
+  updateLine(
+    state,
+    "CHANGELOG.md",
+    "## [Unreleased]",
+    v => s"## [Unreleased]\n\n## [$v] - ${java.time.LocalDate.now}"
+  )
+}
+
+def updateLine(state: State, fileName: String, marker: String, replacement: String => String): State = {
   val logger = new ProcessLogger {
     override def err(s: => String): Unit = state.log.info(s)
     override def out(s: => String): Unit = state.log.info(s)
@@ -111,27 +127,22 @@ val updateReadmeVersion = ReleaseStep { state =>
     sys.error("VCS not set")
   }
 
-  val (releaseVer, _) = state.get(ReleaseKeys.versions).getOrElse {
+  val (version: String, _) = state.get(ReleaseKeys.versions).getOrElse {
     sys.error(s"${ReleaseKeys.versions.label} key not set")
   }
 
-  val baseDir = Project.extract(state).get(baseDirectory.in(ThisBuild))
-  val readmeFile = baseDir / "README.md"
+  val fileToModify = Project.extract(state).get(baseDirectory.in(ThisBuild)) / fileName
+  val lines = Source.fromFile(fileToModify)(Codec.UTF8).getLines().toList
+  val lineNumber = lines.indexWhere(_.contains(marker))
 
-  val lines = Source.fromFile(readmeFile)(Codec.UTF8).getLines().toList
-
-  val markerText = "libraryDependencies += \"com.github.vital-software\" %% \"scala-redox\" % "
-  val lineNumberOfMarker = lines.indexWhere(_.contains(markerText))
-
-  if (lineNumberOfMarker == -1) {
-    throw new RuntimeException(s"Could not find marker '$markerText' in file '${readmeFile.getPath}'")
+  if (lineNumber == -1) {
+    throw new RuntimeException(s"Could not find marker '$marker' in file '${fileToModify.getPath}'")
   }
 
-  val newLine = markerText + s""""$releaseVer""""
-  val newContent = lines.updated(lineNumberOfMarker, newLine).mkString("\n") + "\n"
+  val content = lines.updated(lineNumber, replacement(version)).mkString("\n") + "\n"
 
-  Files.write(readmeFile.toPath, newContent.getBytes(StandardCharsets.UTF_8))
-  vcs.add(readmeFile.getAbsolutePath) !! logger
+  Files.write(fileToModify.toPath, content.getBytes(StandardCharsets.UTF_8))
+  vcs.add(fileToModify.getAbsolutePath) !! logger
 
   state
 }

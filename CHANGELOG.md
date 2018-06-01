@@ -2,8 +2,6 @@
 
 ## [Unreleased]
 
-## [0.99] - Unreleased
-
 ### Changed
 
 - Messages were previously matched to a data type using the `Meta.DataModel` field only. However, this doesn't completely
