@@ -93,3 +93,14 @@ import com.github.vitalsoftware.macros._
   StartDateTime: Option[DateTime] = None, // Header.Document.Visit only
   EndDateTime: Option[DateTime] = None
 )
+
+// Note: Presently used only by Flowsheet
+/**
+ * @param Location Location of the patient.
+ * @param AccountNumber An ID that can span several visits often related to the same issue - pregnancy, surgeries, research study, etc.
+ */
+@jsonDefaults case class BasicVisitInfo(
+  VisitNumber: Option[String] = None,
+  Location: Option[CareLocation] = None,
+  AccountNumber: Option[String] = None
+)
