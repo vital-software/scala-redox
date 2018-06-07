@@ -66,6 +66,10 @@ class NotesTest extends Specification with NoTimeConversions with RedoxTest {
           |			"IsDeceased": null,
           |			"DeathDateTime": null,
           |			"PhoneNumber": {
+          |
+          |
+          |
+          |
           |				"Home": "+18088675301",
           |				"Office": null,
           |				"Mobile": null

@@ -154,5 +154,6 @@ object ValueTypes extends Enumeration {
   Units: Option[String] = None,
   ReferenceRange: Option[ReferenceRange] = None,
   TargetSite: Option[BasicCode] = None, // Used by Procedures
-  Interpretation: Option[String] = None // Used by Result
+  Interpretation: Option[String] = None, // Used by Result
+  Observer: Option[Provider] = None
 ) extends Code with Status with DateStamped
