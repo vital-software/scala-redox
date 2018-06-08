@@ -16,4 +16,4 @@ import com.github.vitalsoftware.macros.jsonDefaults
   Patient: Patient,
   Visit: Option[BasicVisitInfo] = None,
   Observations: Seq[Observation] = Nil
-)
+) extends MetaLike with HasPatient
