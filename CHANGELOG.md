@@ -2,11 +2,15 @@
 
 ## [Unreleased]
 
-## [0.102] - 2018-06-11
+### Added
 
-## [0.101] - 2018-06-08
+- Added a `HasVisitInfo` trait to mark models with a `Visit: Option[VisitInfo]` property.
 
-## [0.100] - 2018-06-08
+## [0.100] - [0.102] - 2018-06-11
+
+### Added
+
+- Initial and webhook support for the `Flowsheet` data model.
 
 ## [0.99] - 2018-06-01
 
