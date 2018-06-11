@@ -105,4 +105,4 @@ object Gender extends Enumeration {
   Meta: Meta,
   Patient: Patient,
   Visit: Option[VisitInfo] = None
-) extends MetaLike with HasPatient
+) extends MetaLike with HasPatient with HasVisitInfo

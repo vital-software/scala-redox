@@ -123,7 +123,7 @@ object OrderPriorityTypes extends Enumeration {
   ClinicalInfo: Seq[ClinicalInfo] = Seq.empty
 )
 
-trait OrdersMessageLike extends HasPatient {
+trait OrdersMessageLike extends HasPatient with HasVisitInfo {
   def Meta: Meta
   def Patient: Patient
   def Visit: Option[VisitInfo]

@@ -26,7 +26,7 @@ import com.github.vitalsoftware.macros._
   Title: String,
   DateTime: DateTime,
   Type: String
-)
+) extends HasVisitInfo
 
 /**
  * Information about the patient and where the summary came from
