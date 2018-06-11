@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.103] - 2018-06-11
+
 ### Added
 
 - Added a `HasVisitInfo` trait to mark models with a `Visit: Option[VisitInfo]` property.
