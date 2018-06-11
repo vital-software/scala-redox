@@ -233,7 +233,7 @@ object RedoxClient {
           case Claim => Left(unsupported)
           case Device => Left(unsupported)
           case Financial => Left(unsupported)
-          case Flowsheet => Left(unsupported)
+          case Flowsheet => json.validate[models.FlowSheetMessage].asEither
           case Inventory => Left(unsupported)
           case Media => json.validate[models.MediaMessage].asEither
           case Notes => json.validate[models.NoteMessage].asEither
