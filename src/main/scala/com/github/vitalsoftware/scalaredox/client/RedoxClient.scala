@@ -9,7 +9,7 @@ import akka.http.scaladsl.model._
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
-import com.github.vitalsoftware.scalaredox.models.Upload
+import com.github.vitalsoftware.scalaredox.models.{ MediaMessage, Upload }
 import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
 import com.typesafe.config.Config
 import org.joda.time.DateTime
@@ -215,7 +215,7 @@ object RedoxClient {
    * Receive a webhook message and turn it into a Scala class based on the message type Meta.DataModel
    * Ex. def webhook() = Action.async(parse.json) { implicit request => RedoxClient.webhook(request.body) }
    */
-  def webhook(json: JsValue): Either[JsError, AnyRef] = {
+  def webhook(json: JsValue, reducer: JsValue => JsValue = identity): Either[JsError, AnyRef] = {
     import com.github.vitalsoftware.scalaredox.models.DataModelTypes._
     import com.github.vitalsoftware.scalaredox.models.RedoxEventTypes._
     val reads = (__ \ "Meta").read[models.Meta]
@@ -226,6 +226,8 @@ object RedoxClient {
     json.validate[models.Meta](reads).fold(
       invalid = errors => Left(errors),
       valid = { meta =>
+        val pruned = reducer(json)
+
         meta.DataModel match {
           case Order => meta.EventType match {
             case GroupedOrders => json.validate[models.GroupedOrdersMessage].asEither
@@ -234,19 +236,19 @@ object RedoxClient {
           case Claim => Left(unsupported)
           case Device => Left(unsupported)
           case Financial => Left(unsupported)
-          case Flowsheet => json.validate[models.FlowSheetMessage].asEither
+          case Flowsheet => pruned.validate[models.FlowSheetMessage].asEither
           case Inventory => Left(unsupported)
-          case Media => json.validate[models.MediaMessage].asEither
-          case Notes => json.validate[models.NoteMessage].asEither
-          case PatientAdmin => json.validate[models.PatientAdminMessage].asEither
-          case PatientSearch => json.validate[models.PatientSearch].asEither
+          case Media => pruned.validate[models.MediaMessage].asEither
+          case Notes => pruned.validate[models.NoteMessage].asEither
+          case PatientAdmin => pruned.validate[models.PatientAdminMessage].asEither
+          case PatientSearch => pruned.validate[models.PatientSearch].asEither
           case Referral => Left(unsupported)
-          case Results => json.validate[models.ResultsMessage].asEither
+          case Results => pruned.validate[models.ResultsMessage].asEither
           case Scheduling => Left(unsupported)
           case SurgicalScheduling => Left(unsupported)
           case Vaccination => Left(unsupported)
-          case _ if clinicalSummaryTypes.contains(meta.EventType) => json.validate[models.ClinicalSummary].asEither
-          case _ if visitTypes.contains(meta.EventType) => json.validate[models.Visit].asEither
+          case _ if clinicalSummaryTypes.contains(meta.EventType) => pruned.validate[models.ClinicalSummary].asEither
+          case _ if visitTypes.contains(meta.EventType) => pruned.validate[models.Visit].asEither
           case _ => Left(unsupported)
         }
       }
