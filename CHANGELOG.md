@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.104] - 2018-06-12
+
 ### Added
 
 - Added a constructor argument to `RedoxClient`, `reducer` which allows specifying how to reduce e.g. empty
