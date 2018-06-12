@@ -107,11 +107,9 @@ trait JsonImplicits {
 
     private def reduceEmptySubtreesImpl(jv: JsValue): JsValue = {
       jv match {
-        case _: JsObject if isEmpty(jv) => JsNull
-        case JsObject(o)                => JsObject(o.map { case (k, v) => k -> reduceEmptySubtreesImpl(v) })
-        case _: JsArray if isEmpty(jv)  => JsArray.empty
-        case JsArray(a)                 => JsArray(a.map(reduceEmptySubtreesImpl))
-        case _                          => jv
+        case JsObject(o) => if (isEmpty(jv)) JsNull else JsObject(o.mapValues(reduceEmptySubtreesImpl))
+        case JsArray(a)  => if (isEmpty(jv)) JsArray.empty else JsArray(a.map(reduceEmptySubtreesImpl))
+        case _           => jv
       }
     }
 
