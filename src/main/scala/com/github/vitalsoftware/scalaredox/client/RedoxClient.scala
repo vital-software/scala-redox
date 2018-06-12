@@ -31,7 +31,8 @@ import scala.util.{ Failure, Success, Try }
 class RedoxClient(
   conf: Config,
   implicit val system: ActorSystem,
-  implicit val materializer: ActorMaterializer
+  implicit val materializer: ActorMaterializer,
+  reducer: JsValue => JsValue = _.reduceNullSubtrees
 ) {
 
   private val client = StandaloneAhcWSClient()
@@ -87,7 +88,8 @@ class RedoxClient(
         if (r.body.isEmpty) {
           Right(EmptyResponse.asInstanceOf[T])
         } else {
-          val json = r.body[JsValue].reduceNullSubtrees
+          val json = reducer(r.body[JsValue])
+
           Json.fromJson(json).fold(
             // Json to Scala objects failed...force into RedoxError format
             invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
@@ -209,7 +211,6 @@ class RedoxClient(
 }
 
 object RedoxClient {
-
   /**
    * Receive a webhook message and turn it into a Scala class based on the message type Meta.DataModel
    * Ex. def webhook() = Action.async(parse.json) { implicit request => RedoxClient.webhook(request.body) }
