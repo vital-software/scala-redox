@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Optional reducer argument to `RedoxClient.webhook`, similar to the one on the `RedoxClient` constructor
+
 ## [0.104] - 2018-06-12
 
 ### Added
