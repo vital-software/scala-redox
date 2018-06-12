@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added a constructor argument to `RedoxClient`, `reducer` which allows specifying how to reduce e.g. empty
+  parts of a response before it is converted into model instances. Defaults to the current behavior, which is
+  to only prune parts of a response that are strictly null.
+- Added `reduceEmptySubtrees` as a method to `JsValue` (via implicits), in addition to the existing
+  `reduceNullSubtrees` that prunes null objects - the difference is that the "empty" variant also considers
+  arrays to be empty if they or their contents are (recursively).
+
 ## [0.103] - 2018-06-11
 
 ### Added
