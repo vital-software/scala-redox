@@ -85,6 +85,8 @@ trait JsonImplicits {
 
   implicit class JsValueExtensions(jsValue: JsValue) {
     def reduceNullSubtrees: JsValue = reduceNullSubtreesImpl(jsValue)
+    def reduceEmptySubtrees: JsValue = reduceEmptySubtreesImpl(jsValue)
+
     private def reduceNullSubtreesImpl(jv: JsValue): JsValue = {
       jv match {
         case JsObject(o) =>
@@ -101,6 +103,23 @@ trait JsonImplicits {
         case _ =>
           jv
       }
+    }
+
+    private def reduceEmptySubtreesImpl(jv: JsValue): JsValue = {
+      jv match {
+        case JsObject(o) if o.valuesIterator.forall(isEmpty) => JsNull
+        case JsObject(o) => JsObject(o.map { case (k, v) => k -> reduceEmptySubtreesImpl(v) })
+        case JsArray(a) if a.forall(isEmpty) => JsArray(Nil)
+        case JsArray(a) => JsArray(a.map(reduceEmptySubtreesImpl))
+        case _ => jv
+      }
+    }
+
+    private def isEmpty(jv: JsValue): Boolean = jv match {
+      case JsNull      => true
+      case JsArray(a)  => a.forall(isEmpty)
+      case JsObject(o) => o.valuesIterator.forall(isEmpty)
+      case _           => false
     }
   }
 }
