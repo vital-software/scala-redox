@@ -100,6 +100,8 @@ releaseProcess := Seq[ReleaseStep](
   pushChanges
 )
 
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
+
 val updateReleaseFiles = ReleaseStep { state =>
   updateLine(
     state,
