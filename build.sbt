@@ -94,9 +94,10 @@ releaseProcess := Seq[ReleaseStep](
   updateReleaseFiles,
   commitReleaseVersion,
   tagRelease,
-  publishArtifacts,
+  releaseStepCommandAndRemaining("+publishSigned"),
   setNextVersion,
   commitNextVersion,
+  releaseStepCommand("sonatypeReleaseAll"),
   pushChanges
 )
 
