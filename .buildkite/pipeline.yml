@@ -3,3 +3,18 @@ steps:
     command:
       - docker build --tag scala-redox:${BUILDKITE_COMMIT} -f .buildkite/Dockerfile .
       - docker run -e REDOX_API_SECRET -e REDOX_API_KEY scala-redox:${BUILDKITE_COMMIT} sbt test
+
+  - wait
+
+  - block:    ":rocket: Release"
+    prompt:   Create a release, and push it to Sonatype and Github?
+    branches: "master"
+
+  - label: ":maven: :sbt: Create release"
+    command:
+      - git checkout -B ${BUILDKITE_BRANCH}
+      - git branch -u origin/${BUILDKITE_BRANCH}
+      - git config branch.${BUILDKITE_BRANCH}.remote origin
+      - git config branch.${BUILDKITE_BRANCH}.merge refs/heads/${BUILDKITE_BRANCH}
+      - git clean -df
+      - sbt -batch "release with-defaults skip-tests"
