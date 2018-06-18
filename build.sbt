@@ -1,4 +1,11 @@
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 import scalariform.formatter.preferences._
+
+import scala.io.{ Codec, Source }
+import scala.sys.process.ProcessLogger
 
 organization := "com.github.vital-software"
 
@@ -6,7 +13,7 @@ name := "scala-redox"
 
 scalaVersion := "2.11.12"
 
-crossScalaVersions := Seq("2.11.8", "2.11.9", "2.11.10", "2.11.11", "2.11.12", "2.12.0", "2.12.1", "2.12.2")
+crossScalaVersions := Seq("2.11.12", "2.12.6")
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
@@ -77,14 +84,14 @@ scalariformPreferences := scalariformPreferences.value
 // compile only unmanaged sources, not the generated (aka managed) sourced
 sourceDirectories in (Compile, scalariformFormat) := (unmanagedSourceDirectories in Compile).value
 
-// Release settings
-import ReleaseTransformations._
-import java.nio.charset.StandardCharsets
-import java.nio.file.Files
-import scala.io.{ Codec, Source }
-import scala.sys.process.ProcessLogger
+// PGP settings
+pgpPassphrase := Some(Array())
+usePgpKeyHex("1bfe664d074b29f8")
 
-releaseTagName := s"${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}" // Remove v prefix
+// Release settings
+releaseTagName              := s"${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}" // Remove v prefix
+releaseTagComment           := s"Releasing ${(version in ThisBuild).value}\n\n[skip ci]"
+releaseCommitMessage        := s"Setting version to ${(version in ThisBuild).value}\n\n[skip ci]"
 
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
