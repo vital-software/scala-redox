@@ -11,6 +11,7 @@ steps:
     branches: "master"
 
   - label: ":maven: :sbt: Create release"
+    branches: "master"
     command:
       - git checkout -B ${BUILDKITE_BRANCH}
       - git branch -u origin/${BUILDKITE_BRANCH}
