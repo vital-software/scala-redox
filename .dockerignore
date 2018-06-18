@@ -1,6 +1,7 @@
 target/
 .buildkite
 README.md
+CHANGELOG.md
 LICENSE
 .gitignore
 .git/
