@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2018-06-18
+
 ### Changed
 
 - Releases are now performed by CI automatically
