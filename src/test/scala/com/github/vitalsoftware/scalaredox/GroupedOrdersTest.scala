@@ -1,6 +1,6 @@
 package com.github.vitalsoftware.scalaredox
 
-import com.github.vitalsoftware.scalaredox.models.{ Gender, GroupedOrdersMessage, Order }
+import com.github.vitalsoftware.scalaredox.models.{ SexType, GroupedOrdersMessage, Order }
 import org.specs2.mutable.Specification
 import org.specs2.time.NoTimeConversions
 
@@ -452,7 +452,7 @@ class GroupedOrdersTest extends Specification with NoTimeConversions with RedoxT
 
       val patient = data.Patient
       patient.Demographics must beSome
-      patient.Demographics.get.Sex must beEqualTo(Gender.Unknown)
+      patient.Demographics.get.Sex must beEqualTo(SexType.Unknown)
     }
   }
 }

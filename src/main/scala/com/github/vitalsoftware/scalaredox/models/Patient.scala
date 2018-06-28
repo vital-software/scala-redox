@@ -4,7 +4,9 @@ import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 import play.api.libs.json.Reads.DefaultJodaDateReads
-import play.api.libs.json.{ Format, Reads, Writes }
+import play.api.libs.json._
+
+import scala.collection.Seq
 
 /**
  * Created by apatzer on 3/17/17.
@@ -21,9 +23,23 @@ import play.api.libs.json.{ Format, Reads, Writes }
   IDType: String
 )
 
-object Gender extends Enumeration {
-  val M, F, Male, Female, Unknown, Other = Value
-  implicit lazy val jsonFormat: Format[Gender.Value] = Format(Reads.enumNameReads(Gender), Writes.enumNameWrites)
+object SexType extends Enumeration {
+  val Male, Female, Unknown, Other = Value
+
+  val strictReads: Reads[SexType.Value] = Reads.enumNameReads(SexType)
+
+  // Allow coversion of "M" and "F" into "Male" and "Female" types
+  implicit lazy val fuzzyReads: Reads[SexType.Value] = new Reads[SexType.Value] {
+    def reads(json: JsValue) = {
+      val transform = json match {
+        case JsString(str) if str.equalsIgnoreCase("M") => JsString(Male.toString)
+        case JsString(str) if str.equalsIgnoreCase("F") => JsString(Female.toString)
+        case _ => json
+      }
+      strictReads.reads(transform)
+    }
+  }
+  implicit lazy val jsonFormat: Format[SexType.Value] = Format(fuzzyReads, Writes.enumNameWrites)
 }
 
 /**
@@ -45,7 +61,7 @@ object Gender extends Enumeration {
   LastName: String,
   DOB: DateTime,
   SSN: Option[String] = None,
-  Sex: Gender.Value = Gender.Unknown,
+  Sex: SexType.Value = SexType.Unknown,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[String] = Seq.empty,

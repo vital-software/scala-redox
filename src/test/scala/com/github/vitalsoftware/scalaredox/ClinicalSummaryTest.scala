@@ -19,7 +19,7 @@ class ClinicalSummaryTest extends Specification with NoTimeConversions with Redo
     "return an error" in {
       val shouldFailQuery = PatientQuery(
         Meta(DataModel = DataModelTypes.ClinicalSummary, EventType = RedoxEventTypes.Query),
-        Patient(Demographics = Some(Demographics("John", "Doe", DateTime.parse("1970-1-1"), Sex = Gender.Male)))
+        Patient(Demographics = Some(Demographics("John", "Doe", DateTime.parse("1970-1-1"), Sex = SexType.Male)))
       )
       val fut = client.get[PatientQuery, ClinicalSummary](shouldFailQuery)
       val resp = Await.result(fut, timeout)
