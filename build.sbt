@@ -11,7 +11,7 @@ organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-scalaVersion := "2.11.12"
+scalaVersion := "2.12.6"
 
 crossScalaVersions := Seq("2.11.12", "2.12.6")
 
@@ -31,7 +31,7 @@ libraryDependencies ++= Seq(
   //"ai.x" %% "play-json-extensions" % "0.8.0",
   "com.github.vital-software" %% "json-annotation" % "0.4.5",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
-  "org.specs2" %% "specs2" % "2.3.13" % Test
+  "org.specs2" %% "specs2-core" % "4.2.0" % Test
 )
 
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
