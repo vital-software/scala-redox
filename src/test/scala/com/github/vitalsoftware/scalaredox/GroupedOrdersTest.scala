@@ -2,9 +2,8 @@ package com.github.vitalsoftware.scalaredox
 
 import com.github.vitalsoftware.scalaredox.models.{ SexType, GroupedOrdersMessage, Order }
 import org.specs2.mutable.Specification
-import org.specs2.time.NoTimeConversions
 
-class GroupedOrdersTest extends Specification with NoTimeConversions with RedoxTest {
+class GroupedOrdersTest extends Specification with RedoxTest {
   "alter GroupedOrders" should {
     "post a new GroupedOrders given Redox Dev Tools" in {
       val json =

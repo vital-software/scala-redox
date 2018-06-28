@@ -3,9 +3,8 @@ package com.github.vitalsoftware.scalaredox
 import com.github.vitalsoftware.scalaredox.client.EmptyResponse
 import com.github.vitalsoftware.scalaredox.models.FlowSheetMessage
 import org.specs2.mutable.Specification
-import org.specs2.time.NoTimeConversions
 
-class FlowSheetTest extends Specification with NoTimeConversions with RedoxTest {
+class FlowSheetTest extends Specification with RedoxTest {
 
   "alter Flowsheet" should {
     "post new Flowsheet results" in {

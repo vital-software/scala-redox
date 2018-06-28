@@ -3,12 +3,11 @@ package com.github.vitalsoftware.scalaredox
 import com.github.vitalsoftware.scalaredox.client.EmptyResponse
 import com.github.vitalsoftware.scalaredox.models.{ Result, ResultsMessage }
 import org.specs2.mutable.Specification
-import org.specs2.time.NoTimeConversions
 
 /**
  * Created by apatzer on 3/23/17.
  */
-class ResultsTest extends Specification with NoTimeConversions with RedoxTest {
+class ResultsTest extends Specification with RedoxTest {
 
   "alter Results" should {
 
