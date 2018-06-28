@@ -2,7 +2,6 @@ package com.github.vitalsoftware.scalaredox
 
 import com.github.vitalsoftware.scalaredox.models._
 import org.specs2.mutable.Specification
-import org.specs2.time.NoTimeConversions
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -10,7 +9,7 @@ import scala.concurrent.duration._
 /**
  * Created by apatzer on 3/23/17.
  */
-class PatientSearchTest extends Specification with NoTimeConversions with RedoxTest {
+class PatientSearchTest extends Specification with RedoxTest {
 
   "query PatientSearch" should {
 

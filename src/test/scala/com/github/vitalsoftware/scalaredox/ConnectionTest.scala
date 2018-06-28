@@ -4,13 +4,12 @@ import com.github.vitalsoftware.scalaredox.client.AuthInfo
 import com.github.vitalsoftware.scalaredox.models._
 import org.joda.time.DateTime
 import org.specs2.mutable.Specification
-import org.specs2.time.NoTimeConversions
 import play.api.libs.json.{ JsError, Json }
 
 import concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
-class ConnectionTest extends Specification with NoTimeConversions with RedoxTest {
+class ConnectionTest extends Specification with RedoxTest {
 
   protected def validateAuth(auth: AuthInfo): Boolean = {
     auth.accessToken must not be empty

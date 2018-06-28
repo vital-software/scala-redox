@@ -3,12 +3,11 @@ package com.github.vitalsoftware.scalaredox
 import java.nio.file.Files
 
 import org.specs2.mutable.Specification
-import org.specs2.time.NoTimeConversions
 
 /**
  * @author andrew.zurn@dexcom.com - 11/1/17.
  */
-class UploadTest extends Specification with NoTimeConversions with RedoxTest {
+class UploadTest extends Specification with RedoxTest {
 
   "alter Uploads" should {
     "post new Uploads" in {
