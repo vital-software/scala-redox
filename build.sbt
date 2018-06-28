@@ -36,7 +36,7 @@ libraryDependencies ++= Seq(
 
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 
-scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
+ThisBuild / scalacOptions ++= Seq("-unchecked", "-deprecation")
 
 publishMavenStyle := true
 
@@ -48,7 +48,7 @@ publishTo := {
     Some("releases"  at nexus + "service/local/staging/deploy/maven2")
 }
 
-publishArtifact in Test := false
+Test / publishArtifact := false
 
 pomIncludeRepository := { _ => false }
 
@@ -82,16 +82,16 @@ scalariformPreferences := scalariformPreferences.value
   .setPreference(DoubleIndentConstructorArguments, false)
   .setPreference(DanglingCloseParenthesis, Force)
 // compile only unmanaged sources, not the generated (aka managed) sourced
-sourceDirectories in (Compile, scalariformFormat) := (unmanagedSourceDirectories in Compile).value
+Compile / scalariformFormat / sourceDirectories := (Compile / unmanagedSourceDirectories).value
 
 // PGP settings
 pgpPassphrase := Some(Array())
 usePgpKeyHex("1bfe664d074b29f8")
 
 // Release settings
-releaseTagName              := s"${if (releaseUseGlobalVersion.value) (version in ThisBuild).value else version.value}" // Remove v prefix
-releaseTagComment           := s"Releasing ${(version in ThisBuild).value}\n\n[skip ci]"
-releaseCommitMessage        := s"Setting version to ${(version in ThisBuild).value}\n\n[skip ci]"
+releaseTagName              := s"${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}" // Remove v prefix
+releaseTagComment           := s"Releasing ${(ThisBuild / version).value}\n\n[skip ci]"
+releaseCommitMessage        := s"Setting version to ${(ThisBuild / version).value}\n\n[skip ci]"
 
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
