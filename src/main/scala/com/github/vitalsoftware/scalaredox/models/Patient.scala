@@ -21,9 +21,9 @@ import play.api.libs.json.{ Format, Reads, Writes }
   IDType: String
 )
 
-object Gender extends Enumeration {
-  val M, F, Male, Female, Unknown, Other = Value
-  implicit lazy val jsonFormat: Format[Gender.Value] = Format(Reads.enumNameReads(Gender), Writes.enumNameWrites)
+object SexType extends Enumeration {
+  val Male, Female, Unknown, Other = Value
+  implicit lazy val jsonFormat: Format[SexType.Value] = Format(Reads.enumNameReads(SexType), Writes.enumNameWrites)
 }
 
 /**
@@ -45,7 +45,7 @@ object Gender extends Enumeration {
   LastName: String,
   DOB: DateTime,
   SSN: Option[String] = None,
-  Sex: Gender.Value = Gender.Unknown,
+  Sex: SexType.Value = SexType.Unknown,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[String] = Seq.empty,
