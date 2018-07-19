@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.HasDefaultReads
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
@@ -126,12 +127,13 @@ trait Code {
   Text: Option[String] = None
 )
 
-object ValueTypes extends Enumeration {
+object ValueTypes extends Enumeration with HasDefaultReads {
   val Numeric, String, Date, Time, DateTime = Value
   val CodedEntry = Value("Coded Entry")
   val EncapsulatedData = Value("Encapsulated Data")
 
-  implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(Reads.enumNameReads(ValueTypes), Writes.enumNameWrites)
+  val defaultValue = String
+  implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
 }
 
 /**

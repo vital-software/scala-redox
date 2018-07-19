@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import java.time.LocalDate
 
 import com.github.vitalsoftware.macros.jsonDefaults
+import com.github.vitalsoftware.util.HasDefaultReads
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
@@ -25,14 +26,16 @@ import play.api.libs.json.{ Format, Reads, Writes }
   ID: Option[String] = None
 )
 
-object OrderPriorityTypes extends Enumeration {
+object OrderPriorityTypes extends Enumeration with HasDefaultReads {
   val Stat = Value("Stat")
   val ASAP = Value("ASAP")
   val Routine = Value("Routine")
   val Preoperative = Value("Preoperative")
   val TimingCritical = Value("Timing Critical")
+  val Other = Value("Other")
 
-  implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(Reads.enumNameReads(OrderPriorityTypes), Writes.enumNameWrites)
+  val defaultValue = Other
+  implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
 }
 
 /**

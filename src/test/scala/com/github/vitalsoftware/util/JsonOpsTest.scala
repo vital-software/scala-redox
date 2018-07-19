@@ -116,5 +116,22 @@ class JsonOpsTest extends Specification {
         """.stripMargin
       )
     }
+
+    "Enumeration with HasDefault" should {
+
+      object TestEnum extends Enumeration with HasDefaultReads {
+        val V1, V2, V3, Default = Value
+
+        override def defaultValue: TestEnum.Value = Default
+      }
+
+      "Use default value if it can't parse" in {
+        JsString("Unknown").validate[TestEnum.Value] mustEqual JsSuccess(TestEnum.Default)
+      }
+
+      "It works with correctly parsed values" in {
+        JsString("V1").validate[TestEnum.Value] mustEqual JsSuccess(TestEnum.V1)
+      }
+    }
   }
 }
