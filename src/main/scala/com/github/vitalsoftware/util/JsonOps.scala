@@ -1,10 +1,9 @@
 package com.github.vitalsoftware.util
 
-import org.joda.time.{ DateTime, DateTimeZone }
+import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
 import play.api.libs.json._
 import play.api.libs.json.Reads._
-import play.api.libs.json.Writes._
 import play.api.libs.functional.syntax._
 
 import scala.language.implicitConversions
@@ -123,3 +122,22 @@ trait JsonImplicits {
 }
 
 object JsonImplicits extends JsonImplicits
+
+/** Defines a fall black for enumeration value when it fails to parse */
+trait HasDefault { this: Enumeration =>
+  def defaultValue: Value
+}
+
+trait LowPriorityBaseEnumReads { self: Enumeration =>
+  implicit lazy val baseEnumReads: Reads[self.Value] = Reads.enumNameReads(self).asInstanceOf[Reads[self.Value]]
+}
+
+trait HasDefaultReads extends LowPriorityBaseEnumReads with HasDefault { self: Enumeration with HasDefault =>
+  implicit lazy val defaultReads: Reads[Value] = new Reads[Value] {
+    override def reads(json: JsValue): JsResult[Value] = baseEnumReads.reads(json)
+      .recover {
+        case err: JsError => self.defaultValue
+      }
+  }
+}
+
