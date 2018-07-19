@@ -1,6 +1,11 @@
 # Changelog
 
-## [Unreleased]
+## [1.2.0]
+
+### Changed
+
+- Failing to parse an `Enumeration` with `HasDefaultReads` will now fallback to a default value
+and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes` and `CommonVitalTypes`)
 
 ## [1.1.0] - 2018-06-28
 
