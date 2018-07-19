@@ -132,11 +132,14 @@ trait LowPriorityBaseEnumReads { self: Enumeration =>
   implicit lazy val baseEnumReads: Reads[self.Value] = Reads.enumNameReads(self).asInstanceOf[Reads[self.Value]]
 }
 
-trait HasDefaultReads extends LowPriorityBaseEnumReads with HasDefault { self: Enumeration with HasDefault =>
+trait HasDefaultReads extends LowPriorityBaseEnumReads with HasDefault with Logger { self: Enumeration with HasDefault =>
   implicit lazy val defaultReads: Reads[Value] = new Reads[Value] {
     override def reads(json: JsValue): JsResult[Value] = baseEnumReads.reads(json)
       .recover {
-        case err: JsError => self.defaultValue
+        case err: JsError => {
+          logger.error("Failed to parse enum value", JsResult.Exception(err))
+          self.defaultValue
+        }
       }
   }
 }

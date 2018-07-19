@@ -45,7 +45,7 @@ object InsuranceRelationshipTypes extends Enumeration with HasDefaultReads {
   implicit lazy val jsonFormat: Format[InsuranceRelationshipTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
 }
 
-object InsuranceAgreementTypes extends Enumeration  with HasDefaultReads {
+object InsuranceAgreementTypes extends Enumeration with HasDefaultReads {
   val Standard, Unified, Maternity, Other = Value
 
   val defaultValue = Other
