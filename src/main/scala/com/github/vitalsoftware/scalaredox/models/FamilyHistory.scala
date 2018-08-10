@@ -54,7 +54,7 @@ import com.github.vitalsoftware.macros._
 ) extends Code
 
 @jsonDefaults case class FamilyHistory(
-  Relation: Relation = Relation(),
+  Relation: Relation = Relation.apply(),
   Problems: Seq[FamilyHistoryProblem] = Seq.empty
 )
 
