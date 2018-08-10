@@ -47,5 +47,5 @@ import com.github.vitalsoftware.macros._
  */
 @jsonDefaults case class PlanOfCareMessage(
   PlanOfCareText: Option[String] = None,
-  PlanOfCare: PlanOfCare = PlanOfCare.apply()
+  PlanOfCare: PlanOfCare
 )

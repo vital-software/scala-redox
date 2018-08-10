@@ -51,7 +51,7 @@ object NoteContentTypes extends Enumeration with HasDefaultReads {
   DocumentID: String,
   ServiceDateTime: Option[DateTime] = None,
   DocumentationDateTime: Option[DateTime] = None,
-  Provider: Provider = Provider.apply(),
+  Provider: Provider,
   Status: Option[String] = None,
   Authenticator: Option[Provider] = None,
   Notifications: Seq[Provider] = Seq.empty

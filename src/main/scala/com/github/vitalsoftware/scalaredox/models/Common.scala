@@ -85,7 +85,7 @@ trait Code {
  * Note: Seems duplicative of CareLocation, but described using the generic 'Code' object
  */
 @jsonDefaults case class Location(
-  Address: Address = Address.apply(),
+  Address: Address,
   Type: BasicCode = BasicCode(),
   Name: Option[String] = None
 )
