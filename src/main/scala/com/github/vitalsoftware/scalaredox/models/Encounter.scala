@@ -20,7 +20,7 @@ import com.github.vitalsoftware.macros._
  */
 @jsonDefaults case class Encounter(
   Identifiers: Seq[Identifier] = Seq.empty,
-  Type: BasicCode,
+  Type: BasicCode = BasicCode(),
   DateTime: DateTime,
   EndDateTime: Option[DateTime] = None,
   Providers: Seq[Provider] = Seq.empty,

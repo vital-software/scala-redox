@@ -22,7 +22,7 @@ import com.github.vitalsoftware.macros._
   ID: String,
   Author: Option[Provider] = None, // Todo Provider.Type is not present!
   Visit: Option[VisitInfo] = None,
-  Locale: String, // TODO java.util.Locale
+  Locale: String = java.util.Locale.ROOT.toString, // TODO java.util.Locale
   Title: String,
   DateTime: DateTime,
   Type: String

@@ -26,5 +26,5 @@ import com.github.vitalsoftware.macros._
  */
 @jsonDefaults case class ProceduresMessage(
   ProceduresText: Option[String] = None,
-  Procedures: Procedures
+  Procedures: Procedures = Procedures()
 )

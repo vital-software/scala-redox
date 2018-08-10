@@ -24,7 +24,7 @@ import com.github.vitalsoftware.macros._
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  Category: BasicCode,
+  Category: BasicCode = BasicCode(),
   //HealthStatus: Option[BasicCode] = None, // TODO Seems to come back as HealthStatus: { null, null, null, null } which violates the constraints of BasicCode
   Status: Option[BasicCode] = None
 ) extends Code

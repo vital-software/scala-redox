@@ -39,7 +39,7 @@ object MediaAvailability extends Enumeration with HasDefaultReads {
   Provider: Option[Provider] = None,
   Authenticated: Option[String] = None,
   Authenticator: Option[Provider] = None,
-  Availability: MediaAvailability.Value,
+  Availability: MediaAvailability.Value = MediaAvailability.defaultValue,
   Notifications: Seq[Provider] = Seq.empty
 )
 

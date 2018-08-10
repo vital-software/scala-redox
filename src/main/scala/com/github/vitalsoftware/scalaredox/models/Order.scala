@@ -74,7 +74,7 @@ object OrderPriorityTypes extends Enumeration with HasDefaultReads {
   NPI: Option[String] = None,
   FirstName: Option[String] = None,
   LastName: Option[String] = None,
-  Type: Option[String],
+  Type: Option[String] = None,
   Credentials: Seq[String] = Seq.empty,
   Address: Option[Address] = None,
   Location: Option[CareLocation] = None,

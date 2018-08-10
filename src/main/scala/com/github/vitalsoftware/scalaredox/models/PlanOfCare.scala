@@ -19,7 +19,7 @@ import com.github.vitalsoftware.macros._
   StartDate: DateTime,
   EndDate: Option[DateTime] = None,
   Frequency: Option[TimePeriod] = None,
-  Product: BasicCode
+  Product: BasicCode = BasicCode()
 ) extends Medication with Status with DateRange
 
 /**
@@ -47,5 +47,5 @@ import com.github.vitalsoftware.macros._
  */
 @jsonDefaults case class PlanOfCareMessage(
   PlanOfCareText: Option[String] = None,
-  PlanOfCare: PlanOfCare
+  PlanOfCare: PlanOfCare = PlanOfCare()
 )

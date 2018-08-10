@@ -62,5 +62,5 @@ import com.github.vitalsoftware.macros._
  */
 @jsonDefaults case class SocialHistoryMessage(
   SocialHistoryText: Option[String] = None,
-  SocialHistory: SocialHistory
+  SocialHistory: SocialHistory = SocialHistory()
 )

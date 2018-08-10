@@ -20,11 +20,11 @@ import com.github.vitalsoftware.macros._
  * @param Comment Free text comment about the allergy.
  */
 @jsonDefaults case class Allergy(
-  Type: BasicCode,
-  Substance: BasicCode,
+  Type: BasicCode = BasicCode(),
+  Substance: BasicCode = BasicCode(),
   Reaction: Seq[CodeWithText] = Seq.empty,
-  Severity: BasicCode,
-  Status: BasicCode,
+  Severity: BasicCode = BasicCode(),
+  Status: BasicCode = BasicCode(),
   StartDate: Option[DateTime] = None,
   EndDate: Option[DateTime] = None,
   Comment: Option[String] = None

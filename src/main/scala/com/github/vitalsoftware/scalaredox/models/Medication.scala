@@ -56,7 +56,7 @@ trait Medication extends DateRange {
   StartDate: DateTime,
   EndDate: Option[DateTime] = None,
   Frequency: Option[TimePeriod] = None,
-  Product: BasicCode
+  Product: BasicCode = BasicCode()
 ) extends Medication
 
 /**
