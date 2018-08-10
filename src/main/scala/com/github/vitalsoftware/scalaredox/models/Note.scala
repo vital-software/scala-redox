@@ -43,7 +43,7 @@ object NoteContentTypes extends Enumeration with HasDefaultReads {
 )
 
 @jsonDefaults case class Note(
-  ContentType: NoteContentTypes.Value,
+  ContentType: NoteContentTypes.Value = NoteContentTypes.defaultValue,
   FileName: Option[String] = None,
   FileContents: Option[String] = None,
   Components: Seq[NoteComponent] = Seq.empty,

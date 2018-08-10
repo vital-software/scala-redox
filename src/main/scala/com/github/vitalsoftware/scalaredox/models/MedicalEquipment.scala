@@ -20,7 +20,7 @@ import com.github.vitalsoftware.macros._
   Status: String,
   StartDate: Option[DateTime] = None,
   Quantity: Option[String] = None, // Todo Int?
-  Product: BasicCode
+  Product: BasicCode = BasicCode()
 )
 
 /**

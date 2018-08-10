@@ -19,7 +19,7 @@ import com.github.vitalsoftware.macros._
   StartDate: DateTime,
   EndDate: Option[DateTime] = None,
   Frequency: Option[TimePeriod] = None,
-  Product: BasicCode
+  Product: BasicCode = BasicCode()
 ) extends Medication with Status with DateRange
 
 /**

@@ -86,7 +86,7 @@ trait Code {
  */
 @jsonDefaults case class Location(
   Address: Address,
-  Type: BasicCode,
+  Type: BasicCode = BasicCode(),
   Name: Option[String] = None
 )
 

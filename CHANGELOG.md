@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- With the upgrade of `json-annotations` library. We will now assign default values to message fields
+whenever parsing of that filed fails.
+
 ### Changed
 
 - Failing to parse an `Enumeration` with `HasDefaultReads` will now fallback to a default value

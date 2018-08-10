@@ -69,7 +69,7 @@ import play.api.libs.json.{ Format, Reads, Writes }
   Description: Option[String] = None,
   Specimen: Option[Specimen] = None,
   Value: String,
-  ValueType: ValueTypes.Value,
+  ValueType: ValueTypes.Value = ValueTypes.defaultValue,
   FileType: Option[String] = None,
   Units: Option[String] = None,
   Notes: Seq[String] = Seq.empty,

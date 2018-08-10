@@ -18,10 +18,10 @@ import com.github.vitalsoftware.macros._
  * @param Address Provider's address
  */
 @jsonDefaults case class Provider(
-  ID: Option[String],
-  IDType: Option[String],
-  FirstName: Option[String],
-  LastName: Option[String],
+  ID: Option[String] = None,
+  IDType: Option[String] = None,
+  FirstName: Option[String] = None,
+  LastName: Option[String] = None,
   Type: Option[String] = None,
   Credentials: Seq[String] = Seq.empty,
   Address: Option[Address] = None,

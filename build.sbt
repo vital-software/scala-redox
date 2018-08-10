@@ -29,7 +29,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.6",
   "com.typesafe.akka" %% "akka-http" % "10.0.9",
   //"ai.x" %% "play-json-extensions" % "0.8.0",
-  "com.github.vital-software" %% "json-annotation" % "0.4.5",
+  "com.github.vital-software" %% "json-annotation" % "0.5.0",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
   "org.specs2" %% "specs2-core" % "4.2.0" % Test
 )

@@ -19,7 +19,7 @@ import com.github.vitalsoftware.macros._
  * @param Custodians People legally responsible for the advance directive document.
  */
 @jsonDefaults case class AdvanceDirective(
-  Type: BasicCode,
+  Type: BasicCode = BasicCode(),
   Code: Option[String] = None, // Todo Question: Seems to duplicate 'Type' field
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,

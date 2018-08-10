@@ -13,7 +13,7 @@ import com.github.vitalsoftware.macros._
  * @param DOB Date of Birth of the relative. In YYYY-MM-DD format
  */
 @jsonDefaults case class FamilyDemographics(
-  Sex: SexType.Value,
+  Sex: SexType.Value = SexType.defaultValue,
   DOB: Option[LocalDate] = None
 )
 
@@ -22,7 +22,7 @@ import com.github.vitalsoftware.macros._
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  Demographics: FamilyDemographics,
+  Demographics: FamilyDemographics = FamilyDemographics(),
   IsDeceased: Option[Boolean] = None
 ) extends Code
 
@@ -31,7 +31,7 @@ import com.github.vitalsoftware.macros._
  * @param DOB Date of Birth of the relative. In YYYY-MM-DD format
  */
 @jsonDefaults case class RelationDemographics(
-  Sex: SexType.Value,
+  Sex: SexType.Value = SexType.defaultValue,
   DOB: LocalDate
 )
 
@@ -47,7 +47,7 @@ import com.github.vitalsoftware.macros._
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  Type: BasicCode,
+  Type: BasicCode = BasicCode(),
   DateTime: Option[DateTime] = None,
   AgeAtOnset: Option[String] = None,
   IsCauseOfDeath: Option[Boolean] = None
