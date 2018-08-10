@@ -31,7 +31,7 @@ import com.github.vitalsoftware.macros._
  * @param DOB Date of Birth of the relative. In YYYY-MM-DD format
  */
 @jsonDefaults case class RelationDemographics(
-  Sex: SexType.Value = SexType.defaultValue,,
+  Sex: SexType.Value = SexType.defaultValue,
   DOB: LocalDate
 )
 
