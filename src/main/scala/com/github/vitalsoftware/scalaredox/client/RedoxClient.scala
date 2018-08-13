@@ -262,10 +262,11 @@ object RedoxClient {
             pruned.transform(transforms)
               .flatMap(_.validate(reads))
               .asEither
+              .left.map(_ => errors)
               .right.map(res => (Some(JsError(errors)), Some(res)))
           }
       }
-      .left.map(err => (Some(JsError(err)), None))
+      .left.map(errors => (Some(JsError(errors)), None))
       .merge
   }
 
