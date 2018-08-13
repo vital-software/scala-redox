@@ -247,28 +247,25 @@ object RedoxClient {
         case _ if visitTypes.contains(meta.EventType) => Right(implicitly[Reads[models.Visit]])
         case _ => Left(unsupported)
       }
+    } match {
+      case Left(error)  => (Some(JsError(error)), None)
+      case Right(reads) => robustParsing(reads, reducer(json))
     }
-      .right.flatMap { reads =>
-        // Try to recover from failures
-        val pruned = reducer(json)
-        pruned.validate(reads).asEither
-          .right.map(res => (None, Some(res)))
-          .left.flatMap { errors =>
-            val transforms = errors.map(_._1)
-              .filter(_.path.size == 1)
-              .map(_.json.prune)
-              .reduce(_ andThen _)
-
-            pruned.transform(transforms)
-              .flatMap(_.validate(reads))
-              .asEither
-              .left.map(_ => errors)
-              .right.map(res => (Some(JsError(errors)), Some(res)))
-          }
-      }
-      .left.map(errors => (Some(JsError(errors)), None))
-      .merge
   }
 
-  def robustParsing[A](reads: Reads[A], json: JsValue) = ???
+  def robustParsing[A](reads: Reads[A], json: JsValue): (Option[JsError], Option[A]) = json.validate(reads)
+    .fold(
+      invalid = { errors =>
+        val transforms = errors.map(_._1)
+          .filter(_.path.size == 1)
+          .map(_.json.prune)
+          .reduce(_ andThen _)
+
+        json.transform(transforms)
+          .flatMap(_.validate(reads))
+          .map(res => (Some(JsError(errors)), Option(res)))
+          .recoverTotal(_ => (Some(JsError(errors)), None))
+      },
+      valid = res => (None, Some(res))
+    )
 }
