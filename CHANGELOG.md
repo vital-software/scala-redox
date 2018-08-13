@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Changes signature of `webhook` to return both potential error and results. `(Option[JsError], Option[AnyRef])`
+
 ## [1.3.0] - 2018-08-10
 
 - With the upgrade of `json-annotations` library. We will now assign default values to message fields
