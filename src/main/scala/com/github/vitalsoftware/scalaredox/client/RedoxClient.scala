@@ -214,8 +214,10 @@ object RedoxClient {
   /**
    * Receive a webhook message and turn it into a Scala class based on the message type Meta.DataModel
    * Ex. def webhook() = Action.async(parse.json) { implicit request => RedoxClient.webhook(request.body) }
+   * Since this do robust parsing, The result may contain errors. Which means that with results, there may
+   * or may not be errors.
    */
-  def webhook(json: JsValue, reducer: JsValue => JsValue = identity): Either[JsError, AnyRef] = {
+  def webhook(json: JsValue, reducer: JsValue => JsValue = identity): (Option[JsError], Option[AnyRef]) = {
     import com.github.vitalsoftware.scalaredox.models.DataModelTypes._
     import com.github.vitalsoftware.scalaredox.models.RedoxEventTypes._
     val reads = (__ \ "Meta").read[models.Meta]
@@ -223,35 +225,49 @@ object RedoxClient {
     val clinicalSummaryTypes = List(PatientQueryResponse, PatientPush)
     val visitTypes = List(VisitQueryResponse, VisitPush)
 
-    json.validate[models.Meta](reads).fold(
-      invalid = errors => Left(errors),
-      valid = { meta =>
-        val pruned = reducer(json)
-
-        meta.DataModel match {
-          case Order => meta.EventType match {
-            case GroupedOrders => json.validate[models.GroupedOrdersMessage].asEither
-            case _             => json.validate[models.OrderMessage].asEither
-          }
-          case Claim => Left(unsupported)
-          case Device => Left(unsupported)
-          case Financial => Left(unsupported)
-          case Flowsheet => pruned.validate[models.FlowSheetMessage].asEither
-          case Inventory => Left(unsupported)
-          case Media => pruned.validate[models.MediaMessage].asEither
-          case Notes => pruned.validate[models.NoteMessage].asEither
-          case PatientAdmin => pruned.validate[models.PatientAdminMessage].asEither
-          case PatientSearch => pruned.validate[models.PatientSearch].asEither
-          case Referral => Left(unsupported)
-          case Results => pruned.validate[models.ResultsMessage].asEither
-          case Scheduling => Left(unsupported)
-          case SurgicalScheduling => Left(unsupported)
-          case Vaccination => Left(unsupported)
-          case _ if clinicalSummaryTypes.contains(meta.EventType) => pruned.validate[models.ClinicalSummary].asEither
-          case _ if visitTypes.contains(meta.EventType) => pruned.validate[models.Visit].asEither
-          case _ => Left(unsupported)
-        }
+    json.validate[models.Meta](reads).asEither.flatMap { meta =>
+      (meta.DataModel, meta.EventType) match {
+        case (Order, GroupedOrders) => Right(implicitly[Reads[models.GroupedOrdersMessage]])
+        case (Order, _) => Right(implicitly[Reads[models.OrderMessage]])
+        case (Claim, _) => Left(unsupported)
+        case (Device, _) => Left(unsupported)
+        case (Financial, _) => Left(unsupported)
+        case (Flowsheet, _) => Right(implicitly[Reads[models.FlowSheetMessage]])
+        case (Inventory, _) => Left(unsupported)
+        case (Media, _) => Right(implicitly[Reads[models.MediaMessage]])
+        case (Notes, _) => Right(implicitly[Reads[models.NoteMessage]])
+        case (PatientAdmin, _) => Right(implicitly[Reads[models.PatientAdminMessage]])
+        case (PatientSearch, _) => Right(implicitly[Reads[models.PatientSearch]])
+        case (Referral, _) => Left(unsupported)
+        case (Results, _) => Right(implicitly[Reads[models.ResultsMessage]])
+        case (Scheduling, _) => Left(unsupported)
+        case (SurgicalScheduling, _) => Left(unsupported)
+        case (Vaccination, _) => Left(unsupported)
+        case _ if clinicalSummaryTypes.contains(meta.EventType) => Right(implicitly[Reads[models.ClinicalSummary]])
+        case _ if visitTypes.contains(meta.EventType) => Right(implicitly[Reads[models.Visit]])
+        case _ => Left(unsupported)
       }
-    ).left.map(err => JsError(err))
+    }
+      .right.flatMap { reads =>
+        // Try to recover from failures
+        val pruned = reducer(json)
+        pruned.validate(reads).asEither
+          .right.map(res => (None, Some(res)))
+          .left.flatMap { errors =>
+            val transforms = errors.map(_._1)
+              .filter(_.path.size == 1)
+              .map(_.json.prune)
+              .reduce(_ andThen _)
+
+            pruned.transform(transforms)
+              .flatMap(_.validate(reads))
+              .asEither
+              .right.map(res => (Some(JsError(errors)), Some(res)))
+          }
+      }
+      .left.map(err => (Some(JsError(err)), None))
+      .merge
   }
+
+  def robustParsing[A](reads: Reads[A], json: JsValue) = ???
 }
