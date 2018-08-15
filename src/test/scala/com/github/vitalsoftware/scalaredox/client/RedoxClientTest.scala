@@ -60,5 +60,14 @@ class RedoxClientTest extends Specification {
       errors must beSome[JsError]
       errors.get.errors.map(_._1.toJsonString) must contain(allOf("obj.f1", "obj.f2", "obj.f3", "obj.f4"))
     }
+
+    "Replace deep nested values" in {
+      val json = Json.obj("f4" -> Json.obj("f3" -> "not boolean"))
+      val (errors, result) = RedoxClient.robustParsing(Test.jsonAnnotationFormat, json)
+
+      result must beSome(Test(f4 = Some(Test(f4 = None))))
+      errors must beSome[JsError]
+      errors.get.errors.map(_._1.toJsonString) must contain(allOf("obj.f4.f3"))
+    }
   }
 }
