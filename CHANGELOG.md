@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Fix bug where robust parsing fails to recover from deep errors
+
 ## [1.4.0] - 2018-08-13
 
 - Changes signature of `webhook` to return both potential error and results. `(Option[JsError], Option[AnyRef])`
