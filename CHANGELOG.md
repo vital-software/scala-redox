@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.4.1] - 2018-08-16
+
 - Fix bug where robust parsing fails to recover from deep errors
 
 ## [1.4.0] - 2018-08-13
