@@ -257,7 +257,6 @@ object RedoxClient {
     .fold(
       invalid = { errors =>
         val transforms = errors.map(_._1)
-          .filter(_.path.size == 1)
           .map(_.json.prune)
           .reduce(_ andThen _)
 
