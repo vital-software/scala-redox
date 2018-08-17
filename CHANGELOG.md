@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Fix robust parsing issue with json arrays.
+
 ## [1.4.1] - 2018-08-16
 
 - Fix bug where robust parsing fails to recover from deep errors
