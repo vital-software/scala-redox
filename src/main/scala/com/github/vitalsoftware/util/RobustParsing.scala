@@ -10,37 +10,28 @@ object RobustParsing {
       invalid = { errors =>
         val paths = errors.map(_._1)
 
-        // if we haven't seen these paths before prune and process
-        if (paths.intersect(seen).isEmpty) {
-          // if paths contain arrays we need to
+        // if there are intersects with arrays, we remove the entire array so that if the array has a default, we can
+        // fall back to that. see test "recover on arrays with default values"
+        val sanitizedPaths = paths.intersect(seen)
+          .filter(_.path.exists(_.isInstanceOf[IdxPathNode]))
+          .map(p => p.path.splitAt(p.path.lastIndexWhere(_.isInstanceOf[IdxPathNode]))._1)
+          .filter(_.nonEmpty)
+          .map(JsPath.apply)
+        val unseen = paths.diff(seen)
+        val pathsToPrune = sanitizedPaths ++ unseen
 
-          val transforms = paths
-            .map(prune _)
+        if (pathsToPrune.nonEmpty) {
+          val transforms = pathsToPrune
+            .map(prune)
             .reduce(_ andThen _)
 
           val pruned = json.transform(transforms)
 
-          RobustParsing.robustParsing(reads, pruned.get, paths) match {
+          RobustParsing.robustParsing(reads, pruned.get, seen ++ pathsToPrune) match {
             case (_, maybeResult) => (Some(JsError(errors)), maybeResult)
           }
         } else {
-          val intersectsWithArrays = paths.intersect(seen)
-            .filter(_.path.exists(_.isInstanceOf[IdxPathNode]))
-          val sanitizedPaths = intersectsWithArrays
-            .map(p => p.path.splitAt(p.path.indexWhere(_.isInstanceOf[IdxPathNode]))._1)
-            .filter(_.nonEmpty)
-            .map(JsPath.apply _) ++ paths.diff(seen)
-          if (sanitizedPaths.nonEmpty) {
-            val transforms = sanitizedPaths
-              .map(prune _)
-              .reduce(_ andThen _)
-            val pruned = json.transform(transforms)
-            RobustParsing.robustParsing(reads, pruned.get, paths) match {
-              case (_, maybeResult) => (Some(JsError(errors)), maybeResult)
-            }
-          } else {
-            (Some(JsError(errors)), None)
-          }
+          (Some(JsError(errors)), None)
         }
       },
       valid = res => (None, Some(res))

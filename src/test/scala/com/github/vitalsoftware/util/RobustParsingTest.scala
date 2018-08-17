@@ -126,7 +126,7 @@ class RobustParsingTest extends Specification {
       val json = Json.obj("data" -> Json.arr(
         Json.obj("f1" -> "arr 1", "f2" -> "a"),
         Json.obj("f1" -> 234, "f2" -> 2), // fail on f1 as its a string
-        Json.obj("f1" -> "arr 3", "f2" -> "c"),
+        Json.obj("f1" -> "arr 3", "f2" -> "c")
       ))
 
       val (errors, result) = RobustParsing.robustParsing(implicitly[Reads[Container]], json)
