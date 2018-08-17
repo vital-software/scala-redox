@@ -41,20 +41,19 @@ object RobustParsing {
     val index = path.path.indexWhere(_.isInstanceOf[IdxPathNode])
     val splitIndex = if (index == -1) Int.MaxValue else index
     path.path.splitAt(splitIndex) match {
+      // primitive array, just return the value
       case (Nil, Nil)                       => path.json.pick
-      case (Nil, IdxPathNode(idx) :: tail)  => prunePathInArray(JsPath(Nil), idx, JsPath(tail))
+      // no arrays, safe to prune
       case (path, Nil)                      => JsPath(path).json.prune
+      // encountered an array JsValue, prune each element
       case (path, IdxPathNode(idx) :: tail) => prunePathInArray(JsPath(path), idx, JsPath(tail))
+      // unhandled, just return the value
       case _                                => path.json.pick
     }
   }
 
-  def prunePathInArray(toArrayElement: JsPath, index: Int, afterArray: JsPath): Reads[_ >: JsObject <: JsValue] = (toArrayElement.path, afterArray.path) match {
-    case (Nil, Nil) => Reads.of[JsArray].map { case JsArray(arr) => JsArray(arr) }
-    case (_, Nil) => toArrayElement.json.update {
-      Reads.of[JsArray].map { case JsArray(arr) => JsArray(arr) }
-    }
-    case (Nil, _) => Reads.of[JsArray].map { case JsArray(arr) => JsArray(arr.updated(index, arr(index).transform(prune(afterArray)).get)) }
+  def prunePathInArray(toArrayElement: JsPath, index: Int, afterArray: JsPath): Reads[_ >: JsObject <: JsValue] = toArrayElement.path match {
+    case Nil => Reads.of[JsArray].map { case JsArray(arr) => JsArray(arr.updated(index, arr(index).transform(prune(afterArray)).get)) }
     case _ => toArrayElement.json.update(
       Reads.of[JsArray].map { case JsArray(arr) => JsArray(arr.updated(index, arr(index).transform(prune(afterArray)).get)) }
     )

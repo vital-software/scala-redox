@@ -9,6 +9,7 @@ import play.api.libs.json._
 @jsonDefaults case class Test(f1: Int = 1, f2: String = "2", f3: Boolean = true, f4: Option[Test])
 @jsonDefaults case class TestWithNoFallback(f1: String, f2: Int = 99)
 @jsonDefaults case class Container(data: List[TestWithNoFallback] = List(TestWithNoFallback("test", 100)))
+@jsonDefaults case class PrimitiveContainer(data: List[Int] = List(1, 2, 3))
 
 class RobustParsingTest extends Specification {
 
@@ -140,6 +141,14 @@ class RobustParsingTest extends Specification {
       val (errors, result) = RobustParsing.robustParsing(Reads.list[Int], json)
       errors must beSome[JsError]
       result must beNone
+    }
+
+    "recover from array of primitives with default values" in {
+      val json = Json.obj("data" -> Json.arr(1, "a", 2, "b"))
+
+      val (errors, result) = RobustParsing.robustParsing(Reads.of[PrimitiveContainer], json)
+      errors must beSome[JsError]
+      result must beSome(PrimitiveContainer(List(1, 2, 3)))
     }
   }
 }
