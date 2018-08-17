@@ -11,6 +11,7 @@ import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
 import com.github.vitalsoftware.scalaredox.models.{ MediaMessage, Upload }
 import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
+import com.github.vitalsoftware.util.RobustParsing
 import com.typesafe.config.Config
 import org.joda.time.DateTime
 import play.api.libs.json._
@@ -249,22 +250,7 @@ object RedoxClient {
       }
     } match {
       case Left(error)  => (Some(JsError(error)), None)
-      case Right(reads) => robustParsing(reads, reducer(json))
+      case Right(reads) => RobustParsing.robustParsing(reads, reducer(json))
     }
   }
-
-  def robustParsing[A](reads: Reads[A], json: JsValue): (Option[JsError], Option[A]) = json.validate(reads)
-    .fold(
-      invalid = { errors =>
-        val transforms = errors.map(_._1)
-          .map(_.json.prune)
-          .reduce(_ andThen _)
-
-        json.transform(transforms)
-          .flatMap(_.validate(reads))
-          .map(res => (Some(JsError(errors)), Option(res)))
-          .recoverTotal(_ => (Some(JsError(errors)), None))
-      },
-      valid = res => (None, Some(res))
-    )
 }
