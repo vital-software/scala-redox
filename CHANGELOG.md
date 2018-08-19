@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.4.2] - 2018-08-19
+
 - Fix robust parsing issue with json arrays.
 
 ## [1.4.1] - 2018-08-16
