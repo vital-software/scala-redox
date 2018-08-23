@@ -1,5 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
+import java.util.Locale
+
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
@@ -70,7 +72,7 @@ object SexType extends Enumeration with HasDefault {
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[String] = Seq.empty,
-  Language: Option[String] = None, // TODO ISO 639-1
+  Language: Option[Locale] = None,
   Citizenship: Seq[String] = Seq.empty, // TODO ISO 3166
   Race: Option[String] = None,
   Ethnicity: Option[String] = None,

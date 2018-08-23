@@ -1,11 +1,14 @@
 package com.github.vitalsoftware.util
 
+import java.util.{ Locale, MissingResourceException }
+
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
 import play.api.libs.json._
 import play.api.libs.json.Reads._
 import play.api.libs.functional.syntax._
 
+import scala.collection.Seq
 import scala.language.implicitConversions
 import scala.language.postfixOps
 import scala.util.Try
@@ -119,6 +122,18 @@ trait JsonImplicits {
       case _           => false
     }
   }
+
+  implicit val localeImplicits: Format[Locale] = Format(
+    new Reads[Locale] {
+      override def reads(json: JsValue): JsResult[Locale] = json match {
+        case JsString(str) => Try(new Locale(str).getISO3Language).map(l => JsSuccess(Locale.forLanguageTag(l)))
+          .getOrElse(JsError(Seq(JsPath -> Seq(JsonValidationError("error.expected.locale")))))
+      }
+    },
+    new Writes[Locale] {
+      override def writes(o: Locale): JsValue = JsString(o.toString)
+    }
+  )
 }
 
 object JsonImplicits extends JsonImplicits
