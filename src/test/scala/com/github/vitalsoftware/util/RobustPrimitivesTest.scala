@@ -18,8 +18,18 @@ class RobustPrimitivesTest extends Specification {
       Reads.of[String].reads(JsNumber(123)) mustEqual (JsSuccess("123"))
       Reads.of[String].reads(JsNumber(123.456)) mustEqual (JsSuccess("123.456"))
 
-      //      Reads.of[String].reads(Json.arr(1, 2, 3)) mustEqual (JsSuccess("123.456"))
+      val invalid = Reads.of[String].reads(Json.arr(1, 2, 3))
+      invalid must beAnInstanceOf[JsError]
+      invalid.asInstanceOf[JsError].errors.flatMap(_._2.map(_.message)) must contain("error.expected.jsstring")
     }
 
+    "read as number" in new TestScope {
+      Reads.of[Int].reads(JsString("123")) mustEqual (JsSuccess(123))
+      Reads.of[Short].reads(JsString("123")) mustEqual (JsSuccess(123.toShort))
+      Reads.of[Long].reads(JsString("123")) mustEqual (JsSuccess(123L))
+      Reads.of[Float].reads(JsString("123.456")) mustEqual (JsSuccess(123.456F))
+      Reads.of[Double].reads(JsString("123.456")) mustEqual (JsSuccess(123.456D))
+      Reads.of[Byte].reads(JsString("4")) mustEqual (JsSuccess(4.toByte))
+    }
   }
 }

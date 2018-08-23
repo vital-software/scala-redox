@@ -150,5 +150,13 @@ class RobustParsingTest extends Specification {
       errors must beSome[JsError]
       result must beSome(PrimitiveContainer(List(1, 2, 3)))
     }
+
+    "recover from parsing type mismatches primitive types" in {
+      val json = Json.obj("f1" -> "1", "f2" -> 2, "f3" -> 1)
+
+      val (errors, result) = RobustParsing.robustParsing(Reads.of[Test], json)
+      errors must beNone
+      result must beSome(Test(1, "2", true, None))
+    }
   }
 }
