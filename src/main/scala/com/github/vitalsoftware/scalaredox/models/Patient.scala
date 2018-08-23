@@ -72,7 +72,7 @@ object SexType extends Enumeration with HasDefault {
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[String] = Seq.empty,
-  Language: Option[Locale] = None,
+  Language: Option[Locale] = Some(Locale.ENGLISH),
   Citizenship: Seq[String] = Seq.empty, // TODO ISO 3166
   Race: Option[String] = None,
   Ethnicity: Option[String] = None,
