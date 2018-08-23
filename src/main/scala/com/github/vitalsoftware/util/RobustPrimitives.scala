@@ -24,9 +24,9 @@ trait RobustPrimitives {
   private val alternativeBooleanReads: Reads[JsValue] = new Reads[JsValue] {
     override def reads(json: JsValue): JsResult[JsValue] = alternative {
       case JsString(s) => s.trim.toLowerCase match {
-        case s if s == "true" || s == "t"  => JsBoolean(true)
-        case s if s == "false" || s == "f" => JsBoolean(false)
-        case _                             => JsString(s)
+        case s if s == "true" || s == "t" || s == "1"  => JsBoolean(true)
+        case s if s == "false" || s == "f" || s == "0" => JsBoolean(false)
+        case _                                         => JsString(s)
       }
       case JsNumber(n) if n == 0 => JsBoolean(false)
       case JsNumber(n) if n == 1 => JsBoolean(true)
