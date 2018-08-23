@@ -3,7 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import java.time.LocalDate
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
+import com.github.vitalsoftware.util.RobustPrimitives
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
@@ -28,7 +28,7 @@ import play.api.libs.json.{ Format, Reads, Writes }
 
 object Specimen extends RobustPrimitives
 
-object OrderPriorityTypes extends Enumeration with HasDefaultReads {
+object OrderPriorityTypes extends Enumeration {
   val Stat = Value("Stat")
   val ASAP = Value("ASAP")
   val Routine = Value("Routine")
@@ -37,7 +37,7 @@ object OrderPriorityTypes extends Enumeration with HasDefaultReads {
   val Other = Value("Other")
 
   val defaultValue = Other
-  implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
+  implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(Reads.enumNameReads(OrderPriorityTypes), Writes.enumNameWrites)
 }
 
 /**

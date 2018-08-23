@@ -3,7 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
+import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
@@ -145,13 +145,13 @@ object PhoneNumber extends RobustPrimitives
 
 object ReferenceRange extends RobustPrimitives
 
-object ValueTypes extends Enumeration with HasDefaultReads {
+object ValueTypes extends Enumeration {
   val Numeric, String, Date, Time, DateTime = Value
   val CodedEntry = Value("Coded Entry")
   val EncapsulatedData = Value("Encapsulated Data")
 
   val defaultValue = String
-  implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
+  implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(Reads.enumNameReads(ValueTypes), Writes.enumNameWrites)
 }
 
 /**

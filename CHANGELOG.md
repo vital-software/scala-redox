@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Remove HasDefaultEnum json parsing
+
 ## [1.4.4] - 2018-08-23
 
 - Change Language field from String to java.util.Locale

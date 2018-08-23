@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
+import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
@@ -10,11 +10,11 @@ import play.api.libs.json.{ Format, Reads, Writes }
  * Created by apatzer on 3/23/17.
  */
 
-object MediaAvailability extends Enumeration with HasDefaultReads {
+object MediaAvailability extends Enumeration {
   val Available, Unavailable = Value
 
   val defaultValue = Unavailable
-  implicit lazy val jsonFormat: Format[MediaAvailability.Value] = Format(defaultReads, Writes.enumNameWrites)
+  implicit lazy val jsonFormat: Format[MediaAvailability.Value] = Format(Reads.enumNameReads(MediaAvailability), Writes.enumNameWrites)
 }
 
 /**

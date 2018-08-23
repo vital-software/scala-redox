@@ -3,7 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.LocalDate
 import com.github.vitalsoftware.util.JsonImplicits.jodaLocalDateFormat
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
+import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
@@ -42,25 +42,25 @@ object InsurancePlan extends RobustPrimitives
 
 object InsuranceCompany extends RobustPrimitives
 
-object InsuranceRelationshipTypes extends Enumeration with HasDefaultReads {
+object InsuranceRelationshipTypes extends Enumeration {
   val Self, Spouse, Other = Value
 
   val defaultValue = Other
-  implicit lazy val jsonFormat: Format[InsuranceRelationshipTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
+  implicit lazy val jsonFormat: Format[InsuranceRelationshipTypes.Value] = Format(Reads.enumNameReads(InsuranceRelationshipTypes), Writes.enumNameWrites)
 }
 
-object InsuranceAgreementTypes extends Enumeration with HasDefaultReads {
+object InsuranceAgreementTypes extends Enumeration {
   val Standard, Unified, Maternity, Other = Value
 
   val defaultValue = Other
-  implicit lazy val jsonFormat: Format[InsuranceAgreementTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
+  implicit lazy val jsonFormat: Format[InsuranceAgreementTypes.Value] = Format(Reads.enumNameReads(InsuranceAgreementTypes), Writes.enumNameWrites)
 }
 
-object InsuranceCoverageTypes extends Enumeration with HasDefaultReads {
+object InsuranceCoverageTypes extends Enumeration {
   val Patient, Clinic, Insurance, Other = Value
 
   val defaultValue = Other
-  implicit lazy val jsonFormat: Format[InsuranceCoverageTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
+  implicit lazy val jsonFormat: Format[InsuranceCoverageTypes.Value] = Format(Reads.enumNameReads(InsuranceCoverageTypes), Writes.enumNameWrites)
 }
 
 /** Individual who has the agreement with the insurance company for the related policy */
