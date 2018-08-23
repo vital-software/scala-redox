@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Change Language field from String to java.util.Locale
+
 ## [1.4.3] - 2018-08-23
 
 - Added robust parsing for primitive types.
