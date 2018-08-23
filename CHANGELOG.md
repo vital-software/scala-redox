@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Added robust parsing for primitive types.
+
 ## [1.4.2] - 2018-08-19
 
 - Fix robust parsing issue with json arrays.
