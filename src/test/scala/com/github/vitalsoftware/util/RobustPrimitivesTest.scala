@@ -5,7 +5,7 @@ import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 import play.api.libs.json._
 
-@jsonDefaults case class Primitives(f1: Int = 1, f2: String = "2", f3: Boolean = true)
+@jsonDefaults case class Primitives(f1: Int, f2: String, f3: Boolean, f4: Option[Int])
 object Primitives extends RobustPrimitives
 
 class RobustPrimitivesTest extends Specification {
@@ -61,9 +61,9 @@ class RobustPrimitivesTest extends Specification {
     }
 
     "read object with primitives" in {
-      val json = Json.obj("f1" -> "123", "f2" -> 123, "f3" -> "true")
+      val json = Json.obj("f1" -> "123", "f2" -> 123, "f3" -> "true", "f4" -> "456")
       val result = Reads.of[Primitives].reads(json)
-      result mustEqual (JsSuccess(Primitives(123, "123", true)))
+      result mustEqual (JsSuccess(Primitives(123, "123", true, Some(456))))
     }
 
     "fail on object with unparsable primitives" in {
