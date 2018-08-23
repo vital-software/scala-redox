@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -21,6 +22,8 @@ import com.github.vitalsoftware.macros._
   Frequency: Option[TimePeriod] = None,
   Product: BasicCode = BasicCode()
 ) extends Medication with Status with DateRange
+
+object MedicationPlan extends RobustPrimitives
 
 /**
  * @see PlanOfCareMessage
@@ -41,6 +44,8 @@ import com.github.vitalsoftware.macros._
   Services: Seq[CodeWithStatus] = Seq.empty
 )
 
+object PlanOfCare extends RobustPrimitives
+
 /**
  * This section contains future appointments, medications, orders, procedures, and services that a
  * patient may be scheduled for or is waiting to be scheduled for.
@@ -49,3 +54,5 @@ import com.github.vitalsoftware.macros._
   PlanOfCareText: Option[String] = None,
   PlanOfCare: PlanOfCare
 )
+
+object PlanOfCareMessage extends RobustPrimitives

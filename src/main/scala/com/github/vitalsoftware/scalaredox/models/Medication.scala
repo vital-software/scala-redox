@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -43,6 +44,8 @@ trait Medication extends DateRange {
   Unit: Option[String] = None
 )
 
+object TimePeriod extends RobustPrimitives
+
 /**
  * @param Prescription Whether the medication is a prescription. For a prescription: true. For a patient reported med, or a med administered by a provider: false
  * @param FreeTextSig Free text instructions for the medication. Typically instructing patient on the proper means and timing for the use of the medication
@@ -59,6 +62,8 @@ trait Medication extends DateRange {
   Product: BasicCode = BasicCode()
 ) extends Medication
 
+object MedicationTaken extends RobustPrimitives
+
 /**
  * This section contains the patient's past, current, and future medications.
  *
@@ -69,3 +74,5 @@ trait Medication extends DateRange {
   MedicationsText: Option[String] = None,
   Medications: Seq[MedicationTaken] = Seq.empty
 )
+
+object MedicationsMessage extends RobustPrimitives

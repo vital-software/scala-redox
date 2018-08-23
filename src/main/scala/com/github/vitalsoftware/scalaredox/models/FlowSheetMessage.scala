@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.macros.jsonDefaults
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 6/8/18.
@@ -17,3 +18,5 @@ import com.github.vitalsoftware.macros.jsonDefaults
   Visit: Option[BasicVisitInfo] = None,
   Observations: Seq[Observation] = Nil
 ) extends MetaLike with HasPatient
+
+object FlowSheetMessage extends RobustPrimitives

@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.{ DateTime, LocalDate }
 import com.github.vitalsoftware.util.JsonImplicits._
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -17,6 +18,8 @@ import com.github.vitalsoftware.macros._
   DOB: Option[LocalDate] = None
 )
 
+object FamilyDemographics extends RobustPrimitives
+
 @jsonDefaults case class Relation(
   Code: Option[String] = None,
   CodeSystem: Option[String] = None,
@@ -26,6 +29,8 @@ import com.github.vitalsoftware.macros._
   IsDeceased: Option[Boolean] = None
 ) extends Code
 
+object Relation extends RobustPrimitives
+
 /**
  * @param Sex Relation gender
  * @param DOB Date of Birth of the relative. In YYYY-MM-DD format
@@ -34,6 +39,8 @@ import com.github.vitalsoftware.macros._
   Sex: SexType.Value = SexType.defaultValue,
   DOB: LocalDate
 )
+
+object RelationDemographics extends RobustPrimitives
 
 /**
  * Health problem.
@@ -53,10 +60,14 @@ import com.github.vitalsoftware.macros._
   IsCauseOfDeath: Option[Boolean] = None
 ) extends Code
 
+object FamilyHistoryProblem extends RobustPrimitives
+
 @jsonDefaults case class FamilyHistory(
   Relation: Relation,
   Problems: Seq[FamilyHistoryProblem] = Seq.empty
 )
+
+object FamilyHistory extends RobustPrimitives
 
 /**
  * This section contains entries for a patient's relatives and their health problems.
@@ -67,3 +78,5 @@ import com.github.vitalsoftware.macros._
   FamilyHistoryTest: Option[String] = None,
   FamilyHistory: Seq[FamilyHistory] = Seq.empty
 )
+
+object FamilyHistoryMessage extends RobustPrimitives

@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -26,6 +27,8 @@ import com.github.vitalsoftware.macros._
   LotNumber: Option[String] = None
 ) extends Code
 
+object ImmunizationProduct extends RobustPrimitives
+
 /**
  * @see [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
  *
@@ -36,6 +39,8 @@ import com.github.vitalsoftware.macros._
   Quantity: Option[String] = None,
   Units: Option[String] = None
 )
+
+object Dose extends RobustPrimitives
 
 /**
  * Immunization given.
@@ -52,6 +57,8 @@ import com.github.vitalsoftware.macros._
   Dose: Option[Dose] = None
 ) extends DateStamped
 
+object Immunization extends RobustPrimitives
+
 /**
  * This section lists the patient's current immunization status and pertinent immunization history.
  */
@@ -59,3 +66,5 @@ import com.github.vitalsoftware.macros._
   ImmunizationText: Option[String] = None,
   Immunizations: Seq[Immunization] = Seq.empty
 )
+
+object ImmunizationsMessage extends RobustPrimitives

@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -23,6 +24,8 @@ import com.github.vitalsoftware.macros._
   Product: BasicCode = BasicCode()
 )
 
+object MedicalEquipment extends RobustPrimitives
+
 /**
  * This section lists any medical equipment that the patient uses or has been prescribed.
  * @param MedicalEquipmentText Free text form of the medical equipment summary
@@ -32,3 +35,5 @@ import com.github.vitalsoftware.macros._
   MedicalEquipmentText: Option[String] = None,
   MedicalEquipment: Seq[MedicalEquipment] = Seq.empty
 )
+
+object MedicalEquipmentMessage extends RobustPrimitives

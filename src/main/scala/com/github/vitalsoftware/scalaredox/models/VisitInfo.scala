@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -18,6 +19,8 @@ import com.github.vitalsoftware.macros._
   StartDateTime: DateTime,
   EndDateTime: Option[DateTime] = None
 )
+
+object VisitQueryParams extends RobustPrimitives
 
 /**
  * This query finds and returns visit summaries for a given patient at the specified health system within the specified
@@ -38,6 +41,8 @@ import com.github.vitalsoftware.macros._
   Visit: VisitQueryParams
 ) extends HasPatient
 
+object VisitQuery extends RobustPrimitives
+
 /**
  * @param Value The diagnosis as free text
  * @param DateTime When the diagnosis was recorded. ISO 8601 Format
@@ -51,9 +56,13 @@ import com.github.vitalsoftware.macros._
   Encodings: Seq[CodeSet] = Seq.empty
 )
 
+object Diagnosis extends RobustPrimitives
+
 @jsonDefaults case class Assessment(
   Diagnoses: Seq[Diagnosis] = Seq.empty
 )
+
+object Assessment extends RobustPrimitives
 
 /**
  * Information about the visit associate with models.Order and/or models.Result
@@ -94,6 +103,8 @@ import com.github.vitalsoftware.macros._
   EndDateTime: Option[DateTime] = None
 )
 
+object VisitInfo extends RobustPrimitives
+
 // Note: Presently used only by Flowsheet
 /**
  * @param Location Location of the patient.
@@ -104,3 +115,5 @@ import com.github.vitalsoftware.macros._
   Location: Option[CareLocation] = None,
   AccountNumber: Option[String] = None
 )
+
+object BasicVisitInfo extends RobustPrimitives

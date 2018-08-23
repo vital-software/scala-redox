@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 //import ai.x.play.json.Jsonx
 
 /**
@@ -15,6 +16,8 @@ import com.github.vitalsoftware.macros._
   Meta: Meta,
   Patient: Patient
 ) extends HasPatient
+
+object PatientQuery extends RobustPrimitives
 
 /**
  * A Clinical Summary represents a snapshot of the patient's chart at a moment in time. It is structured in sections,
@@ -41,6 +44,8 @@ import com.github.vitalsoftware.macros._
   SocialHistory: Option[SocialHistory] = None,
   VitalSigns: Seq[VitalSigns] = Seq.empty
 ) extends ClinicalSummaryLike
+
+object ClinicalSummary extends RobustPrimitives
 
 /**
  * TODO: Running into Function22 and Tuple22 limits here...
@@ -105,6 +110,8 @@ import com.github.vitalsoftware.macros._
   VitalSigns: Seq[VitalSigns] = Seq.empty
 ) extends ClinicalSummaryLike
 
+object Visit extends RobustPrimitives
+
 // Common structure between Visit and ClinicalSummary
 trait ClinicalSummaryLike extends MetaLike with HasPatient {
   def Meta: Meta
@@ -123,4 +130,4 @@ trait ClinicalSummaryLike extends MetaLike with HasPatient {
 object Visit {
   implicit lazy val jsonFormat = Jsonx.formatCaseClass[Visit]
 }
-*/ 
+*/

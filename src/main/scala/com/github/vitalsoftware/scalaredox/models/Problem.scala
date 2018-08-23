@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -29,6 +30,8 @@ import com.github.vitalsoftware.macros._
   Status: Option[BasicCode] = None
 ) extends Code
 
+object Problem extends RobustPrimitives
+
 /**
  * This section contains the patient's past and current relevant medical problems.
  *
@@ -39,3 +42,5 @@ import com.github.vitalsoftware.macros._
   ProblemsText: Option[String] = None,
   Problems: Seq[Problem] = Seq.empty
 )
+
+object ProblemsMessage extends RobustPrimitives

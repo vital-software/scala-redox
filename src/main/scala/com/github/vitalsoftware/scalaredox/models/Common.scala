@@ -3,7 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.HasDefaultReads
+import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
@@ -43,6 +43,8 @@ trait Code {
   Name: Option[String] = None
 ) extends Code
 
+object BasicCode extends RobustPrimitives
+
 @jsonDefaults case class CodeWithText(
   Code: Option[String] = None,
   CodeSystem: Option[String] = None,
@@ -50,6 +52,8 @@ trait Code {
   Name: Option[String] = None,
   Text: Option[String] = None
 ) extends Code
+
+object CodeWithText extends RobustPrimitives
 
 @jsonDefaults case class CodeWithStatus(
   Code: Option[String] = None,
@@ -60,6 +64,8 @@ trait Code {
   DateTime: Option[DateTime] = None
 ) extends Code with Status
 
+object CodeWithStatus extends RobustPrimitives
+
 // Alternative to 'BasicCode' used inconsistently in some data models
 @jsonDefaults case class CodeSet(
   Code: Option[String] = None,
@@ -69,6 +75,8 @@ trait Code {
   Description: Option[String] = None
 )
 
+object CodeSet extends RobustPrimitives
+
 @jsonDefaults case class Address(
   StreetAddress: Option[String] = None,
   City: Option[String] = None,
@@ -77,6 +85,8 @@ trait Code {
   County: Option[String] = None,
   Country: Option[String] = None
 )
+
+object Address extends RobustPrimitives
 
 /**
  * Location of provider or care given.
@@ -89,6 +99,8 @@ trait Code {
   Type: BasicCode = BasicCode(),
   Name: Option[String] = None
 )
+
+object Location extends RobustPrimitives
 
 /**
  * Location of provider or care given.
@@ -105,12 +117,16 @@ trait Code {
   Bed: Option[String] = None
 )
 
+object CareLocation extends RobustPrimitives
+
 // In E. 164 Format. (e.g. +16085551234)
 @jsonDefaults case class PhoneNumber(
   Home: Option[String] = None,
   Mobile: Option[String] = None,
   Office: Option[String] = None
 )
+
+object PhoneNumber extends RobustPrimitives
 
 /**
  * Reference range for the result.
@@ -126,6 +142,8 @@ trait Code {
   High: Option[Double] = None,
   Text: Option[String] = None
 )
+
+object ReferenceRange extends RobustPrimitives
 
 object ValueTypes extends Enumeration with HasDefaultReads {
   val Numeric, String, Date, Time, DateTime = Value
@@ -159,3 +177,5 @@ object ValueTypes extends Enumeration with HasDefaultReads {
   Interpretation: Option[String] = None, // Used by Result
   Observer: Option[Provider] = None
 ) extends Code with Status with DateStamped
+
+object Observation extends RobustPrimitives

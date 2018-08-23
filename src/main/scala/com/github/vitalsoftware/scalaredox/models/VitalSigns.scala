@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 /**
  * Created by apatzer on 3/20/17.
  */
@@ -16,6 +17,8 @@ import com.github.vitalsoftware.macros._
   DateTime: DateTime,
   Observations: Seq[Observation] = Seq.empty
 )
+
+object VitalSigns extends RobustPrimitives
 
 object CommonVitalTypes extends Enumeration {
   val Height, Weight, Oximetry, Temperature, RespirationRate, Pulse, BPSystolic, BPDiastolic = Value
@@ -32,3 +35,5 @@ object CommonVitalTypes extends Enumeration {
   VitalSignsText: Option[String] = None,
   VitalSigns: Seq[VitalSigns] = Seq.empty
 )
+
+object VitalSignsMessage extends RobustPrimitives

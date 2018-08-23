@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.HasDefaultReads
+import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
@@ -26,6 +26,8 @@ import play.api.libs.json.{ Format, Reads, Writes }
   Observations: Seq[Observation] = Seq.empty
 ) extends Code with Status
 
+object ChartResult extends RobustPrimitives
+
 /**
  * Person who produced the order result.
  */
@@ -41,6 +43,8 @@ import play.api.libs.json.{ Format, Reads, Writes }
   Location: Option[CareLocation] = None,
   PhoneNumber: Option[String] = None
 ) extends ProviderLike
+
+object ResultPerformer extends RobustPrimitives
 
 /**
  * Results messages communicate results of diagnostic tests such as labs, radiology imaging, etc.
@@ -80,6 +84,8 @@ import play.api.libs.json.{ Format, Reads, Writes }
   ReferenceRange: Option[ReferenceRange] = None,
   ObservationMethod: Option[CodeSet] = None
 )
+
+object Result extends RobustPrimitives
 
 // Current overall status of the order. One of the following: "Final", "Preliminary", "In Process", "Corrected", "Canceled".
 object ResultsStatusTypes extends Enumeration with HasDefaultReads {
@@ -123,6 +129,8 @@ object ResultsStatusTypes extends Enumeration with HasDefaultReads {
   Results: Seq[Result] = Seq.empty
 )
 
+object OrderResult extends RobustPrimitives
+
 /**
  * Results messages communicate results of diagnostic tests such as labs, radiology imaging, etc.
  */
@@ -132,3 +140,5 @@ object ResultsStatusTypes extends Enumeration with HasDefaultReads {
   Orders: Seq[OrderResult] = Seq.empty,
   Visit: Option[VisitInfo] = None
 ) extends MetaLike with HasPatient with HasVisitInfo
+
+object ResultsMessage extends RobustPrimitives

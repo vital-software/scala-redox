@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -29,6 +30,8 @@ import com.github.vitalsoftware.macros._
   ReasonForVisit: Seq[BasicCode] = Seq.empty
 ) extends DateStamped
 
+object Encounter extends RobustPrimitives
+
 /**
  * This section lists the patient's past encounters at the health system and associated diagnoses.
  *
@@ -39,3 +42,5 @@ import com.github.vitalsoftware.macros._
   EncountersText: Option[String],
   Encounters: Seq[Encounter] = Seq.empty
 )
+
+object EncountersMessage extends RobustPrimitives
