@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.4.3] - 2018-08-23
+
 - Added robust parsing for primitive types.
 
 ## [1.4.2] - 2018-08-19
