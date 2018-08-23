@@ -3,7 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.LocalDate
 import com.github.vitalsoftware.util.JsonImplicits.jodaLocalDateFormat
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.HasDefaultReads
+import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
@@ -22,6 +22,8 @@ import play.api.libs.json.{ Format, Reads, Writes }
   Name: Option[String] = None
 )
 
+object InsurancePlan extends RobustPrimitives
+
 /**
  *
  * @param ID ID of insurance company (payor)
@@ -37,6 +39,8 @@ import play.api.libs.json.{ Format, Reads, Writes }
   Address: Option[Address] = None,
   PhoneNumber: Option[String] = None
 )
+
+object InsuranceCompany extends RobustPrimitives
 
 object InsuranceRelationshipTypes extends Enumeration with HasDefaultReads {
   val Self, Spouse, Other = Value
@@ -69,12 +73,16 @@ object InsuranceCoverageTypes extends Enumeration with HasDefaultReads {
   PhoneNumber: Option[PhoneNumber] = None
 )
 
+object InsuredPerson extends RobustPrimitives
+
 /** Guarantor's Employer */
 @jsonDefaults case class Employer(
   Name: Option[String] = None,
   Address: Option[Address] = None,
   PhoneNumber: Option[String] = None
 )
+
+object Employer extends RobustPrimitives
 
 /**
  * Person ultimately responsible for the bill of the appointment
@@ -93,6 +101,8 @@ object InsuranceCoverageTypes extends Enumeration with HasDefaultReads {
   Type: Option[String] = None,
   Employer: Option[Employer] = None
 )
+
+object Guarantor extends RobustPrimitives
 
 /**
  * List of insurance coverages for the patient
@@ -119,3 +129,5 @@ object InsuranceCoverageTypes extends Enumeration with HasDefaultReads {
   CoverageType: Option[InsuranceCoverageTypes.Value] = None,
   Insured: Option[InsuredPerson] = None
 )
+
+object Insurance extends RobustPrimitives

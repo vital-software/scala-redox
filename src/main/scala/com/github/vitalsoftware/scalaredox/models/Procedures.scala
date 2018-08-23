@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -18,6 +19,8 @@ import com.github.vitalsoftware.macros._
   Services: Seq[CodeWithStatus] = Seq.empty
 )
 
+object Procedures extends RobustPrimitives
+
 /**
  * This section documents three types of things: diagnostic procedures, procedures that change the body, and services performed by clinical staff.
  *
@@ -28,3 +31,5 @@ import com.github.vitalsoftware.macros._
   ProceduresText: Option[String] = None,
   Procedures: Procedures
 )
+
+object ProceduresMessage extends RobustPrimitives

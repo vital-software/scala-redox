@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.HasDefaultReads
+import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
@@ -43,6 +43,8 @@ object MediaAvailability extends Enumeration with HasDefaultReads {
   Notifications: Seq[Provider] = Seq.empty
 )
 
+object Media extends RobustPrimitives
+
 /**
  * @param Visit Only Visit.VisitNumber A VisitNumber is highly recommended so that the document can be associated with a specific visit
  */
@@ -52,3 +54,5 @@ object MediaAvailability extends Enumeration with HasDefaultReads {
   Media: Media,
   Visit: Option[VisitInfo] = None
 ) extends MetaLike with HasVisitInfo with HasPatient
+
+object MediaMessage extends RobustPrimitives

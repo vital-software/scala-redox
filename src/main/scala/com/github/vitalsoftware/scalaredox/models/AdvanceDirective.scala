@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -31,7 +32,11 @@ import com.github.vitalsoftware.macros._
   Custodians: Seq[BasicPerson] = Seq.empty
 ) extends Code with DateRange
 
+object AdvanceDirective extends RobustPrimitives
+
 @jsonDefaults case class AdvanceDirectiveMessage(
   AdvanceDirectivesText: Option[String] = None,
   advanceDirectives: Seq[AdvanceDirective] = Seq.empty
 )
+
+object AdvanceDirectiveMessage extends RobustPrimitives

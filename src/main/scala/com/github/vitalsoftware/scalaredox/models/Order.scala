@@ -3,7 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import java.time.LocalDate
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.HasDefaultReads
+import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
@@ -25,6 +25,8 @@ import play.api.libs.json.{ Format, Reads, Writes }
   BodySite: Option[String] = None,
   ID: Option[String] = None
 )
+
+object Specimen extends RobustPrimitives
 
 object OrderPriorityTypes extends Enumeration with HasDefaultReads {
   val Stat = Value("Stat")
@@ -59,6 +61,8 @@ object OrderPriorityTypes extends Enumeration with HasDefaultReads {
   Notes: Seq[String] = Seq.empty
 )
 
+object ClinicalInfo extends RobustPrimitives
+
 /** The "Producer" is typically the Lab which did the resulting. */
 @jsonDefaults case class OrderProducer(
   ID: Option[String] = None,
@@ -66,6 +70,8 @@ object OrderPriorityTypes extends Enumeration with HasDefaultReads {
   Name: Option[String] = None,
   Address: Option[Address] = None
 )
+
+object OrderProducer extends RobustPrimitives
 
 /**
  * @param NPI A National Provider Identifier or NPI is a unique 10-digit identification number issued to health care providers in the United States
@@ -86,12 +92,16 @@ object OrderPriorityTypes extends Enumeration with HasDefaultReads {
   def IDType: Option[String] = Some("NPI")
 }
 
+object OrderProvider extends RobustPrimitives
+
 /** Facility this order was placed in */
 @jsonDefaults case class OrderingFacility(
   Name: Option[String] = None,
   Address: Option[Address] = None,
   PhoneNumber: Option[String] = None
 )
+
+object OrderingFacility extends RobustPrimitives
 
 /**
  * Order messages communicate details of diagnostic tests such as labs, radiology imaging, etc.
@@ -126,6 +136,8 @@ object OrderPriorityTypes extends Enumeration with HasDefaultReads {
   ClinicalInfo: Seq[ClinicalInfo] = Seq.empty
 )
 
+object Order extends RobustPrimitives
+
 trait OrdersMessageLike extends HasPatient with HasVisitInfo {
   def Meta: Meta
   def Patient: Patient
@@ -142,9 +154,13 @@ trait OrdersMessageLike extends HasPatient with HasVisitInfo {
   def Orders = Seq(Order)
 }
 
+object OrderMessage extends RobustPrimitives
+
 @jsonDefaults case class GroupedOrdersMessage(
   Meta: Meta,
   Patient: Patient,
   Visit: Option[VisitInfo] = None,
   Orders: Seq[Order] = Seq.empty
 ) extends MetaLike with OrdersMessageLike
+
+object GroupedOrdersMessage extends RobustPrimitives

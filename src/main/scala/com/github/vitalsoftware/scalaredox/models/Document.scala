@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -28,6 +29,8 @@ import com.github.vitalsoftware.macros._
   Type: String
 ) extends HasVisitInfo
 
+object Document extends RobustPrimitives
+
 /**
  * Information about the patient and where the summary came from
  *
@@ -38,3 +41,5 @@ import com.github.vitalsoftware.macros._
   Document: Document,
   Patient: Patient
 ) extends HasPatient
+
+object Header extends RobustPrimitives

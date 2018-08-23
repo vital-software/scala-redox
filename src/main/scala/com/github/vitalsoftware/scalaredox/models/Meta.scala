@@ -5,6 +5,7 @@ import java.util.UUID
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
@@ -28,8 +29,12 @@ object RedoxEventTypes extends Enumeration {
 // Message source or destination
 @jsonDefaults case class SourceDestination(ID: UUID, Name: Option[String] = None)
 
+object SourceDestination extends RobustPrimitives
+
 // Numeric identifier
 @jsonDefaults case class NumericIdentifier(ID: Long)
+
+object NumericIdentifier extends RobustPrimitives
 
 /**
  * Request/response header meta-data
@@ -57,3 +62,5 @@ object RedoxEventTypes extends Enumeration {
   FacilityCode: Option[String] = None,
   IsIncomplete: Option[Boolean] = None
 )
+
+object Meta extends RobustPrimitives

@@ -1,6 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -31,6 +32,8 @@ import com.github.vitalsoftware.macros._
   Role: Option[BasicCode] = None
 ) extends ProviderLike
 
+object Provider extends RobustPrimitives
+
 trait ProviderLike {
   def ID: Option[String]
   def IDType: Option[String]
@@ -58,3 +61,5 @@ trait Person {
   EmailAddresses: Seq[String] = Seq.empty,
   Credentials: Option[String] = None
 ) extends Person
+
+object BasicPerson extends RobustPrimitives

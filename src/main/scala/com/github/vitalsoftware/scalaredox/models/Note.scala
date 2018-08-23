@@ -2,7 +2,7 @@ package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.util.JsonImplicits._
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.HasDefaultReads
+import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
 import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
 
@@ -28,6 +28,8 @@ object NoteContentTypes extends Enumeration with HasDefaultReads {
   Name: Option[String] = None
 )
 
+object NoteOrder extends RobustPrimitives
+
 /**
  *
  * @param ID The ID of the discrete note component. A report ID, or documentation field ID
@@ -41,6 +43,8 @@ object NoteContentTypes extends Enumeration with HasDefaultReads {
   Value: Option[String] = None,
   Comments: Option[String] = None
 )
+
+object NoteComponent extends RobustPrimitives
 
 @jsonDefaults case class Note(
   ContentType: NoteContentTypes.Value = NoteContentTypes.defaultValue,
@@ -57,6 +61,8 @@ object NoteContentTypes extends Enumeration with HasDefaultReads {
   Notifications: Seq[Provider] = Seq.empty
 )
 
+object Note extends RobustPrimitives
+
 /**
  * @param Visit Requires only VisitNumber + VisitDateTime
  */
@@ -67,3 +73,5 @@ object NoteContentTypes extends Enumeration with HasDefaultReads {
   Note: Note,
   Orders: Seq[NoteOrder] = Seq.empty
 ) extends MetaLike with HasPatient with HasVisitInfo
+
+object NoteMessage extends RobustPrimitives

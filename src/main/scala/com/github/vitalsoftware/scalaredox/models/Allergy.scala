@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/17/17.
@@ -30,6 +31,8 @@ import com.github.vitalsoftware.macros._
   Comment: Option[String] = None
 )
 
+object Allergy extends RobustPrimitives
+
 /**
  * describes any medication allergies, food allergies, or reactions to other substances
  * (such as latex, iodine, tape adhesives). At a minimum, it should list currently active
@@ -39,3 +42,5 @@ import com.github.vitalsoftware.macros._
   AllergyText: Option[String] = None,
   Allergies: Seq[Allergy] = Seq.empty
 )
+
+object AllergiesMessage extends RobustPrimitives

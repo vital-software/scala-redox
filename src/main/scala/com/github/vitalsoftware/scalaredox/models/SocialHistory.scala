@@ -3,6 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
  * Created by apatzer on 3/20/17.
@@ -24,6 +25,8 @@ import com.github.vitalsoftware.macros._
   ValueText: Option[String] = None
 ) extends Code with DateRange
 
+object SocialHistoryObservation extends RobustPrimitives
+
 /**
  * @param StartDate When the pregnancy started. ISO 8601 Format
  * @param EndDate When the pregnancy ended. ISO 8601 Format
@@ -34,6 +37,8 @@ import com.github.vitalsoftware.macros._
   EndDate: Option[DateTime] = None,
   EstimatedDelivery: Option[String] = None
 ) extends DateRange
+
+object Pregnancy extends RobustPrimitives
 
 /**
  * @param Code A code indicating the status (current smoker, never smoker, snuff user, etc.). Contains all values descending from the SNOMED CT® 365980008 tobacco use and exposure - finding hierarchy
@@ -49,11 +54,15 @@ import com.github.vitalsoftware.macros._
   EndDate: Option[DateTime] = None
 ) extends Code
 
+object TobaccoUse extends RobustPrimitives
+
 @jsonDefaults case class SocialHistory(
   Observations: Seq[SocialHistoryObservation] = Seq.empty,
   Pregnancy: Seq[Pregnancy] = Seq.empty,
   TobaccoUse: Seq[TobaccoUse] = Seq.empty
 )
+
+object SocialHistory extends RobustPrimitives
 
 /**
  * This section contains information such as tobacco use, pregnancies, and generic social behavior observations.
@@ -64,3 +73,5 @@ import com.github.vitalsoftware.macros._
   SocialHistoryText: Option[String] = None,
   SocialHistory: SocialHistory
 )
+
+object SocialHistoryMessage extends RobustPrimitives

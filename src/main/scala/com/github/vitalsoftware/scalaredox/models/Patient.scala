@@ -3,7 +3,7 @@ package com.github.vitalsoftware.scalaredox.models
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.HasDefault
+import com.github.vitalsoftware.util.{ HasDefault, RobustPrimitives }
 import play.api.libs.json.Reads.DefaultJodaDateReads
 import play.api.libs.json._
 
@@ -23,6 +23,8 @@ import scala.collection.Seq
   ID: String,
   IDType: String
 )
+
+object Identifier extends RobustPrimitives
 
 object SexType extends Enumeration with HasDefault {
   val Male, Female, Unknown, Other = Value
@@ -76,6 +78,8 @@ object SexType extends Enumeration with HasDefault {
   MaritalStatus: Option[String] = None
 ) extends Person
 
+object Demographics extends RobustPrimitives
+
 /**
  * @param RelationToPatient Personal relationship to the patient. e.x. Father, Spouse
  * @param Roles E.g. "Emergency contact"
@@ -89,6 +93,8 @@ object SexType extends Enumeration with HasDefault {
   RelationToPatient: Option[String] = None,
   Roles: Seq[String] = Seq.empty
 ) extends Person
+
+object Contact extends RobustPrimitives
 
 /**
  * Patient
@@ -104,6 +110,8 @@ object SexType extends Enumeration with HasDefault {
   PCP: Option[Provider] = None
 )
 
+object Patient extends RobustPrimitives
+
 /**
  * Used for both query (without the 'PotentialMatches') and holding the response to a patient search query.
  *
@@ -116,6 +124,8 @@ object SexType extends Enumeration with HasDefault {
   PotentialMatches: Seq[Patient] = Seq.empty
 ) extends MetaLike
 
+object PatientSearch extends RobustPrimitives
+
 /**
  * Meta.DataModel: "PatientAdmin",
  * Meta.EventType: {Arrival, Cancel, Discharge, NewPatient, PatientUpdate, PatientMerge, PreAdmit, Registration, Transfer, VisitMerge, VisitUpdate}
@@ -125,3 +135,5 @@ object SexType extends Enumeration with HasDefault {
   Patient: Patient,
   Visit: Option[VisitInfo] = None
 ) extends MetaLike with HasPatient with HasVisitInfo
+
+object PatientAdminMessage extends RobustPrimitives
