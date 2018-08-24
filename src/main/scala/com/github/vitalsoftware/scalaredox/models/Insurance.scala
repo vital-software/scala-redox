@@ -45,21 +45,21 @@ object InsuranceCompany extends RobustPrimitives
 object InsuranceRelationshipTypes extends Enumeration {
   val Self, Spouse, Other = Value
 
-  val defaultValue = Other
+  def defaultValue = Other
   implicit lazy val jsonFormat: Format[InsuranceRelationshipTypes.Value] = Format(Reads.enumNameReads(InsuranceRelationshipTypes), Writes.enumNameWrites)
 }
 
 object InsuranceAgreementTypes extends Enumeration {
   val Standard, Unified, Maternity, Other = Value
 
-  val defaultValue = Other
+  def defaultValue = Other
   implicit lazy val jsonFormat: Format[InsuranceAgreementTypes.Value] = Format(Reads.enumNameReads(InsuranceAgreementTypes), Writes.enumNameWrites)
 }
 
 object InsuranceCoverageTypes extends Enumeration {
   val Patient, Clinic, Insurance, Other = Value
 
-  val defaultValue = Other
+  def defaultValue = Other
   implicit lazy val jsonFormat: Format[InsuranceCoverageTypes.Value] = Format(Reads.enumNameReads(InsuranceCoverageTypes), Writes.enumNameWrites)
 }
 

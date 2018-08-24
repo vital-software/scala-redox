@@ -15,7 +15,7 @@ object NoteContentTypes extends Enumeration {
   val RichText = Value("Rich Text")
   val Base64 = Value("Base64 Encoded")
 
-  val defaultValue = PlainText
+  def defaultValue = PlainText
   implicit lazy val jsonFormat: Format[NoteContentTypes.Value] = Format(Reads.enumNameReads(NoteContentTypes), Writes.enumNameWrites)
 }
 

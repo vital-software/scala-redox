@@ -13,7 +13,7 @@ import play.api.libs.json.{ Format, Reads, Writes }
 object MediaAvailability extends Enumeration {
   val Available, Unavailable = Value
 
-  val defaultValue = Unavailable
+  def defaultValue = Unavailable
   implicit lazy val jsonFormat: Format[MediaAvailability.Value] = Format(Reads.enumNameReads(MediaAvailability), Writes.enumNameWrites)
 }
 

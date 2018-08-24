@@ -92,7 +92,7 @@ object ResultsStatusTypes extends Enumeration {
   val Final, Preliminary, Corrected, Canceled, Other = Value
   val InProcess = Value("In Process")
 
-  val defaultValue = Other
+  def defaultValue = Other
   implicit lazy val jsonFormat: Format[ResultsStatusTypes.Value] = Format(Reads.enumNameReads(ResultsStatusTypes), Writes.enumNameWrites)
 }
 

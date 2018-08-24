@@ -36,7 +36,7 @@ object OrderPriorityTypes extends Enumeration {
   val TimingCritical = Value("Timing Critical")
   val Other = Value("Other")
 
-  val defaultValue = Other
+  def defaultValue = Other
   implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(Reads.enumNameReads(OrderPriorityTypes), Writes.enumNameWrites)
 }
 
