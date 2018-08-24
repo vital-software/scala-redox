@@ -5,7 +5,7 @@ import java.util.Locale
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.{ HasDefault, RobustPrimitives }
+import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.Reads.DefaultJodaDateReads
 import play.api.libs.json._
 
@@ -28,7 +28,7 @@ import scala.collection.Seq
 
 object Identifier extends RobustPrimitives
 
-object SexType extends Enumeration with HasDefault {
+object SexType extends Enumeration {
   val Male, Female, Unknown, Other = Value
 
   val strictReads: Reads[SexType.Value] = Reads.enumNameReads(SexType)
@@ -46,7 +46,7 @@ object SexType extends Enumeration with HasDefault {
   }
   implicit lazy val jsonFormat: Format[SexType.Value] = Format(fuzzyReads, Writes.enumNameWrites)
 
-  override def defaultValue: SexType.Value = Unknown
+  def defaultValue: SexType.Value = Unknown
 }
 
 /**

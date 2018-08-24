@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
+import com.github.vitalsoftware.util.RobustPrimitives
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
@@ -88,12 +88,12 @@ object ResultPerformer extends RobustPrimitives
 object Result extends RobustPrimitives
 
 // Current overall status of the order. One of the following: "Final", "Preliminary", "In Process", "Corrected", "Canceled".
-object ResultsStatusTypes extends Enumeration with HasDefaultReads {
+object ResultsStatusTypes extends Enumeration {
   val Final, Preliminary, Corrected, Canceled, Other = Value
   val InProcess = Value("In Process")
 
-  val defaultValue = Other
-  implicit lazy val jsonFormat: Format[ResultsStatusTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
+  def defaultValue = Other
+  implicit lazy val jsonFormat: Format[ResultsStatusTypes.Value] = Format(Reads.enumNameReads(ResultsStatusTypes), Writes.enumNameWrites)
 }
 
 /**

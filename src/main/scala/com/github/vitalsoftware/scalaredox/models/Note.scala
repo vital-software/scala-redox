@@ -2,7 +2,7 @@ package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.util.JsonImplicits._
 import com.github.vitalsoftware.macros._
-import com.github.vitalsoftware.util.{ HasDefaultReads, RobustPrimitives }
+import com.github.vitalsoftware.util.RobustPrimitives
 import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
 
@@ -10,13 +10,13 @@ import play.api.libs.json.{ Format, Reads, Writes }
  * Created by apatzer on 3/23/17.
  */
 
-object NoteContentTypes extends Enumeration with HasDefaultReads {
+object NoteContentTypes extends Enumeration {
   val PlainText = Value("Plain Text")
   val RichText = Value("Rich Text")
   val Base64 = Value("Base64 Encoded")
 
-  val defaultValue = PlainText
-  implicit lazy val jsonFormat: Format[NoteContentTypes.Value] = Format(defaultReads, Writes.enumNameWrites)
+  def defaultValue = PlainText
+  implicit lazy val jsonFormat: Format[NoteContentTypes.Value] = Format(Reads.enumNameReads(NoteContentTypes), Writes.enumNameWrites)
 }
 
 /**

@@ -1,6 +1,6 @@
 package com.github.vitalsoftware.util
 
-import java.util.{ Locale, MissingResourceException }
+import java.util.Locale
 
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
@@ -126,8 +126,8 @@ trait JsonImplicits {
   implicit val localeImplicits: Format[Locale] = Format(
     new Reads[Locale] {
       override def reads(json: JsValue): JsResult[Locale] = json match {
-        case JsString(str) => Try(new Locale(str).getISO3Language).map(l => JsSuccess(Locale.forLanguageTag(l)))
-          .getOrElse(JsError(Seq(JsPath -> Seq(JsonValidationError("error.expected.locale")))))
+        case JsString(str) if Try(new Locale(str).getISO3Language).isSuccess => JsSuccess(Locale.forLanguageTag(str))
+        case _ => JsError(Seq(JsPath -> Seq(JsonValidationError("error.expected.locale"))))
       }
     },
     new Writes[Locale] {
@@ -137,25 +137,3 @@ trait JsonImplicits {
 }
 
 object JsonImplicits extends JsonImplicits
-
-/** Defines a fall black for enumeration value when it fails to parse */
-trait HasDefault { this: Enumeration =>
-  def defaultValue: Value
-}
-
-trait LowPriorityBaseEnumReads { self: Enumeration =>
-  implicit lazy val baseEnumReads: Reads[self.Value] = Reads.enumNameReads(self).asInstanceOf[Reads[self.Value]]
-}
-
-trait HasDefaultReads extends LowPriorityBaseEnumReads with HasDefault with Logger { self: Enumeration with HasDefault =>
-  implicit lazy val defaultReads: Reads[Value] = new Reads[Value] {
-    override def reads(json: JsValue): JsResult[Value] = baseEnumReads.reads(json)
-      .recover {
-        case err: JsError => {
-          logger.error("Failed to parse enum value", JsResult.Exception(err))
-          self.defaultValue
-        }
-      }
-  }
-}
-
