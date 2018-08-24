@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.4.5] - 2018-08-24
+
 - Remove HasDefaultEnum json parsing
 
 ## [1.4.4] - 2018-08-23
