@@ -6,7 +6,7 @@ import com.github.vitalsoftware.macros.jsonDefaults
 import com.github.vitalsoftware.util.RobustPrimitives
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import org.joda.time.DateTime
-import play.api.libs.json.{ Format, Reads, Writes }
+import play.api.libs.json._
 
 /**
  * Order messages communicate details of diagnostic tests such as labs, radiology imaging, etc.
@@ -37,7 +37,15 @@ object OrderPriorityTypes extends Enumeration {
   val Other = Value("Other")
 
   def defaultValue = Other
-  implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(Reads.enumNameReads(OrderPriorityTypes), Writes.enumNameWrites)
+
+  lazy val mappings = Map(
+    "ST" -> "Stat",
+    "RT" -> "Routine"
+  )
+
+  implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(Reads {
+    case JsString(v) => JsSuccess(JsString(mappings.getOrElse(v, v)))
+  } andThen Reads.enumNameReads(OrderPriorityTypes), Writes.enumNameWrites)
 }
 
 /**
