@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Add "Formatted Text" as a Order ValueType
+- Handle "ST" and "RT" Order priority value via a mapping
+
 ## [1.4.5] - 2018-08-24
 
 - Remove HasDefaultEnum json parsing

@@ -149,6 +149,7 @@ object ValueTypes extends Enumeration {
   val Numeric, String, Date, Time, DateTime = Value
   val CodedEntry = Value("Coded Entry")
   val EncapsulatedData = Value("Encapsulated Data")
+  val FormattedText = Value("Formatted Text")
 
   def defaultValue = String
   implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(Reads.enumNameReads(ValueTypes), Writes.enumNameWrites)
