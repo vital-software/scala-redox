@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.4.6] - 2018-09-04
+
 - Add "Formatted Text" as a Order ValueType
 - Handle "ST" and "RT" Order priority value via a mapping
 
