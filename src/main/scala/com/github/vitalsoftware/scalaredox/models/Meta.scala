@@ -49,6 +49,7 @@ object NumericIdentifier extends RobustPrimitives
  * @param Transmission Record in Redox that corresponds to the communication sent from Redox to your destination. Included in messages from Redox
  * @param FacilityCode Code for the facility related to the message. Only use this field if a health system indicates you should. The code is specific to the health system's EHR and might not be unique across health systems. In general, the facility fields within the data models (e.g. OrderingFacility) are more reliable and informative.
  * @param IsIncomplete Indicates that a limit was reached, and not all data was returned. If true, the sender may want to restrict the parameters of the request in order to match fewer results.
+ * @param CanceledEvent Type of event being canceled. E.g. Arrival, Discharge, PreAdmit
  */
 @jsonDefaults case class Meta(
   DataModel: DataModelTypes.Value,
