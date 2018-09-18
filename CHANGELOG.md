@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-- Add CancelledEvent field to Meta
+- Add CanceledEvent field to Meta
 
 ## [1.5.0] - 2018-09-18
 
