@@ -60,7 +60,8 @@ object NumericIdentifier extends RobustPrimitives
   Message: Option[NumericIdentifier] = None,
   Transmission: Option[NumericIdentifier] = None,
   FacilityCode: Option[String] = None,
-  IsIncomplete: Option[Boolean] = None
+  IsIncomplete: Option[Boolean] = None,
+  CanceledEvent: Option[RedoxEventTypes.Value] = None
 )
 
 object Meta extends RobustPrimitives
