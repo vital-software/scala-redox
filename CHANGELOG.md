@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Make VisitInfo.Patient class an enum value
+
 ## [1.4.6] - 2018-09-04
 
 - Add "Formatted Text" as a Order ValueType

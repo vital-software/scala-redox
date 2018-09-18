@@ -4,6 +4,7 @@ import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
+import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
  * Created by apatzer on 3/17/17.
@@ -65,6 +66,14 @@ object Diagnosis extends RobustPrimitives
 object Assessment extends RobustPrimitives
 
 /**
+ * Patient class is used in many EHRs to determine where to put the patient.
+ */
+object PatientClassType extends Enumeration {
+  val Inpatient, Outpatient, Emergency = Value
+  implicit lazy val jsonFormat: Format[PatientClassType.Value] = Format(Reads.enumNameReads(PatientClassType), Writes.enumNameWrites)
+}
+
+/**
  * Information about the visit associate with models.Order and/or models.Result
  *
  * @param Location Location of the appointment
@@ -81,7 +90,7 @@ object Assessment extends RobustPrimitives
   VisitDateTime: Option[DateTime] = None,
   Duration: Option[Double] = None,
   Reason: Option[String] = None,
-  PatientClass: Option[String] = None,
+  PatientClass: Option[PatientClassType.Value] = None,
   Location: Option[CareLocation] = None,
   PreviousLocation: Option[CareLocation] = None,
   AttendingProvider: Option[Provider] = None,
