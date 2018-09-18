@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Add CancelledEvent field to Meta
+
 ## [1.5.0] - 2018-09-18
 
 - Make VisitInfo.Patient class an enum value
