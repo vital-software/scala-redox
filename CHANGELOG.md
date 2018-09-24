@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.6.0] - 2018-09-24
+
 - Fixes Locale validation errors by introducing a strict Language type.
 
 #### Breaking
