@@ -122,18 +122,6 @@ trait JsonImplicits {
       case _           => false
     }
   }
-
-  implicit val localeImplicits: Format[Locale] = Format(
-    new Reads[Locale] {
-      override def reads(json: JsValue): JsResult[Locale] = json match {
-        case JsString(str) if Try(new Locale(str).getISO3Language).isSuccess => JsSuccess(Locale.forLanguageTag(str))
-        case _ => JsError(Seq(JsPath -> Seq(JsonValidationError("error.expected.locale"))))
-      }
-    },
-    new Writes[Locale] {
-      override def writes(o: Locale): JsValue = JsString(o.toString)
-    }
-  )
 }
 
 object JsonImplicits extends JsonImplicits

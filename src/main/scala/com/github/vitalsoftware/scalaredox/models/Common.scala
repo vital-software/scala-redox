@@ -1,10 +1,14 @@
 package com.github.vitalsoftware.scalaredox.models
 
+import java.util.Locale
+
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
-import play.api.libs.json.{ Format, Reads, Writes }
+import play.api.libs.json._
+
+import scala.util.Try
 
 /**
  * Created by apatzer on 3/17/17.
@@ -180,3 +184,28 @@ object ValueTypes extends Enumeration {
 ) extends Code with Status with DateStamped
 
 object Observation extends RobustPrimitives
+
+/**
+ * This wraps java.util.Locale for consisted serialisation form lanuage to an ISO standard language locale. The java
+ * implementation doesn't grantee the validation of the input and the json formats gets masked by play-json's
+ * implementation that doesn't handle validation.
+ */
+case class Language(underlying: Locale) {
+  override def toString(): String = underlying.getISO3Language
+}
+
+object Language {
+  val jsonWrites: Writes[Language] = new Writes[Language] {
+    override def writes(o: Language): JsValue = JsString(o.underlying.toString)
+  }
+
+  val jsonReads: Reads[Language] = new Reads[Language] {
+    override def reads(json: JsValue): JsResult[Language] = json match {
+      case JsString(str) if Try(new Locale(str).getISO3Language).isSuccess => JsSuccess(Language(Locale.forLanguageTag(str)))
+      case _ => JsError(Seq(JsPath -> Seq(JsonValidationError("error.expected.locale"))))
+    }
+  }
+
+  implicit val jsonFormats: Format[Language] = Format(jsonReads, jsonWrites)
+}
+
