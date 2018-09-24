@@ -5,7 +5,7 @@
 - Fixes Locale validation errors by introducing a strict Language type.
 
 #### Breaking
-`Pateint.Demographics.Language` is changed from java.util.Local to `Language`
+`Patient.Demographics.Language` is changed from java.util.Local to `Language`
 
 
 ## [1.5.1] - 2018-09-18

@@ -186,8 +186,8 @@ object ValueTypes extends Enumeration {
 object Observation extends RobustPrimitives
 
 /**
- * This wraps java.util.Locale for consisted serialisation form lanuage to an ISO standard language locale. The java
- * implementation doesn't grantee the validation of the input and the json formats gets masked by play-json's
+ * This wraps java.util.Locale for consistent serialisation form language to an ISO standard language locale. The java
+ * implementation doesn't guarantee the validation of the input and the json formats gets masked by play-json's
  * implementation that doesn't handle validation.
  */
 case class Language(underlying: Locale) {
