@@ -29,10 +29,10 @@ object Identifier extends RobustPrimitives
 object SexType extends Enumeration {
   val Male, Female, Unknown, Other = Value
 
-  val strictReads: Reads[SexType.Value] = Reads.enumNameReads(SexType)
+  @transient lazy val strictReads: Reads[SexType.Value] = Reads.enumNameReads(SexType)
 
   // Allow coversion of "M" and "F" into "Male" and "Female" types
-  implicit lazy val fuzzyReads: Reads[SexType.Value] = new Reads[SexType.Value] {
+  @transient implicit lazy val fuzzyReads: Reads[SexType.Value] = new Reads[SexType.Value] {
     def reads(json: JsValue) = {
       val transform = json match {
         case JsString(str) if str.equalsIgnoreCase("M") => JsString(Male.toString)
@@ -42,7 +42,7 @@ object SexType extends Enumeration {
       strictReads.reads(transform)
     }
   }
-  implicit lazy val jsonFormat: Format[SexType.Value] = Format(fuzzyReads, Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[SexType.Value] = Format(fuzzyReads, Writes.enumNameWrites)
 
   def defaultValue: SexType.Value = Unknown
 }
