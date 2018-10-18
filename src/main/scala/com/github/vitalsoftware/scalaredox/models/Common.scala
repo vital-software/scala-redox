@@ -156,7 +156,7 @@ object ValueTypes extends Enumeration {
   val FormattedText = Value("Formatted Text")
 
   def defaultValue = String
-  implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(Reads.enumNameReads(ValueTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(Reads.enumNameReads(ValueTypes), Writes.enumNameWrites)
 }
 
 /**

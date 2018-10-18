@@ -16,14 +16,14 @@ object DataModelTypes extends Enumeration {
   val ClinicalSummary = Value("Clinical Summary")
   val Claim, Device, Financial, Flowsheet, Inventory, Media, Notes, Order, PatientAdmin, PatientSearch, Referral, Results, Scheduling, SurgicalScheduling, Vaccination = Value
 
-  implicit lazy val jsonFormat: Format[DataModelTypes.Value] = Format(Reads.enumNameReads(DataModelTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[DataModelTypes.Value] = Format(Reads.enumNameReads(DataModelTypes), Writes.enumNameWrites)
 }
 
 object RedoxEventTypes extends Enumeration {
   val QueryResponse = Value("Query Response")
   val Arrival, AvailableSlots, AvailableSlotsResponse, Booked, BookedResponse, Cancel, Delete, Deplete, Discharge, GroupedOrders, Modification, Modify, New, NewPatient, NewUnsolicited, NoShow, PatientMerge, PatientQuery, PatientQueryResponse, PatientPush, PatientUpdate, Payment, PreAdmit, Push, Query, Registration, Replace, Reschedule, Response, Submission, Transaction, Transfer, Update, VisitMerge, VisitQuery, VisitQueryResponse, VisitPush, VisitUpdate = Value
 
-  implicit lazy val jsonFormat: Format[RedoxEventTypes.Value] = Format(Reads.enumNameReads(RedoxEventTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[RedoxEventTypes.Value] = Format(Reads.enumNameReads(RedoxEventTypes), Writes.enumNameWrites)
 }
 
 // Message source or destination

@@ -43,7 +43,7 @@ object OrderPriorityTypes extends Enumeration {
     "RT" -> "Routine"
   )
 
-  implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(Reads {
+  @transient implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(Reads {
     case JsString(v) => JsSuccess(JsString(mappings.getOrElse(v, v)))
   } andThen Reads.enumNameReads(OrderPriorityTypes), Writes.enumNameWrites)
 }
