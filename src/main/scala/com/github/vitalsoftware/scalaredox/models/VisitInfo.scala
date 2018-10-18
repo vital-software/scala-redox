@@ -70,7 +70,7 @@ object Assessment extends RobustPrimitives
  */
 object PatientClassType extends Enumeration {
   val Inpatient, Outpatient, Emergency = Value
-  implicit lazy val jsonFormat: Format[PatientClassType.Value] = Format(Reads.enumNameReads(PatientClassType), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[PatientClassType.Value] = Format(Reads.enumNameReads(PatientClassType), Writes.enumNameWrites)
 }
 
 /**

@@ -23,7 +23,7 @@ object VitalSigns extends RobustPrimitives
 
 object CommonVitalTypes extends Enumeration {
   val Height, Weight, Oximetry, Temperature, RespirationRate, Pulse, BPSystolic, BPDiastolic = Value
-  implicit lazy val jsonFormat: Format[CommonVitalTypes.Value] = Format(Reads.enumNameReads(CommonVitalTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[CommonVitalTypes.Value] = Format(Reads.enumNameReads(CommonVitalTypes), Writes.enumNameWrites)
 }
 
 /**

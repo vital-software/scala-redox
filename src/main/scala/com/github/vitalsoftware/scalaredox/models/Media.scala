@@ -14,7 +14,7 @@ object MediaAvailability extends Enumeration {
   val Available, Unavailable = Value
 
   def defaultValue = Unavailable
-  implicit lazy val jsonFormat: Format[MediaAvailability.Value] = Format(Reads.enumNameReads(MediaAvailability), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[MediaAvailability.Value] = Format(Reads.enumNameReads(MediaAvailability), Writes.enumNameWrites)
 }
 
 /**
