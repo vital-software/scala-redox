@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.0.0] - 2018-10-31
+
 ### Removed
 
 - Remove cross compile code for 2.11 release as there are multiple incompatibilities.
