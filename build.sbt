@@ -13,8 +13,6 @@ name := "scala-redox"
 
 scalaVersion := "2.12.6"
 
-crossScalaVersions := Seq("2.11.12", "2.12.6")
-
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"),
