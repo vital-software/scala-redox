@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+
+### Removed
+
 - Stopped 2.11 release as there are multiple incompatibilities.
 
 ## [1.6.2] - 2018-10-18
