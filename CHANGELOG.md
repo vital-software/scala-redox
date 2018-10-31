@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.0.1] - 2018-10-31
+
 ### Fixed
 
 - Fixed compiler warning on non-exhaustive match
