@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Removed
+
+- Remove cross compile code for 2.11 release as there are multiple incompatibilities.
+
 ## [1.6.2] - 2018-10-18
 
 ## [1.6.1] - 2018-10-17
@@ -49,7 +53,13 @@
 
 ## [1.4.0] - 2018-08-13
 
+### Changed
+
 - Changes signature of `webhook` to return both potential error and results. `(Option[JsError], Option[AnyRef])`
+
+### Removed
+
+- Removed support for scala 2.11 (Backdated)
 
 ## [1.3.0] - 2018-08-10
 
