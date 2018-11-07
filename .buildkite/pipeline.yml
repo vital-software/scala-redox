@@ -12,10 +12,4 @@ steps:
 
   - label: ":maven: :sbt: Create release"
     branches: "master"
-    command:
-      - git checkout -B ${BUILDKITE_BRANCH}
-      - git branch -u origin/${BUILDKITE_BRANCH}
-      - git config branch.${BUILDKITE_BRANCH}.remote origin
-      - git config branch.${BUILDKITE_BRANCH}.merge refs/heads/${BUILDKITE_BRANCH}
-      - git clean -df
-      - sbt -batch "release with-defaults skip-tests"
+    command: .buildkite/create-release
