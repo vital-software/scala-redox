@@ -1,0 +1,8 @@
+version: "2.3"
+
+services:
+  scala-redox-base:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: quay.io/vital/scala-redox:base-latest

@@ -1,0 +1,20 @@
+version: "2.3"
+
+services:
+  scala-redox-base:
+    environment:
+      - BUILDKITE
+      - BUILDKITE_BRANCH
+      - BUILDKITE_BUILD_NUMBER
+      - BUILDKITE_BUILD_URL
+      - BUILDKITE_COMMIT
+      - BUILDKITE_PROJECT_SLUG
+      - BUILDKITE_PULL_REQUEST
+      - BUILDKITE_REPO
+      - CC_TEST_REPORTER_ID
+      - CI
+      - REDOX_API_KEY
+      - REDOX_API_SECRET
+    volumes:
+      - "./target/test-reports:/app/target/test-reports"
+      - "./target/scoverage-report:/app/target/scoverage-report"
