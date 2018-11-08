@@ -13,6 +13,7 @@ services:
       - BUILDKITE_REPO
       - CC_TEST_REPORTER_ID
       - CI
+      - GIT_COMMITTED_AT
       - REDOX_API_KEY
       - REDOX_API_SECRET
     volumes:

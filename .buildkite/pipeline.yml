@@ -2,6 +2,9 @@ env:
   BASE_TAG: "scala-redox-${BUILDKITE_COMMIT}"
 
 steps:
+  - name: ":git: Store Git information"
+    command: .buildkite/store-git-info
+
   - name: ":docker: :quay: Build and push base"
     agents:
       queue: docker-build
@@ -20,6 +23,8 @@ steps:
     command: .buildkite/run-tests-and-coverage
     timeout_in_minutes: 8
     plugins:
+      vital-software/metadata-env#v0.0.1:
+        get: [GIT_COMMITTED_AT]
       vital-software/docker-compose#vital-v1.8:
         config:
           - docker-compose.yml
