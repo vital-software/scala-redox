@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+mkdir -p compile-logs
+buildkite-agent artifact download "docker-compose-log-all/*scala-redox-base_build*.log" compile-logs --step ":scala: :codeclimate: Run tests and report coverage"
+
+warnings=$(cat compile-logs/**/*.log | \
+  perl -pe 's/\x1b\[[0-9;]*[a-zA-Z]//g' | \
+  sed -nE '/.*Compiling.*/,/.*(Done compiling|Compilation failed).*/p' | \
+  grep '\[warn\]' | \
+  grep -v 'warnings found$' | \
+  sed -E 's/^.*\[warn\] ?//')
+
+errors=$(cat compile-logs/**/*.log | \
+  perl -pe 's/\x1b\[[0-9;]*[a-zA-Z]//g' | \
+  sed -nE '/.*Compiling.*/,/.*(Done compiling|Compilation failed).*/p' | \
+  grep -v 'errors found$' | \
+  grep -v 'Compilation failed$' | \
+  grep '\[error\]' | \
+  sed -E 's/^.*\[error\] ?//')
+
+ret=0
+
+if [[ -n "$warnings" ]]; then
+  echo "+++ :warning: Compile warnings found:"
+  echo "$warnings"
+  echo "Scala compile warnings found:
+
+\`\`\`
+$warnings
+\`\`\`" | buildkite-agent annotate --style 'warning' --context 'scalac-warning'
+  ret=1
+else
+  echo "--- :white_check_mark: No compile warnings found"
+fi
+
+if [[ -n "$errors" ]]; then
+  echo "+++ :x: Compile errors found:"
+  echo "$errors"
+  echo "Scala compile errors found:
+
+\`\`\`
+$errors
+\`\`\`" | buildkite-agent annotate --style 'error' --context 'scalac-error'
+  ret=2
+else
+  echo "--- :white_check_mark: No compile errors found"
+fi
+
+exit $ret

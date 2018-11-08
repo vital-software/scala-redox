@@ -34,6 +34,17 @@ steps:
       artifacts#v1.0.0:
         upload: "target/test-reports/*.xml"
 
+  - wait: ~
+    continue_on_failure: true
+
+  - name: ":scala: Report on compile problems"
+    command: .buildkite/report-compile-problems
+
+  - name: ":junit: Process artifacts"
+    plugins:
+      junit-annotate#v1.4.1:
+        artifacts: target/test-reports/*.xml
+
   - wait
 
   - block: ":rocket: Release"
