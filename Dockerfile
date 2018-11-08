@@ -4,7 +4,7 @@ ADD project /app/project
 ADD build.sbt /app
 
 # Grab any updated dependencies
-RUN sbt update
+RUN sbt -batch coverage update
 
 # Add rest of sources
 ADD . /app

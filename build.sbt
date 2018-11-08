@@ -108,6 +108,11 @@ releaseProcess := Seq[ReleaseStep](
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
+// Test settings
+Test / testOptions ++= Seq(
+  Tests.Argument("junitxml")
+)
+
 val updateReleaseFiles = ReleaseStep { state =>
   updateLine(
     state,

@@ -1,15 +1,56 @@
+env:
+  BASE_TAG: "scala-redox-${BUILDKITE_COMMIT}"
+
 steps:
-  - label: ":docker: :sbt: Run tests"
-    command:
-      - docker build --tag scala-redox:${BUILDKITE_COMMIT} -f .buildkite/Dockerfile .
-      - docker run -e REDOX_API_SECRET -e REDOX_API_KEY scala-redox:${BUILDKITE_COMMIT} sbt test
+  - name: ":git: Store Git information"
+    command: .buildkite/store-git-info
+
+  - name: ":docker: :quay: Build and push base"
+    agents:
+      queue: docker-build
+    plugins:
+      vital-software/docker-compose#vital-v1.8:
+        config:
+          - docker-compose.yml
+          - docker-compose.buildkite.yml
+        build: scala-redox-base
+        image_repository: quay.io/vital/scala-redox
+        image-name: ${BASE_TAG}
 
   - wait
 
-  - block:    ":rocket: Release"
-    prompt:   Create a release, and push it to Sonatype and Github?
-    branches: "master"
+  - name: ":scala: :codeclimate: Run tests and report coverage"
+    command: .buildkite/run-tests-and-coverage
+    timeout_in_minutes: 8
+    plugins:
+      vital-software/metadata-env#v0.0.1:
+        get: [GIT_COMMITTED_AT]
+      vital-software/docker-compose#vital-v1.8:
+        config:
+          - docker-compose.yml
+          - docker-compose.buildkite.yml
+        run: scala-redox-base
+        log_all: true
+      artifacts#v1.0.0:
+        upload: "target/test-reports/*.xml"
 
-  - label: ":maven: :sbt: Create release"
-    branches: "master"
+  - wait: ~
+    continue_on_failure: true
+
+  - name: ":scala: Report on compile problems"
+    command: .buildkite/report-compile-problems
+
+  - name: ":junit: Process artifacts"
+    plugins:
+      junit-annotate#v1.4.1:
+        artifacts: target/test-reports/*.xml
+
+  - wait
+
+  - block: ":rocket: Release"
+    prompt: Create a release, and push it to Sonatype and Github?
+    branches: master
+
+  - name: ":maven: :sbt: Create release"
+    branches: master
     command: .buildkite/create-release

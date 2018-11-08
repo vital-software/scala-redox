@@ -1,0 +1,26 @@
+version: "2"
+checks:
+  # Codeclimate doesn't detect implicit arguments, so this default (4) was a bit
+  # harsh
+  argument-count:
+    enabled: false
+
+# Once this configuration file is committed, the default exclude patterns will
+# no longer be automatically applied, so we relist all the relevant ones here
+exclude_patterns:
+  - .buildkite/
+  - .github/
+  - .idea/
+  - test/
+  - project/
+  - logs/
+  - doc/
+  - "**/*.sbt"
+  - .codeclimate.yml
+
+plugins:
+  fixme:
+    enabled: true
+    config:
+      strings:
+        - FIXME
