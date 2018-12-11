@@ -10,13 +10,16 @@ object RobustParsing {
       invalid = { errors =>
         val paths = errors.map(_._1)
 
-        // if there are intersects with arrays, we remove the entire array so that if the array has a default, we can
-        // fall back to that. see test "recover on arrays with default values"
-        val sanitizedPaths = paths.intersect(seen)
-          .filter(_.path.exists(_.isInstanceOf[IdxPathNode]))
-          .map(p => p.path.splitAt(p.path.lastIndexWhere(_.isInstanceOf[IdxPathNode]))._1)
+        val sanitizedPaths = paths.intersect(seen).map(p => p.path.splitAt(p.path.length - 2)).map {
+          // if the last node is an element in an array, remove the entire array
+          case (beforeArray, IdxPathNode(_) :: _) =>
+            beforeArray
+          // otherwise drop the last node in path
+          case (before, after) => (before ::: after).dropRight(1)
+        }
           .filter(_.nonEmpty)
           .map(JsPath.apply)
+
         val unseen = paths.diff(seen)
         val pathsToPrune = sanitizedPaths ++ unseen
 
