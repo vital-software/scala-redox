@@ -7,7 +7,7 @@ import play.api.libs.json._
 @json case class Person(name: String, age: Int, gender: Option[String])
 @jsonDefaults case class Person2(name: String, age: Int = 7, gender: Option[String] = None)
 @jsonDefaults case class Test(f1: Int = 1, f2: String = "2", f3: Boolean = true, f4: Option[Test])
-@jsonDefaults case class TestWithNoFallback(f1: String, f2: Int = 99)
+@jsonDefaults case class TestWithNoFallback(f1: String, f2: Int = 99, f3: Option[TestWithNoFallback] = None)
 @jsonDefaults case class Container(data: List[TestWithNoFallback] = List(TestWithNoFallback("test", 100)))
 @jsonDefaults case class PrimitiveContainer(data: List[Int] = List(1, 2, 3))
 
@@ -71,6 +71,15 @@ class RobustParsingTest extends Specification {
       result must beSome(Test(f4 = Some(Test(f4 = None))))
       errors must beSome[JsError]
       errors.get.errors.map(_._1.toJsonString) must contain(allOf("obj.f4.f3"))
+    }
+
+    "recursively fix errors on non-arrays" in {
+      val json = Json.obj("f1" -> "str", "f3" -> Json.obj("f2" -> 10))
+      val (errors, result) = RobustParsing.robustParsing(TestWithNoFallback.jsonAnnotationFormat, json)
+
+      result must beSome(TestWithNoFallback("str", 99))
+      errors must beSome[JsError]
+      errors.get.errors.map(_._1.toJsonString) must contain(allOf("obj.f3.f1"))
     }
 
     "recursively fix errors on arrays" in {

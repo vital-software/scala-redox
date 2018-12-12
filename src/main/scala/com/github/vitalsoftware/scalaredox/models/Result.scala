@@ -87,7 +87,7 @@ object ResultPerformer extends RobustPrimitives
 
 object Result extends RobustPrimitives
 
-// Current overall status of the order. One of the following: "Final", "Preliminary", "In Process", "Corrected", "Canceled".
+// Current overall status of the order. One of the following: "Final", "Preliminary", "In Process", "Corrected", "Canceled", "Other".
 object ResultsStatusTypes extends Enumeration {
   val Final, Preliminary, Corrected, Canceled, Other = Value
   val InProcess = Value("In Process")

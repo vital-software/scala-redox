@@ -2,6 +2,18 @@ package com.github.vitalsoftware.util
 
 import play.api.libs.json._
 
+/**
+ * We may fail to parse certain fields of a redox Json message to our domain object. However, we still need to extract
+ * useful fields from the message to continue processing, Robust parsing will recursively parse and then remove any invalid
+ * fields until a result can be obtained.
+ *
+ * First we try to parse the passed in Json object, if there are any errors we trim the heads of the paths containing
+ * the errors and try to parse again. This allows us to assign defaults to any fields that cannot be parsed if they are
+ * defined and try to get a valid result.
+ *
+ * This returns a tuple of (maybeErrors, maybeResult) so nessorory action can be taken downstream about and recovered errors.
+ * ie: Logging recovery errors to fix if needed.
+ */
 object RobustParsing {
   // Todo: Make this tail recursive
   //  @scala.annotation.tailrec
@@ -10,15 +22,19 @@ object RobustParsing {
       invalid = { errors =>
         val paths = errors.map(_._1)
 
-        // if there are intersects with arrays, we remove the entire array so that if the array has a default, we can
-        // fall back to that. see test "recover on arrays with default values"
-        val sanitizedPaths = paths.intersect(seen)
-          .filter(_.path.exists(_.isInstanceOf[IdxPathNode]))
-          .map(p => p.path.splitAt(p.path.lastIndexWhere(_.isInstanceOf[IdxPathNode]))._1)
+        // If this field is already seen, trim the last node in the path
+        val trimmedPaths = paths.intersect(seen).map(p => p.path.splitAt(p.path.length - 2)).map {
+          // if the last node is an element in an array, remove the entire array
+          case (beforeArray, IdxPathNode(_) :: _) =>
+            beforeArray
+          // otherwise drop the last node in path
+          case (before, after) => (before ::: after).dropRight(1)
+        }
           .filter(_.nonEmpty)
           .map(JsPath.apply)
+
         val unseen = paths.diff(seen)
-        val pathsToPrune = sanitizedPaths ++ unseen
+        val pathsToPrune = trimmedPaths ++ unseen
 
         if (pathsToPrune.nonEmpty) {
           val transforms = pathsToPrune

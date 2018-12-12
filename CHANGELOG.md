@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Fixed
+- Robust parsing of non-array paths
+
 ## [2.0.4] - 2018-11-07
 
 ## [2.0.3] - 2018-11-07
