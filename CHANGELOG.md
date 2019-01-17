@@ -2,18 +2,18 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added a controller helper trait for responding to Redox endpoint challenges
+  and validating received webhook messages
+
 ## [2.0.5] - 2018-12-12
 
 ### Fixed
+
 - Robust parsing of non-array paths
 
-## [2.0.4] - 2018-11-07
-
-## [2.0.3] - 2018-11-07
-
-## [2.0.2] - 2018-11-07
-
-## [2.0.1] - 2018-10-31
+## [2.0.1] - [2.0.4] - 2018-10-31
 
 ### Fixed
 
@@ -25,15 +25,12 @@
 
 - Remove cross compile code for 2.11 release as there are multiple incompatibilities.
 
-## [1.6.2] - 2018-10-18
-
-## [1.6.1] - 2018-10-17
-
-## [1.6.0] - 2018-09-24
+## [1.6.0] - [1.6.2] - 2018-09-24
 
 - Fixes Locale validation errors by introducing a strict Language type.
 
 #### Breaking
+
 `Patient.Demographics.Language` is changed from java.util.Local to `Language`
 
 
@@ -90,11 +87,7 @@ whenever parsing of that filed fails.
 - Failing to parse an `Enumeration` with `HasDefaultReads` will now fallback to a default value
 and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes` and `CommonVitalTypes`)
 
-## [1.1.0] - 2018-06-28
-
-## [1.0.2] - 2018-06-28
-
-## [1.0.1] - 2018-06-18
+## [1.0.1] - [1.1.0] - 2018-06-28
 
 ### Changed
 
