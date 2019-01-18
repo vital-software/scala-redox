@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.1.0] - 2019-01-18
+
 ### Added
 
 - Added a controller helper trait for responding to Redox endpoint challenges
