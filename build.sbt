@@ -19,17 +19,20 @@ resolvers ++= Seq(
   "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
 )
 
+val playJsonVersion = "2.6.9"
+val playVersion = "2.6.17"
+
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-json" % "2.6.8",
-  "com.typesafe.play" %% "play-json-joda" % "2.6.8",
-  "com.typesafe.play" %% "play-ahc-ws" % "2.6.12",
-  //"com.typesafe.play" %% "play-ahc-ws-standalone" % "1.1.6",
+  "com.typesafe.play" %% "play-json" % playJsonVersion,
+  "com.typesafe.play" %% "play-json-joda" % playJsonVersion,
+  "com.typesafe.play" %% "play-ahc-ws" % playVersion,
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.6",
   "com.typesafe.akka" %% "akka-http" % "10.0.9",
-  //"ai.x" %% "play-json-extensions" % "0.8.0",
+
   "com.github.vital-software" %% "json-annotation" % "0.6.0",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
-  "org.specs2" %% "specs2-core" % "4.2.0" % Test
+
+  "com.typesafe.play" %% "play-specs2" % playVersion % Test,
 )
 
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
