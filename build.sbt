@@ -32,7 +32,6 @@ libraryDependencies ++= Seq(
   "com.github.vital-software" %% "json-annotation" % "0.6.0",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
 
-  "org.specs2" %% "specs2-core" % "4.2.0" % Test,
   "com.typesafe.play" %% "play-specs2" % playVersion % Test,
 )
 
