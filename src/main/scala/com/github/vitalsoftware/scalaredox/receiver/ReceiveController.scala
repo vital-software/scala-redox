@@ -10,7 +10,7 @@ import play.api.libs.json.JsonConfiguration.Aux
 import scala.concurrent.Future
 
 trait ReceiveController extends BaseController {
-  val RedoxVerificationToken: String
+  def verificationToken: String
   val logger: Logger
 
   /**
@@ -26,10 +26,10 @@ trait ReceiveController extends BaseController {
    *
    * @see http://developer.redoxengine.com/getting-started/create-a-destination/
    */
-  private def validatedAction(verifiedAction: RedoxRequest => Future[Result]): Action[JsValue] =
+  protected def validatedAction(verifiedAction: RedoxRequest => Future[Result]): Action[JsValue] =
     Action(parse.json).async({ request: Request[JsValue] =>
       RedoxRequest(request).token match {
-        case Some(token) if token == RedoxVerificationToken =>
+        case Some(token) if token == verificationToken =>
           verifiedAction(RedoxRequest(request))
         case Some(token) =>
           // The verification token is incorrect
@@ -48,7 +48,7 @@ trait ReceiveController extends BaseController {
       Future.successful(Forbidden(s"Challenge failed."))
     },
     (challenge: Challenge) => {
-      if (challenge.verificationToken == RedoxVerificationToken) {
+      if (challenge.verificationToken == verificationToken) {
         // The challenge is successful: we must respond with the challenge token (only)
         logger.info(s"Redox endpoint initialized via challenge from $request")
         Future.successful(Ok(challenge.challenge))
