@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Marked one property on the ReceiveController protected
+
 ## [2.1.0] - 2019-01-18
 
 ### Added

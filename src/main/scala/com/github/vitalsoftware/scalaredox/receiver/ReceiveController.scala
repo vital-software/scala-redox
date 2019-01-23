@@ -10,7 +10,7 @@ import play.api.libs.json.JsonConfiguration.Aux
 import scala.concurrent.Future
 
 trait ReceiveController extends BaseController {
-  def verificationToken: String
+  protected def verificationToken: String
   val logger: Logger
 
   /**
