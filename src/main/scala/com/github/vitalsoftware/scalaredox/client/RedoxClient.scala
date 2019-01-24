@@ -3,28 +3,22 @@ package com.github.vitalsoftware.scalaredox.client
 import java.io.File
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.model.StatusCodes._
-import akka.http.scaladsl.model.Uri.Path._
 import akka.http.scaladsl.model._
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
-import com.github.vitalsoftware.scalaredox.models.{ MediaMessage, Upload }
+import com.github.vitalsoftware.scalaredox.models.Upload
 import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
 import com.github.vitalsoftware.util.RobustParsing
 import com.typesafe.config.Config
-import org.joda.time.DateTime
 import play.api.libs.json._
-import play.api.libs.ws.JsonBodyReadables._
-import play.api.libs.ws.JsonBodyWritables._
 import play.api.libs.ws._
 import play.api.libs.ws.ahc._
 import play.api.mvc.MultipartFormData.FilePart
 
 import scala.concurrent.ExecutionContext.Implicits._
-import scala.concurrent.duration._
-import scala.concurrent.{ Future, SyncVar }
-import scala.util.{ Failure, Success, Try }
+import scala.concurrent.Future
+import scala.language.implicitConversions
 
 /**
  * Created by apatzer on 3/20/17.

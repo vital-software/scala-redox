@@ -1,15 +1,14 @@
 package com.github.vitalsoftware.scalaredox
 
 import com.github.vitalsoftware.scalaredox.client.{ AuthInfo, RedoxTokenManager }
-import com.github.vitalsoftware.scalaredox.models._
 import org.joda.time.DateTime
 import org.specs2.mutable.Specification
-import play.api.libs.json.{ JsError, Json }
+import play.api.libs.json.Json
 import play.api.routing.sird._
 import play.api.test.WsTestClient
 import play.core.server.Server
 
-import concurrent.{ Await, Future }
+import concurrent.Await
 import scala.concurrent.duration._
 
 class ConnectionTest extends Specification with RedoxTest {

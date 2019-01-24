@@ -21,7 +21,6 @@ trait RedoxTest {
   implicit val system = ActorSystem("redox-test")
   implicit val materializer = ActorMaterializer()(system)
 
-
   val tokenManager = new RedoxTokenManager(httpClient, conf.baseRestUri)
   val client = new RedoxClient(conf, httpClient, tokenManager)
   val timeout: FiniteDuration = 20.seconds

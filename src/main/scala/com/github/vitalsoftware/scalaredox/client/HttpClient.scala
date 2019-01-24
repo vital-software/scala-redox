@@ -5,6 +5,8 @@ import java.io.Closeable
 import play.api.libs.ws.ahc.StandaloneAhcWSClient
 import play.api.libs.ws.{ StandaloneWSRequest, WSClient }
 
+import scala.language.implicitConversions
+
 /**
  * Designed to unify interfaces of play.api.libs.ws.StandaloneWSClient and play.api.libs.ws.WSClient
  * so that these can be used interchangeably. Can be used to accommodate play's internal WsClient or
