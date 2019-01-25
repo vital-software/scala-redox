@@ -24,7 +24,6 @@ usage is only advisable if application has a single source .
 - Added HttpClient interface to allow using different http client under the hood.
 - ClientConfig object standerdizes the configuration values that's needed
 to be passed into RedoxClient.
->>>>>>> f9cf54d... update changelog and version
 
 ## [2.1.0] - 2019-01-18
 
