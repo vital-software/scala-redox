@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [3.0.0] - 2019-01-28
+
 Adds the ability to handle multiple credentials for multiple sources.
 
 Each source in Redox has a unique set of api-key, api-secret credentials.
