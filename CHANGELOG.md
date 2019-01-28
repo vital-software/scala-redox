@@ -2,9 +2,28 @@
 
 ## [Unreleased]
 
+Adds the ability to handle multiple credentials for multiple sources.
+
+Each source in Redox has a unique set of api-key, api-secret credentials.
+If a client has multiple sources, this would have required creating multiple
+RedoxClients per each source.
+
+However, Redox-client constructed an internal WsClient (httpClient) and a akka
+schedule to manage the access-refresh Token lifecycle. This consumes
+unnecessary resources as each client would have created its own thread pool.
+
 ### Changed
+- Breaking: RedoxClient is completely redesigned to take in an external
+Http client. A secondary constructor is added for easier migration. However,
+usage is only advisable if application has a single source .
 
 - Marked one property on the ReceiveController protected
+
+### Added
+- RedoxTokenManager to manage Redox tokens for multiple sources.
+- Added HttpClient interface to allow using different http client under the hood.
+- ClientConfig object standerdizes the configuration values that's needed
+to be passed into RedoxClient.
 
 ## [2.1.0] - 2019-01-18
 

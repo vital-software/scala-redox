@@ -3,105 +3,69 @@ package com.github.vitalsoftware.scalaredox.client
 import java.io.File
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.model.StatusCodes._
-import akka.http.scaladsl.model.Uri.Path._
 import akka.http.scaladsl.model._
-import akka.stream.ActorMaterializer
+import akka.stream.Materializer
 import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
-import com.github.vitalsoftware.scalaredox.models.{ MediaMessage, Upload }
+import com.github.vitalsoftware.scalaredox.models.Upload
 import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
 import com.github.vitalsoftware.util.RobustParsing
 import com.typesafe.config.Config
-import org.joda.time.DateTime
 import play.api.libs.json._
-import play.api.libs.ws.JsonBodyReadables._
-import play.api.libs.ws.JsonBodyWritables._
 import play.api.libs.ws._
 import play.api.libs.ws.ahc._
 import play.api.mvc.MultipartFormData.FilePart
 
 import scala.concurrent.ExecutionContext.Implicits._
-import scala.concurrent.duration._
-import scala.concurrent.{ Future, SyncVar }
-import scala.util.{ Failure, Success, Try }
+import scala.concurrent.Future
+import scala.language.implicitConversions
 
 /**
  * Created by apatzer on 3/20/17.
  */
 class RedoxClient(
-  conf: Config,
-  implicit val system: ActorSystem,
-  implicit val materializer: ActorMaterializer,
+  conf: ClientConfig,
+  client: HttpClient,
+  tokenManager: RedoxTokenManager,
   reducer: JsValue => JsValue = _.reduceNullSubtrees
-) {
+)(
+  implicit val system: ActorSystem,
+  implicit val materializer: Materializer,
+) extends RedoxClientComponents(client, conf.baseRestUri, reducer) {
 
-  private val client = StandaloneAhcWSClient()
-
-  private[client] val apiKey = conf.getString("redox.apiKey")
-  private[client] val apiSecret = conf.getString("redox.secret")
-  private[client] val baseRestUri = Uri(conf.getString("redox.restApiBase"))
-  private[client] lazy val authInfo = {
-    val auth = new SyncVar[Option[AuthInfo]]
-    auth.put(None)
-    auth
+  /**
+   * Initialize and internal HttpClient and a token manager. Added for backward compatibility.
+   * @deprecated prefer initializing the HttpClient and token manager outside RedoxClient. Do not create
+   *             more than one RedoxClient with this constructor as it will initialize duplicate
+   *             TokenManagers and http clients.
+   */
+  def this(
+    conf: Config,
+    client: HttpClient,
+    reducer: JsValue => JsValue
+  )(implicit system: ActorSystem, materializer: Materializer) = {
+    this(conf, client, new RedoxTokenManager(client, ClientConfig(conf).baseRestUri), reducer)
   }
 
-  private def baseRequest(url: String) = client.url(url)
-  private def baseQuery = baseRequest(baseRestUri.withPath(/("query")).toString()).withMethod("POST")
-  private def basePost = baseRequest(baseRestUri.withPath(/("endpoint")).toString()).withMethod("POST")
-  private def baseUpload = baseRequest(baseRestUri.withPath(/("upload")).toString()).withMethod("POST")
+  /**
+   * Use default reducer, with internally initialized http client and token manager.
+   *
+   * @deprecated prefer initializing the HttpClient and token manager outside RedoxClient. Do not create
+   *             more than one RedoxClient with this constructor as it will initialize duplicate
+   *             TokenManagers and http clients.
+   */
+  def this(
+    conf: Config
+  )(implicit system: ActorSystem, materializer: Materializer) {
+    this(conf, StandaloneAhcWSClient(), _.reduceEmptySubtrees)
+  }
 
   /** Send and receive an authorized request */
   private def sendReceive[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
     for {
-      auth <- authInfo.get match {
-        case Some(info) => Future.successful(info)
-        case None       => setAuthAndScheduleRefresh(authorize())
-      }
+      auth <- tokenManager.getAccessToken(conf.apiKey, conf.apiSecret)
       response <- execute[T](request.addHttpHeaders("Authorization" -> s"Bearer ${auth.accessToken}"))
     } yield response
-  }
-
-  /** Raw request execution */
-  private def execute[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
-    request.execute().map {
-
-      // Failure status
-      case r if Set[StatusCode](
-        BadRequest,
-        Unauthorized,
-        Forbidden,
-        NotFound,
-        MethodNotAllowed,
-        RequestedRangeNotSatisfiable
-      ).contains(r.status) =>
-        Try {
-          // In case we do not get valid JSON back, wrap everything in a Try block
-          (r.body[JsValue] \ "Meta").as[RedoxErrorResponse]
-        } match {
-          case Success(t) => Left(t)
-          case Failure(e) => Left(RedoxErrorResponse.simple(r.statusText, r.body))
-        }
-
-      // Success status
-      case r =>
-        if (r.body.isEmpty) {
-          Right(EmptyResponse.asInstanceOf[T])
-        } else {
-          val json = reducer(r.body[JsValue])
-
-          Json.fromJson(json).fold(
-            // Json to Scala objects failed...force into RedoxError format
-            invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
-
-            // All good
-            valid = t => Right(t)
-          )
-        }
-    }.map { response =>
-      RedoxResponse[T](response)
-    }
   }
 
   private def optionalQueryParam[T](
@@ -110,58 +74,6 @@ class RedoxClient(
     f: T => String = (o: T) => o.toString
   ): Map[String, String] = {
     el.map(e => Map(key -> f(e))).getOrElse(Map.empty)
-  }
-
-  /** Authorize to Redox, returning a Future containing the access and refresh tokens. */
-  def authorize(): Future[AuthInfo] = {
-    val req = baseRequest(baseRestUri.withPath(/("auth") / "authenticate").toString())
-      .withMethod("POST")
-      .withBody(Json.toJson(AuthRequest(apiKey = apiKey, secret = apiSecret)))
-    execute[AuthInfo](req).map { result =>
-      parseAuthResponse(result, "Cannot authenticate. Check configuration 'redox.apiKey' & 'redox.secret'")
-    }
-  }
-
-  /**
-   * Refresh the auth token a minute before it expires. Set and schedule a new refresh to occur.
-   * NOTE: If this method is overridden, scheduling and storing the new auth token will
-   * not be available to the implementing class.
-   */
-  protected def scheduleRefresh(auth: AuthInfo): Unit = {
-    val delay = auth.expires.getMillis - DateTime.now.getMillis - 60 * 1000
-    system.scheduler.scheduleOnce(delay.millis) {
-      setAuthAndScheduleRefresh(refresh(auth))
-    }
-  }
-
-  /** Refresh the access and refresh tokens. */
-  def refresh(auth: AuthInfo): Future[AuthInfo] = {
-    val req = baseRequest(baseRestUri.withPath(/("auth") / "refreshToken").toString())
-      .withMethod("POST")
-      .withBody(Json.toJson(RefreshRequest(apiKey = apiKey, refreshToken = auth.refreshToken)))
-    sendReceive[AuthInfo](req).map(result => parseAuthResponse(result, "Cannot refresh OAuth2 token"))
-  }
-
-  /** Set a thread-safe auth-token, and schedule a refresh. */
-  private def setAuthAndScheduleRefresh(authFuture: Future[AuthInfo]): Future[AuthInfo] = {
-    authFuture
-      .map { auth =>
-        authInfo.take()
-        authInfo.put(Some(auth))
-        auth
-      }
-      .map { auth =>
-        scheduleRefresh(auth)
-        auth
-      }
-  }
-
-  /** Parse the result of an auth request, either returning a new AuthInfo object, or throwing an error. */
-  private def parseAuthResponse(authResult: RedoxResponse[AuthInfo], errMsg: String) = {
-    authResult.result.fold(
-      error => throw RedoxAuthorizationException(s"$errMsg: ${error.Errors.map(_.Text).mkString(",")}"),
-      identity
-    )
   }
 
   /**
@@ -252,5 +164,16 @@ object RedoxClient {
       case Left(error)  => (Some(JsError(error)), None)
       case Right(reads) => RobustParsing.robustParsing(reads, reducer(json))
     }
+  }
+}
+
+case class ClientConfig(baseRestUri: Uri, apiKey: String, apiSecret: String)
+object ClientConfig {
+  implicit def apply(conf: Config): ClientConfig = {
+    val apiKey = conf.getString("redox.apiKey")
+    val apiSecret = conf.getString("redox.secret")
+    val baseRestUri = Uri(conf.getString("redox.restApiBase"))
+
+    ClientConfig(baseRestUri, apiKey, apiSecret)
   }
 }

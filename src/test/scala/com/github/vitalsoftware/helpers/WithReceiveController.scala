@@ -16,8 +16,7 @@ import scala.concurrent.Future
  * Trait for tests and context objects involving the receive controller
  */
 trait WithReceiveController
-  extends Injecting
-{
+  extends Injecting {
   val app: Application
 
   lazy protected val controller: ReceiveController = inject[ReceiveController]
