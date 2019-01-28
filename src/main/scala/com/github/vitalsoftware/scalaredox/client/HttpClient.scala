@@ -24,7 +24,7 @@ object HttpClient {
      * Calling this is probably risky as wsClient might get created from DI container and injected.
      * So this basically does nothing. If WsClient is used, it is expected that the caller handles releasing resources.
      */
-    override def close(): Unit = wsClient.close()
+    override def close(): Unit = Unit
   }
 
   implicit def fromStandaloneAhcWSClient(standaloneAhcWSClient: StandaloneAhcWSClient) = new HttpClient {

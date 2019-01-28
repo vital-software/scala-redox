@@ -4,7 +4,7 @@ import java.io.File
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
-import akka.stream.ActorMaterializer
+import akka.stream.Materializer
 import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
 import com.github.vitalsoftware.scalaredox.models.Upload
@@ -30,7 +30,7 @@ class RedoxClient(
   reducer: JsValue => JsValue = _.reduceNullSubtrees
 )(
   implicit val system: ActorSystem,
-  implicit val materializer: ActorMaterializer,
+  implicit val materializer: Materializer,
 ) extends RedoxClientComponents(client, conf.baseRestUri, reducer) {
 
   /**
@@ -43,7 +43,7 @@ class RedoxClient(
     conf: Config,
     client: HttpClient,
     reducer: JsValue => JsValue
-  )(implicit system: ActorSystem, materializer: ActorMaterializer) = {
+  )(implicit system: ActorSystem, materializer: Materializer) = {
     this(conf, client, new RedoxTokenManager(client, ClientConfig(conf).baseRestUri), reducer)
   }
 
@@ -56,7 +56,7 @@ class RedoxClient(
    */
   def this(
     conf: Config
-  )(implicit system: ActorSystem, materializer: ActorMaterializer) {
+  )(implicit system: ActorSystem, materializer: Materializer) {
     this(conf, StandaloneAhcWSClient(), _.reduceEmptySubtrees)
   }
 

@@ -22,7 +22,7 @@ import scala.concurrent.Future
  *  We use the RefreshToken obtained from the first request to obtain new accessTokens as they expire.
  *
  *  The RedoxTokenManager schedules the refresh and storage of accessTokens and keeps them valid,
- *  so a client don't have to authenticate each time it makes a request.
+ *  so a client doesn't have to authenticate each time it makes a request.
  *
  *  @param client com.github.vitalsoftware.scalaredox.client.HttpClient instance
  *  @param baseRestUri the base url for Redox REST endpoint.
@@ -49,14 +49,14 @@ class RedoxTokenManager(
   def getAccessToken(apiKey: String, apiSecret: String): Future[AuthInfo] = {
     TokenStore.get(apiKey).map(Future.successful(_))
       .getOrElse {
-        val authInfo = authorize(apiKey, apiSecret)
+        val authInfo = authenticate(apiKey, apiSecret)
         authInfo.foreach(setAuthAndScheduleRefresh(apiKey, _))
         authInfo
       }
   }
 
   /** Authorize to Redox, returning a Future containing the access and refresh tokens. */
-  protected def authorize(apiKey: String, apiSecret: String): Future[AuthInfo] = {
+  protected def authenticate(apiKey: String, apiSecret: String): Future[AuthInfo] = {
     val req = baseRequest(baseRestUri.withPath(/("auth") / "authenticate").toString())
       .withMethod("POST")
       .withBody(Json.toJson(AuthRequest(apiKey = apiKey, secret = apiSecret)))
