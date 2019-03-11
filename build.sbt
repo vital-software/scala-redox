@@ -1,11 +1,5 @@
-import java.nio.charset.StandardCharsets
-import java.nio.file.Files
-
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 import scalariform.formatter.preferences._
-
-import scala.io.{ Codec, Source }
-import scala.sys.process.ProcessLogger
 
 organization := "com.github.vital-software"
 
@@ -99,7 +93,7 @@ releaseProcess := Seq[ReleaseStep](
   inquireVersions,
   runClean,
   setReleaseVersion,
-  updateReleaseFiles,
+  updateLines,
   commitReleaseVersion,
   tagRelease,
   releaseStepCommandAndRemaining("+publishSigned"),
@@ -116,49 +110,15 @@ Test / testOptions ++= Seq(
   Tests.Argument("junitxml")
 )
 
-val updateReleaseFiles = ReleaseStep { state =>
-  updateLine(
-    state,
-    "README.md",
-    """libraryDependencies += "com.github.vital-software" %% "scala-redox" % """,
-    v => s"""libraryDependencies += "com.github.vital-software" %% "scala-redox" % "$v""""
+updateLinesSchema := Seq(
+  UpdateLine(
+    file("README.md"),
+    _.contains("""libraryDependencies += "com.github.vital-software" %% "scala-redox" % """),
+    (v, _) => s"""libraryDependencies += "com.github.vital-software" %% "scala-redox" % "$v""""
+  ),
+  UpdateLine(
+    file("CHANGELOG.md"),
+    _.contains("## [Unreleased]"),
+    (v, _) => s"## [Unreleased]\n\n## [$v] - ${java.time.LocalDate.now}"
   )
-
-  updateLine(
-    state,
-    "CHANGELOG.md",
-    "## [Unreleased]",
-    v => s"## [Unreleased]\n\n## [$v] - ${java.time.LocalDate.now}"
-  )
-}
-
-def updateLine(state: State, fileName: String, marker: String, replacement: String => String): State = {
-  val logger = new ProcessLogger {
-    override def err(s: => String): Unit = state.log.info(s)
-    override def out(s: => String): Unit = state.log.info(s)
-    override def buffer[T](f: => T): T = state.log.buffer(f)
-  }
-
-  val vcs = Project.extract(state).get(releaseVcs).getOrElse {
-    sys.error("VCS not set")
-  }
-
-  val (version: String, _) = state.get(ReleaseKeys.versions).getOrElse {
-    sys.error(s"${ReleaseKeys.versions.label} key not set")
-  }
-
-  val fileToModify = Project.extract(state).get(baseDirectory.in(ThisBuild)) / fileName
-  val lines = Source.fromFile(fileToModify)(Codec.UTF8).getLines().toList
-  val lineNumber = lines.indexWhere(_.contains(marker))
-
-  if (lineNumber == -1) {
-    throw new RuntimeException(s"Could not find marker '$marker' in file '${fileToModify.getPath}'")
-  }
-
-  val content = lines.updated(lineNumber, replacement(version)).mkString("\n") + "\n"
-
-  Files.write(fileToModify.toPath, content.getBytes(StandardCharsets.UTF_8))
-  vcs.add(fileToModify.getAbsolutePath) !! logger
-
-  state
-}
+)
