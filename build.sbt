@@ -1,17 +1,11 @@
-import java.nio.charset.StandardCharsets
-import java.nio.file.Files
-
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 import scalariform.formatter.preferences._
-
-import scala.io.{ Codec, Source }
-import scala.sys.process.ProcessLogger
 
 organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.8"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
@@ -20,7 +14,7 @@ resolvers ++= Seq(
 )
 
 val playJsonVersion = "2.6.9"
-val playVersion = "2.6.17"
+val playVersion = "2.6.21"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % playJsonVersion,
@@ -85,9 +79,13 @@ scalariformPreferences := scalariformPreferences.value
 // compile only unmanaged sources, not the generated (aka managed) sourced
 Compile / scalariformFormat / sourceDirectories := (Compile / unmanagedSourceDirectories).value
 
-// PGP settings
-pgpPassphrase := Some(Array())
-usePgpKeyHex("1bfe664d074b29f8")
+// GPG settings
+credentials += Credentials(
+  "GnuPG Key ID",
+  "gpg",
+  "B9513278AF9A10374E07A88FAA24C7523BD70F36",
+  "ignored"
+)
 
 // Release settings
 releaseTagName              := s"${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}" // Remove v prefix
@@ -99,66 +97,30 @@ releaseProcess := Seq[ReleaseStep](
   inquireVersions,
   runClean,
   setReleaseVersion,
-  updateReleaseFiles,
+  updateLines,
   commitReleaseVersion,
   tagRelease,
-  releaseStepCommandAndRemaining("+publishSigned"),
+  publishArtifacts,
   setNextVersion,
   commitNextVersion,
   releaseStepCommand("sonatypeReleaseAll"),
   pushChanges
 )
 
-releasePublishArtifactsAction := PgpKeys.publishSigned.value
-
 // Test settings
 Test / testOptions ++= Seq(
   Tests.Argument("junitxml")
 )
 
-val updateReleaseFiles = ReleaseStep { state =>
-  updateLine(
-    state,
-    "README.md",
-    """libraryDependencies += "com.github.vital-software" %% "scala-redox" % """,
-    v => s"""libraryDependencies += "com.github.vital-software" %% "scala-redox" % "$v""""
+updateLinesSchema := Seq(
+  UpdateLine(
+    file("README.md"),
+    _.contains("""libraryDependencies += "com.github.vital-software" %% "scala-redox" % """),
+    (v, _) => s"""libraryDependencies += "com.github.vital-software" %% "scala-redox" % "$v""""
+  ),
+  UpdateLine(
+    file("CHANGELOG.md"),
+    _.contains("## [Unreleased]"),
+    (v, _) => s"## [Unreleased]\n\n## [$v] - ${java.time.LocalDate.now}"
   )
-
-  updateLine(
-    state,
-    "CHANGELOG.md",
-    "## [Unreleased]",
-    v => s"## [Unreleased]\n\n## [$v] - ${java.time.LocalDate.now}"
-  )
-}
-
-def updateLine(state: State, fileName: String, marker: String, replacement: String => String): State = {
-  val logger = new ProcessLogger {
-    override def err(s: => String): Unit = state.log.info(s)
-    override def out(s: => String): Unit = state.log.info(s)
-    override def buffer[T](f: => T): T = state.log.buffer(f)
-  }
-
-  val vcs = Project.extract(state).get(releaseVcs).getOrElse {
-    sys.error("VCS not set")
-  }
-
-  val (version: String, _) = state.get(ReleaseKeys.versions).getOrElse {
-    sys.error(s"${ReleaseKeys.versions.label} key not set")
-  }
-
-  val fileToModify = Project.extract(state).get(baseDirectory.in(ThisBuild)) / fileName
-  val lines = Source.fromFile(fileToModify)(Codec.UTF8).getLines().toList
-  val lineNumber = lines.indexWhere(_.contains(marker))
-
-  if (lineNumber == -1) {
-    throw new RuntimeException(s"Could not find marker '$marker' in file '${fileToModify.getPath}'")
-  }
-
-  val content = lines.updated(lineNumber, replacement(version)).mkString("\n") + "\n"
-
-  Files.write(fileToModify.toPath, content.getBytes(StandardCharsets.UTF_8))
-  vcs.add(fileToModify.getAbsolutePath) !! logger
-
-  state
-}
+)
