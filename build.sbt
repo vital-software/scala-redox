@@ -5,7 +5,7 @@ organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.8"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
@@ -14,7 +14,7 @@ resolvers ++= Seq(
 )
 
 val playJsonVersion = "2.6.9"
-val playVersion = "2.6.17"
+val playVersion = "2.6.21"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % playJsonVersion,
