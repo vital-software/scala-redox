@@ -79,9 +79,13 @@ scalariformPreferences := scalariformPreferences.value
 // compile only unmanaged sources, not the generated (aka managed) sourced
 Compile / scalariformFormat / sourceDirectories := (Compile / unmanagedSourceDirectories).value
 
-// PGP settings
-pgpPassphrase := Some(Array())
-usePgpKeyHex("1bfe664d074b29f8")
+// GPG settings
+credentials += Credentials(
+  "GnuPG Key ID",
+  "gpg",
+  "B9513278AF9A10374E07A88FAA24C7523BD70F36",
+  "ignored"
+)
 
 // Release settings
 releaseTagName              := s"${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}" // Remove v prefix
@@ -96,14 +100,12 @@ releaseProcess := Seq[ReleaseStep](
   updateLines,
   commitReleaseVersion,
   tagRelease,
-  releaseStepCommandAndRemaining("+publishSigned"),
+  publishArtifacts,
   setNextVersion,
   commitNextVersion,
   releaseStepCommand("sonatypeReleaseAll"),
   pushChanges
 )
-
-releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
 // Test settings
 Test / testOptions ++= Seq(
