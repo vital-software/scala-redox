@@ -45,21 +45,19 @@ trait ProviderLike {
   def Location: Option[CareLocation]
 }
 
-trait Person {
-  def FirstName: String
-  def LastName: String
+trait WithContacts {
   def Address: Option[Address]
   def PhoneNumber: Option[PhoneNumber]
   def EmailAddresses: Seq[String]
 }
 
 @jsonDefaults case class BasicPerson(
-  FirstName: String,
-  LastName: String,
+  FirstName: Option[String] = None,
+  LastName: Option[String] = None,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[String] = Seq.empty,
   Credentials: Option[String] = None
-) extends Person
+) extends WithContacts
 
 object BasicPerson extends RobustPrimitives
