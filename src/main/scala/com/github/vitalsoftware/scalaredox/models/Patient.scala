@@ -76,7 +76,7 @@ object SexType extends Enumeration {
   Ethnicity: Option[String] = None,
   Religion: Option[String] = None,
   MaritalStatus: Option[String] = None
-) extends WithContacts
+) extends WithContactDetails
 
 object Demographics extends RobustPrimitives
 
@@ -92,7 +92,7 @@ object Demographics extends RobustPrimitives
   EmailAddresses: Seq[String] = Seq.empty,
   RelationToPatient: Option[String] = None,
   Roles: Seq[String] = Seq.empty
-) extends WithContacts
+) extends WithContactDetails
 
 object Contact extends RobustPrimitives
 
