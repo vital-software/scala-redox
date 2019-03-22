@@ -76,7 +76,7 @@ object SexType extends Enumeration {
   Ethnicity: Option[String] = None,
   Religion: Option[String] = None,
   MaritalStatus: Option[String] = None
-) extends Person
+) extends WithContactDetails
 
 object Demographics extends RobustPrimitives
 
@@ -85,14 +85,14 @@ object Demographics extends RobustPrimitives
  * @param Roles E.g. "Emergency contact"
  */
 @jsonDefaults case class Contact(
-  FirstName: String,
-  LastName: String,
+  FirstName: Option[String] = None,
+  LastName: Option[String] = None,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
   EmailAddresses: Seq[String] = Seq.empty,
   RelationToPatient: Option[String] = None,
   Roles: Seq[String] = Seq.empty
-) extends Person
+) extends WithContactDetails
 
 object Contact extends RobustPrimitives
 
