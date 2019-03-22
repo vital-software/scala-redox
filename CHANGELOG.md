@@ -3,7 +3,7 @@
 ## [Unreleased]
 
 ### Changed
-- Breaking: Made Contact nad BasicPerson's FirstName and LastName optional
+- Breaking: Made Contact and BasicPerson's FirstName and LastName optional
 (As for Redox these are only "possible" fields)
 
 ## [3.0.0] - 2019-01-28
