@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [4.0.0] - 2019-03-22
+
 ### Changed
 - Breaking: Made Contact and BasicPerson's FirstName and LastName optional
 (As for Redox these are only "possible" fields)
