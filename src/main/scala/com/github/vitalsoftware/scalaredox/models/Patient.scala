@@ -52,7 +52,7 @@ object SexType extends Enumeration {
  *
  * @param FirstName Required
  * @param LastName Required
- * @param DOB Required. Patient's date of birth. In ISO 8601 format
+ * @param DOB Partially reliable. Patient's date of birth. In ISO 8601 format
  * @param Sex Required
  * @param Language Patient's primary spoken language. In ISO 639-1 alpha values (e.g. 'en'). http://www.mathguide.de/info/tools/languagecode.html
  * @param Citizenship Patient's nation(s) of citizenship. *In ISO 3166 alpha 2 format (e.g. 'US').
@@ -64,7 +64,7 @@ object SexType extends Enumeration {
 @jsonDefaults case class Demographics(
   FirstName: String,
   LastName: String,
-  DOB: DateTime,
+  DOB: Option[DateTime] = None,
   SSN: Option[String] = None,
   Sex: SexType.Value = SexType.Unknown,
   Address: Option[Address] = None,

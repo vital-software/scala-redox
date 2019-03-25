@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+- Breaking: Make Demographics.dob optional as it's not reliable in PatientUpdate
+messages.
+
 ## [4.0.0] - 2019-03-22
 
 ### Changed
