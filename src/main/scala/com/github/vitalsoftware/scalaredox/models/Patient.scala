@@ -106,7 +106,7 @@ object Contact extends RobustPrimitives
   Contacts: Seq[Contact] = Seq.empty,
   Guarantor: Option[Guarantor] = None,
   Insurances: Seq[Insurance] = Seq.empty,
-  Diagnoses: Seq[BasicCode] = Seq.empty,
+  Diagnoses: Seq[CodesetWithName] = Seq.empty,
   PCP: Option[Provider] = None
 )
 

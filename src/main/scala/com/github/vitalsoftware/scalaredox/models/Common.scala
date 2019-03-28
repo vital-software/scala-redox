@@ -30,57 +30,6 @@ trait DateRange {
   def EndDate: Option[DateTime]
 }
 
-/**
- * Code reference (like a foreign key into a SNOMED, ICD-9/10, or other data set)
- */
-trait Code {
-  def Code: Option[String]
-  def CodeSystem: Option[String]
-  def CodeSystemName: Option[String]
-  def Name: Option[String]
-}
-
-@jsonDefaults case class BasicCode(
-  Code: Option[String] = None,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None
-) extends Code
-
-object BasicCode extends RobustPrimitives
-
-@jsonDefaults case class CodeWithText(
-  Code: Option[String] = None,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None,
-  Text: Option[String] = None
-) extends Code
-
-object CodeWithText extends RobustPrimitives
-
-@jsonDefaults case class CodeWithStatus(
-  Code: Option[String] = None,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None,
-  Status: Option[String] = None,
-  DateTime: Option[DateTime] = None
-) extends Code with Status
-
-object CodeWithStatus extends RobustPrimitives
-
-// Alternative to 'BasicCode' used inconsistently in some data models
-@jsonDefaults case class CodeSet(
-  Code: Option[String] = None,
-  Codeset: Option[String] = None,
-  Name: Option[String] = None,
-  Type: Option[String] = None,
-  Description: Option[String] = None
-)
-
-object CodeSet extends RobustPrimitives
-
 @jsonDefaults case class Address(
   StreetAddress: Option[String] = None,
   City: Option[String] = None,
@@ -158,32 +107,6 @@ object ValueTypes extends Enumeration {
   def defaultValue = String
   @transient implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(Reads.enumNameReads(ValueTypes), Writes.enumNameWrites)
 }
-
-/**
- * Coded Observation of a patient.
- *
- * @param TargetSite Where (on or in the body) the observation is made. (e.g. "Entire hand (body structure)"). SNOMED CT
- * @param Interpretation A flag indicating whether or not the observed value is normal, high, or low. [Supported Values](https://www.hl7.org/fhir/v3/ObservationInterpretation/index.html)
- * @param ValueType Data type of the value. One of the following: "Numeric", "String", "Date", "Time", "DateTime", "Coded Entry", "Encapsulated Data". Derived from HL7 Table 0125.
- *                  @param Units The units of the measurement. [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
- */
-@jsonDefaults case class Observation(
-  Code: Option[String] = None,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None,
-  DateTime: DateTime,
-  Status: Option[String] = None,
-  Value: Option[String] = None,
-  ValueType: Option[ValueTypes.Value] = None,
-  Units: Option[String] = None,
-  ReferenceRange: Option[ReferenceRange] = None,
-  TargetSite: Option[BasicCode] = None, // Used by Procedures
-  Interpretation: Option[String] = None, // Used by Result
-  Observer: Option[Provider] = None
-) extends Code with Status with DateStamped
-
-object Observation extends RobustPrimitives
 
 /**
  * This wraps java.util.Locale for consistent serialisation form language to an ISO standard language locale. The java

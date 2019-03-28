@@ -53,7 +53,7 @@ object OrderPriorityTypes extends Enumeration {
  * List of supplementary clinical information associated with the order. Often these are answers to Ask at Order Entry (AOE) questions.
  *
  * @param Code Code for the information element
- * @param CodeSet Code set used to identify the information element. Codeset will be blank for system-defined codes. LOINC is used for a subset of AOE questions.
+ * @param Codeset Code set used to identify the information element. Codeset will be blank for system-defined codes. LOINC is used for a subset of AOE questions.
  * @param Description Description of the information element. For AOEs, this is typically the text of the AOE question
  * @param Value Value of the information element. For AOEs, this is typically the full answer
  * @param Units Units of the value. If the Value is a time range, this may be "WK"
@@ -62,13 +62,13 @@ object OrderPriorityTypes extends Enumeration {
  */
 @jsonDefaults case class ClinicalInfo(
   Code: Option[String] = None,
-  CodeSet: Option[String] = None,
+  Codeset: Option[String] = None,
   Description: Option[String] = None,
   Value: Option[String] = None,
   Units: Option[String] = None,
   Abbreviation: Option[String] = None,
   Notes: Seq[String] = Seq.empty
-)
+) extends Codeset
 
 object ClinicalInfo extends RobustPrimitives
 
@@ -134,14 +134,14 @@ object OrderingFacility extends RobustPrimitives
   TransactionDateTime: Option[DateTime] = None,
   CollectionDateTime: Option[DateTime] = None,
   Specimen: Option[Specimen] = None,
-  Procedure: Option[CodeSet] = None,
+  Procedure: Option[BasicCodeset] = None,
   Provider: Option[OrderProvider] = None,
   OrderingFacility: Option[OrderingFacility] = None,
   Priority: Option[OrderPriorityTypes.Value] = None,
   Expiration: Option[LocalDate] = None,
   Comments: Option[String] = None,
   Notes: Seq[String] = Seq.empty,
-  Diagnoses: Seq[CodeSet] = Seq.empty,
+  Diagnoses: Seq[CodesetWithName] = Seq.empty,
   ClinicalInfo: Seq[ClinicalInfo] = Seq.empty
 )
 

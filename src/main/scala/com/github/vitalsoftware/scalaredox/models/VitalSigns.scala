@@ -16,7 +16,7 @@ import play.api.libs.json.{ Format, Reads, Writes }
  */
 @jsonDefaults case class VitalSigns(
   DateTime: DateTime,
-  Observations: Seq[Observation] = Seq.empty
+  Observations: Seq[VitalSignObservation] = Seq.empty
 )
 
 object VitalSigns extends RobustPrimitives

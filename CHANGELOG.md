@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking**: Renamed `CodeSet` to `Codeset` (note the lower-case `s`) to fix
+  mappings from JSON, converted it into a trait, with implementations
+  `BasicCodeset` and `CodesetWithName`
+- **Breaking**: Converted `Observation` into a trait, with implementations
+  `ProcedureObservation`, `ResultObservation`, `VitalSignObservation` and
+  `FlowsheetObservation`
+  - This was done to cope with the flowsheet observation not having a
+    `CodeSystem`
+
 ## [5.0.0] - 2019-03-25
 
 ### Changed

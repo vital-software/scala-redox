@@ -23,7 +23,7 @@ import play.api.libs.json.{ Format, Reads, Writes }
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Status: Option[String] = None,
-  Observations: Seq[Observation] = Seq.empty
+  Observations: Seq[ResultObservation] = Seq.empty
 ) extends Code with Status
 
 object ChartResult extends RobustPrimitives
@@ -82,7 +82,7 @@ object ResultPerformer extends RobustPrimitives
   Producer: Option[OrderProducer] = None,
   Performer: Option[ResultPerformer] = None,
   ReferenceRange: Option[ReferenceRange] = None,
-  ObservationMethod: Option[CodeSet] = None
+  ObservationMethod: Option[BasicCodeset] = None
 )
 
 object Result extends RobustPrimitives
@@ -121,7 +121,7 @@ object ResultsStatusTypes extends Enumeration {
   CompletionDateTime: Option[DateTime] = None,
   Notes: Seq[String] = Seq.empty,
   ResultsStatus: Option[ResultsStatusTypes.Value] = None,
-  Procedure: Option[CodeSet] = None,
+  Procedure: Option[BasicCodeset] = None,
   Provider: Option[Provider] = None,
   Status: String,
   ResponseFlag: Option[String] = None,
