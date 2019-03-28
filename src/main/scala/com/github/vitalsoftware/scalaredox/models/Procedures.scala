@@ -14,7 +14,7 @@ import com.github.vitalsoftware.util.RobustPrimitives
  * @param Services These are procedures that are service-oriented in nature, such as a dressing change, or feeding a patient.
  */
 @jsonDefaults case class Procedures(
-  Observations: Seq[Observation] = Seq.empty,
+  Observations: Seq[ProcedureObservation] = Seq.empty,
   Procedures: Seq[CodeWithStatus] = Seq.empty,
   Services: Seq[CodeWithStatus] = Seq.empty
 )

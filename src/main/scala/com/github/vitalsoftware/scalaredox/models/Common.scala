@@ -30,57 +30,6 @@ trait DateRange {
   def EndDate: Option[DateTime]
 }
 
-/**
- * Code reference (like a foreign key into a SNOMED, ICD-9/10, or other data set)
- */
-trait Code {
-  def Code: Option[String]
-  def CodeSystem: Option[String]
-  def CodeSystemName: Option[String]
-  def Name: Option[String]
-}
-
-@jsonDefaults case class BasicCode(
-  Code: Option[String] = None,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None
-) extends Code
-
-object BasicCode extends RobustPrimitives
-
-@jsonDefaults case class CodeWithText(
-  Code: Option[String] = None,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None,
-  Text: Option[String] = None
-) extends Code
-
-object CodeWithText extends RobustPrimitives
-
-@jsonDefaults case class CodeWithStatus(
-  Code: Option[String] = None,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None,
-  Status: Option[String] = None,
-  DateTime: Option[DateTime] = None
-) extends Code with Status
-
-object CodeWithStatus extends RobustPrimitives
-
-// Alternative to 'BasicCode' used inconsistently in some data models
-@jsonDefaults case class CodeSet(
-  Code: Option[String] = None,
-  Codeset: Option[String] = None,
-  Name: Option[String] = None,
-  Type: Option[String] = None,
-  Description: Option[String] = None
-)
-
-object CodeSet extends RobustPrimitives
-
 @jsonDefaults case class Address(
   StreetAddress: Option[String] = None,
   City: Option[String] = None,

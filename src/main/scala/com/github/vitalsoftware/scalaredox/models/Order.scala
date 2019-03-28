@@ -134,14 +134,14 @@ object OrderingFacility extends RobustPrimitives
   TransactionDateTime: Option[DateTime] = None,
   CollectionDateTime: Option[DateTime] = None,
   Specimen: Option[Specimen] = None,
-  Procedure: Option[CodeSet] = None,
+  Procedure: Option[BasicCodeSet] = None,
   Provider: Option[OrderProvider] = None,
   OrderingFacility: Option[OrderingFacility] = None,
   Priority: Option[OrderPriorityTypes.Value] = None,
   Expiration: Option[LocalDate] = None,
   Comments: Option[String] = None,
   Notes: Seq[String] = Seq.empty,
-  Diagnoses: Seq[CodeSet] = Seq.empty,
+  Diagnoses: Seq[CodeSetWithName] = Seq.empty,
   ClinicalInfo: Seq[ClinicalInfo] = Seq.empty
 )
 

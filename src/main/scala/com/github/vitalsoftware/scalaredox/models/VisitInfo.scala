@@ -4,7 +4,7 @@ import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
-import play.api.libs.json.{ Format, Reads, Writes }
+import play.api.libs.json._
 
 /**
  * Created by apatzer on 3/17/17.
@@ -54,7 +54,7 @@ object VisitQuery extends RobustPrimitives
   Value: String,
   DateTime: DateTime,
   IsNegativeIndicator: Option[Boolean],
-  Encodings: Seq[CodeSet] = Seq.empty
+  Encodings: Seq[BasicCodeSet] = Seq.empty
 )
 
 object Diagnosis extends RobustPrimitives
@@ -105,7 +105,7 @@ object PatientClassType extends Enumeration {
   Type: Option[String] = None, // Claims[].Visit
   DateTime: Option[DateTime] = None,
   DischargeDateTime: Option[DateTime] = None,
-  DischargeStatus: Option[CodeSet] = None,
+  DischargeStatus: Option[BasicCodeSet] = None,
   DischargeLocation: Option[CareLocation] = None,
 
   StartDateTime: Option[DateTime] = None, // Header.Document.Visit only
