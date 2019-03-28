@@ -109,32 +109,6 @@ object ValueTypes extends Enumeration {
 }
 
 /**
- * Coded Observation of a patient.
- *
- * @param TargetSite Where (on or in the body) the observation is made. (e.g. "Entire hand (body structure)"). SNOMED CT
- * @param Interpretation A flag indicating whether or not the observed value is normal, high, or low. [Supported Values](https://www.hl7.org/fhir/v3/ObservationInterpretation/index.html)
- * @param ValueType Data type of the value. One of the following: "Numeric", "String", "Date", "Time", "DateTime", "Coded Entry", "Encapsulated Data". Derived from HL7 Table 0125.
- *                  @param Units The units of the measurement. [UCUM Units of Measure](http://unitsofmeasure.org/ucum.html)
- */
-@jsonDefaults case class Observation(
-  Code: Option[String] = None,
-  CodeSystem: Option[String] = None,
-  CodeSystemName: Option[String] = None,
-  Name: Option[String] = None,
-  DateTime: DateTime,
-  Status: Option[String] = None,
-  Value: Option[String] = None,
-  ValueType: Option[ValueTypes.Value] = None,
-  Units: Option[String] = None,
-  ReferenceRange: Option[ReferenceRange] = None,
-  TargetSite: Option[BasicCode] = None, // Used by Procedures
-  Interpretation: Option[String] = None, // Used by Result
-  Observer: Option[Provider] = None
-) extends Code with Status with DateStamped
-
-object Observation extends RobustPrimitives
-
-/**
  * This wraps java.util.Locale for consistent serialisation form language to an ISO standard language locale. The java
  * implementation doesn't guarantee the validation of the input and the json formats gets masked by play-json's
  * implementation that doesn't handle validation.

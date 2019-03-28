@@ -16,7 +16,7 @@ import com.github.vitalsoftware.util.RobustPrimitives
   Meta: Meta,
   Patient: Patient,
   Visit: Option[BasicVisitInfo] = None,
-  Observations: Seq[Observation] = Nil
+  Observations: Seq[FlowsheetObservation] = Nil
 ) extends MetaLike with HasPatient
 
 object FlowSheetMessage extends RobustPrimitives

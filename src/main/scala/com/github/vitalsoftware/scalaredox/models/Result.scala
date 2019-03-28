@@ -23,7 +23,7 @@ import play.api.libs.json.{ Format, Reads, Writes }
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Status: Option[String] = None,
-  Observations: Seq[Observation] = Seq.empty
+  Observations: Seq[ResultObservation] = Seq.empty
 ) extends Code with Status
 
 object ChartResult extends RobustPrimitives
