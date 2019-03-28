@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.0] - 2019-03-28
+
 ### Changed
 
 - **Breaking**: Renamed `CodeSet` to `Codeset` (note the lower-case `s`) to fix
@@ -276,7 +278,8 @@ and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes
 
 
 
-[Unreleased]: https://github.com/vital-software/scala-redox/compare/5.0.0...HEAD
+[Unreleased]: https://github.com/vital-software/scala-redox/compare/6.0.0...HEAD
+[6.0.0]: https://github.com/vital-software/scala-redox/compare/5.0.0...6.0.0
 [5.0.0]: https://github.com/vital-software/scala-redox/compare/4.0.0...5.0.0
 [4.0.0]: https://github.com/vital-software/scala-redox/compare/3.0.0...4.0.0
 [3.0.0]: https://github.com/vital-software/scala-redox/compare/2.1.0...3.0.0
