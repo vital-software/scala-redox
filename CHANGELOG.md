@@ -1,43 +1,54 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## [Unreleased]
 
 ## [5.0.0] - 2019-03-25
 
 ### Changed
-- Breaking: Make Demographics.dob optional as it's not reliable in PatientUpdate
-messages.
+
+- **Breaking**: Made Demographics.dob optional as it's not reliable in
+  `PatientUpdate` messages.
 
 ## [4.0.0] - 2019-03-22
 
 ### Changed
-- Breaking: Made Contact and BasicPerson's FirstName and LastName optional
-(As for Redox these are only "possible" fields)
+
+- **Breaking**: Made `Contact` and `BasicPerson`'s `FirstName` and `LastName`
+  optional (In Redox, these are only "possible" fields)
 
 ## [3.0.0] - 2019-01-28
 
-Adds the ability to handle multiple credentials for multiple sources.
+### Fixed
 
-Each source in Redox has a unique set of api-key, api-secret credentials.
-If a client has multiple sources, this would have required creating multiple
-RedoxClients per each source.
+- Added the ability to handle multiple credentials for multiple sources.
 
-However, Redox-client constructed an internal WsClient (httpClient) and a akka
-schedule to manage the access-refresh Token lifecycle. This consumes
-unnecessary resources as each client would have created its own thread pool.
+  Each source in Redox has a unique pair of key/secret credentials. If a client
+  has multiple sources, this would have required creating multiple RedoxClients,
+  one for each source.
+
+  However, `RedoxClient` constructed an internal `WsClient` and an
+  Akka schedule to manage the access-refresh Token lifecycle. This consumed
+  unnecessary resources as each client would have created its own thread pool.
 
 ### Changed
-- Breaking: RedoxClient is completely redesigned to take in an external
-Http client. A secondary constructor is added for easier migration. However,
-usage is only advisable if application has a single source .
 
+- **Breaking**: `RedoxClient` is completely redesigned to take in an external
+  Http client. A secondary constructor is added for easier migration. However,
+  usage is only advisable if application has a single source .
 - Marked one property on the ReceiveController protected
 
 ### Added
-- RedoxTokenManager to manage Redox tokens for multiple sources.
-- Added HttpClient interface to allow using different http client under the hood.
-- ClientConfig object standerdizes the configuration values that's needed
-to be passed into RedoxClient.
+
+- `RedoxTokenManager` to manage Redox tokens for multiple sources.
+- Added `HttpClient` interface to allow using different http client under the
+  hood.
+- `ClientConfig` object standardizes the configuration values that's needed
+  to be passed into RedoxClient.
 
 ## [2.1.0] - 2019-01-18
 
@@ -52,7 +63,7 @@ to be passed into RedoxClient.
 
 - Robust parsing of non-array paths
 
-## [2.0.1] - [2.0.4] - 2018-10-31
+## [2.0.1 - 2.0.4] - 2018-10-31
 
 ### Fixed
 
@@ -62,49 +73,65 @@ to be passed into RedoxClient.
 
 ### Removed
 
-- Remove cross compile code for 2.11 release as there are multiple incompatibilities.
+- Remove cross-compile code for 2.11 release as there are multiple
+  incompatibilities.
 
-## [1.6.0] - [1.6.2] - 2018-09-24
+## [1.6.0 - 1.6.2] - 2018-09-24
 
-- Fixes Locale validation errors by introducing a strict Language type.
+- Fixed `Locale` validation errors by introducing a strict `Language` type.
 
-#### Breaking
+### Changed
 
 `Patient.Demographics.Language` is changed from java.util.Local to `Language`
 
-
 ## [1.5.1] - 2018-09-18
 
-- Add CanceledEvent field to Meta
+### Added
+
+- Added `CanceledEvent` field to Meta
 
 ## [1.5.0] - 2018-09-18
 
-- Make VisitInfo.Patient class an enum value
+### Changed
+
+- Made `VisitInfo.Patient` class an enum value
 
 ## [1.4.6] - 2018-09-04
 
-- Add "Formatted Text" as a Order ValueType
-- Handle "ST" and "RT" Order priority value via a mapping
+### Added
+
+- Added "Formatted Text" as a Order ValueType
+- Handled "ST" and "RT" Order priority value via a mapping
 
 ## [1.4.5] - 2018-08-24
 
-- Remove HasDefaultEnum json parsing
+### Removed
+
+- Removed HasDefaultEnum json parsing
 
 ## [1.4.4] - 2018-08-23
 
-- Change Language field from String to java.util.Locale
+### Changed
+
+- Changed Language field from String to java.util.Locale
 
 ## [1.4.3] - 2018-08-23
+
+### Added
 
 - Added robust parsing for primitive types.
 
 ## [1.4.2] - 2018-08-19
 
-- Fix robust parsing issue with json arrays.
+### Fixed
+
+- Fixed robust parsing issue with json arrays.
 
 ## [1.4.1] - 2018-08-16
 
-- Fix bug where robust parsing fails to recover from deep errors
+### Fixed
+
+- Fixed bug where robust parsing fails to recover from deep errors
 
 ## [1.4.0] - 2018-08-13
 
@@ -126,7 +153,7 @@ whenever parsing of that filed fails.
 - Failing to parse an `Enumeration` with `HasDefaultReads` will now fallback to a default value
 and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes` and `CommonVitalTypes`)
 
-## [1.0.1] - [1.1.0] - 2018-06-28
+## [1.0.1 - 1.1.0] - 2018-06-28
 
 ### Changed
 
@@ -154,7 +181,7 @@ and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes
 
 - Added a `HasVisitInfo` trait to mark models with a `Visit: Option[VisitInfo]` property.
 
-## [0.100] - [0.102] - 2018-06-11
+## [0.100 - 0.102] - 2018-06-11
 
 ### Added
 
@@ -235,3 +262,33 @@ and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes
 
 - `Order.ClinicalInfo.Code` changed from `String` to `Option[String]`
 - `Order.Provider.NPI` changed from `String` to `Option[String]`
+
+
+
+[Unreleased]: https://github.com/vital-software/scala-redox/compare/5.0.0...HEAD
+[5.0.0]: https://github.com/vital-software/scala-redox/compare/4.0.0...5.0.0
+[4.0.0]: https://github.com/vital-software/scala-redox/compare/3.0.0...4.0.0
+[3.0.0]: https://github.com/vital-software/scala-redox/compare/2.1.0...3.0.0
+[2.1.0]: https://github.com/vital-software/scala-redox/compare/2.0.5...2.1.0
+[2.0.5]: https://github.com/vital-software/scala-redox/compare/2.0.4...2.0.5
+[2.0.1 - 2.0.4]: https://github.com/vital-software/scala-redox/compare/2.0.0...2.0.4
+[2.0.0]: https://github.com/vital-software/scala-redox/compare/1.6.2...2.0.0
+[1.6.0 - 1.6.2]: https://github.com/vital-software/scala-redox/compare/1.5.1...1.6.2
+[1.5.1]: https://github.com/vital-software/scala-redox/compare/1.5.0...1.5.1
+[1.5.0]: https://github.com/vital-software/scala-redox/compare/1.4.6...1.5.0
+[1.4.6]: https://github.com/vital-software/scala-redox/compare/1.4.5...1.4.6
+[1.4.5]: https://github.com/vital-software/scala-redox/compare/1.4.4...1.4.5
+[1.4.4]: https://github.com/vital-software/scala-redox/compare/1.4.3...1.4.4
+[1.4.3]: https://github.com/vital-software/scala-redox/compare/1.4.2...1.4.3
+[1.4.2]: https://github.com/vital-software/scala-redox/compare/1.4.1...1.4.2
+[1.4.1]: https://github.com/vital-software/scala-redox/compare/1.4.0...1.4.1
+[1.4.0]: https://github.com/vital-software/scala-redox/compare/1.3.0...1.4.0
+[1.3.0]: https://github.com/vital-software/scala-redox/compare/1.1.0...1.3.0
+[1.0.1 - 1.1.0]: https://github.com/vital-software/scala-redox/compare/0.104...1.1.0
+[0.104]: https://github.com/vital-software/scala-redox/compare/0.103...0.104
+[0.103]: https://github.com/vital-software/scala-redox/compare/0.102...0.103
+[0.100 - 0.102]: https://github.com/vital-software/scala-redox/compare/0.99...0.102
+[0.99]: https://github.com/vital-software/scala-redox/compare/0.98...0.99
+[0.98]: https://github.com/vital-software/scala-redox/compare/0.97...0.98
+[0.97]: https://github.com/vital-software/scala-redox/compare/0.96...0.97
+[0.96]: https://github.com/vital-software/scala-redox/releases/tag/0.96
