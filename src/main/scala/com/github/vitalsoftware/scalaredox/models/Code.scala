@@ -47,24 +47,24 @@ object CodeWithStatus extends RobustPrimitives
 
 
 // Alternative to 'Code' used inconsistently in some data models
-trait CodeSet {
+trait Codeset {
   def Code: Option[String]
-  def CodeSet: Option[String]
+  def Codeset: Option[String]
 }
 
-@jsonDefaults case class BasicCodeSet(
+@jsonDefaults case class BasicCodeset(
   Code: Option[String] = None,
-  CodeSet: Option[String] = None,
+  Codeset: Option[String] = None,
   Description: Option[String] = None,
-) extends CodeSet
+) extends Codeset
 
-object BasicCodeSet extends RobustPrimitives
+object BasicCodeset extends RobustPrimitives
 
-@jsonDefaults case class CodeSetWithName(
+@jsonDefaults case class CodesetWithName(
   Code: Option[String] = None,
-  CodeSet: Option[String] = None,
+  Codeset: Option[String] = None,
   Name: Option[String] = None,
   Type: Option[String] = None,
-) extends CodeSet
+) extends Codeset
 
-object CodeSetWithName extends RobustPrimitives
+object CodesetWithName extends RobustPrimitives

@@ -82,7 +82,7 @@ object ResultPerformer extends RobustPrimitives
   Producer: Option[OrderProducer] = None,
   Performer: Option[ResultPerformer] = None,
   ReferenceRange: Option[ReferenceRange] = None,
-  ObservationMethod: Option[BasicCodeSet] = None
+  ObservationMethod: Option[BasicCodeset] = None
 )
 
 object Result extends RobustPrimitives
@@ -121,7 +121,7 @@ object ResultsStatusTypes extends Enumeration {
   CompletionDateTime: Option[DateTime] = None,
   Notes: Seq[String] = Seq.empty,
   ResultsStatus: Option[ResultsStatusTypes.Value] = None,
-  Procedure: Option[BasicCodeSet] = None,
+  Procedure: Option[BasicCodeset] = None,
   Provider: Option[Provider] = None,
   Status: String,
   ResponseFlag: Option[String] = None,

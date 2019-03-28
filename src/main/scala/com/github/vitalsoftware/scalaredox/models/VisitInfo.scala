@@ -54,7 +54,7 @@ object VisitQuery extends RobustPrimitives
   Value: String,
   DateTime: DateTime,
   IsNegativeIndicator: Option[Boolean],
-  Encodings: Seq[BasicCodeSet] = Seq.empty
+  Encodings: Seq[BasicCodeset] = Seq.empty
 )
 
 object Diagnosis extends RobustPrimitives
@@ -105,7 +105,7 @@ object PatientClassType extends Enumeration {
   Type: Option[String] = None, // Claims[].Visit
   DateTime: Option[DateTime] = None,
   DischargeDateTime: Option[DateTime] = None,
-  DischargeStatus: Option[BasicCodeSet] = None,
+  DischargeStatus: Option[BasicCodeset] = None,
   DischargeLocation: Option[CareLocation] = None,
 
   StartDateTime: Option[DateTime] = None, // Header.Document.Visit only

@@ -90,14 +90,14 @@ object VitalSignObservation extends RobustPrimitives
   ValueType: Option[ValueTypes.Value] = None,
   Units: Option[String] = None,
   Code: Option[String] = None,
-  CodeSet: Option[String] = None,
+  Codeset: Option[String] = None,
   Description: Option[String] = None,
   Status: Option[String] = None,
   Notes: Seq[String] = Seq.empty,
   Observer: Option[Provider] = None,
   ReferenceRange: Option[ReferenceRange] = None,
   AbnormalFlag: Option[String] = None
-) extends Observation with CodeSet with ObservationValue
+) extends Observation with Codeset with ObservationValue
 
 object FlowsheetObservation extends RobustPrimitives
 
