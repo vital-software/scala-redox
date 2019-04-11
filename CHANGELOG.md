@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for Medication messages with new models for
+`MedicationOrder`, `MedicationMessge` and `OrderedMedication`.
+
 ## [6.0.0] - 2019-03-28
 
 ### Changed

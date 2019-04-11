@@ -65,14 +65,82 @@ object TimePeriod extends RobustPrimitives
 object MedicationTaken extends RobustPrimitives
 
 /**
- * This section contains the patient's past, current, and future medications.
  *
- * @param MedicationsText Free text form of the medications summary
- * @param Medications Patient medications: past, current, and future
+ * @param Code Code for the pharmacy.
+ * @param Codeset Code set used to identify the pharmacy.
+ * @param Description Description of the pharmacy.
+ * @param Address The physical location at which the medication should be dispensed.
  */
+@jsonDefaults case class Pharmacy(
+  Code: Option[String] = None,
+  Codeset: Option[String] = None,
+  Description: Option[String] = None,
+  Address: Option[Address] = None,
+)
+
+object Pharmacy extends RobustPrimitives
+
+
+/**
+ *
+ * @param Dose The size of the dose for pills, capsules, etc (UCUM Units of Measure).
+ * @param Rate        If the medication is in liquid form, the rate at which it is administered (UCUM Units of Measure).
+ * @param Route       Method by which the medication is delivered (Medication Route FDA Value Set).
+ * @param Product     A code describing the actual medication given.
+ * @param FreeTextSig Free text instructions for the medication.
+ *                    Typically instructing patient on the proper means and timing for the use of the medication.
+ * @param StartDate   When the medication should be started (ISO 8601 Format).
+ * @param EndDate     When the medication should be ended (ISO 8601 Format).
+ * @param Frequency   How often the patient should be taking the medication.
+ * @param IsPRN       Whether the medication is to be taken on an as-needed basis.
+ */
+@jsonDefaults case class OrderedMedication(
+  Dose: Option[Dose] = None,
+  Rate: Option[Dose] = None,
+  Route: Option[BasicCode] = None,
+  Product: BasicCode,
+  FreeTextSig: Option[String] = None,
+  StartDate: DateTime,
+  EndDate: Option[DateTime] = None,
+  Frequency: Option[TimePeriod] = None,
+  IsPRN: Option[Boolean] = None,
+) extends Medication
+
+object OrderedMedication extends RobustPrimitives
+
+
+/**
+ *
+ * @param ID ID assigned by the ordering system
+ * @param Notes Order-level notes
+ * @param Indications This field identifies the condition or problem for which the drug/treatment was prescribed.
+ * @param Priority Priority of the order.
+ * @param Pharmacy The pharmacy at which the medication should be dispensed.
+ */
+@jsonDefaults case class MedicationOrder(
+  ID: String,
+  Notes: Seq[String] = Seq.empty,
+  Medication: OrderedMedication,
+  Indications: Option[BasicCode],
+  Provider: Option[OrderProvider] = None,
+  EnteredBy: Option[Provider] = None,
+  VerifiedBy: Option[Provider] = None,
+  Priority: Option[String] = None,
+  Pharmacy: Option[Pharmacy] = None,
+)
+
+object MedicationOrder extends RobustPrimitives
+
+
+/**
+ * The Medications data model allows real-time notification of new prescriptions and modifications or cancellations to existing ones.
+ */
+// Todo: Handle Administrations (we don't get this message yet)
 @jsonDefaults case class MedicationsMessage(
-  MedicationsText: Option[String] = None,
-  Medications: Seq[MedicationTaken] = Seq.empty
+  Meta: Meta,
+  Patient: Patient,
+  Visit: Visit,
+  Order: MedicationOrder,
 )
 
 object MedicationsMessage extends RobustPrimitives
