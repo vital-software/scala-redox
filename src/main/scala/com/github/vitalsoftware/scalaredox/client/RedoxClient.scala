@@ -156,6 +156,7 @@ object RedoxClient {
         case (Scheduling, _) => Left(unsupported)
         case (SurgicalScheduling, _) => Left(unsupported)
         case (Vaccination, _) => Left(unsupported)
+        case (Medications, _) => Right(implicitly[Reads[models.MedicationsMessage]])
         case _ if clinicalSummaryTypes.contains(meta.EventType) => Right(implicitly[Reads[models.ClinicalSummary]])
         case _ if visitTypes.contains(meta.EventType) => Right(implicitly[Reads[models.Visit]])
         case _ => Left(unsupported)
