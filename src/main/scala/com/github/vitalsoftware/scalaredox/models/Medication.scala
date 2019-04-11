@@ -139,8 +139,8 @@ object MedicationOrder extends RobustPrimitives
 @jsonDefaults case class MedicationsMessage(
   Meta: Meta,
   Patient: Patient,
-  Visit: VisitInfo,
+  Visit: Option[VisitInfo] = None,
   Order: MedicationOrder,
-)
+) extends MetaLike with HasPatient with HasVisitInfo
 
 object MedicationsMessage extends RobustPrimitives
