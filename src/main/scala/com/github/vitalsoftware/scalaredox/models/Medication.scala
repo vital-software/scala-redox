@@ -121,7 +121,7 @@ object OrderedMedication extends RobustPrimitives
   ID: String,
   Notes: Seq[String] = Seq.empty,
   Medication: OrderedMedication,
-  Indications: Option[BasicCode],
+  Indications: Seq[BasicCode] = Seq.empty,
   Provider: Option[OrderProvider] = None,
   EnteredBy: Option[Provider] = None,
   VerifiedBy: Option[Provider] = None,
@@ -139,7 +139,7 @@ object MedicationOrder extends RobustPrimitives
 @jsonDefaults case class MedicationsMessage(
   Meta: Meta,
   Patient: Patient,
-  Visit: Visit,
+  Visit: VisitInfo,
   Order: MedicationOrder,
 )
 
