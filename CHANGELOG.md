@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- MedicationsMessage had some incorrect properties:
+  - MedicationsMessage.Order.Indications are now a sequence instead of an Option
+  - MedicationsMessage.Visit now use Option[VisitInfo] instead of Visit
+- MedicationsMessage now extend MetaLike, HasPatient and HasVisitInfo
+(which are required for message models)
+
 ## [6.0.1] - 2019-04-11
 
 ### Added
