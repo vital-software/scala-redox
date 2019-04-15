@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.3] - 2019-04-15
+
 ### Changed
 
 - Add MetaLike interface to OrderMessageLike (non-breaking).
@@ -299,7 +301,8 @@ and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes
 
 
 
-[Unreleased]: https://github.com/vital-software/scala-redox/compare/6.0.2...HEAD
+[Unreleased]: https://github.com/vital-software/scala-redox/compare/6.0.3...HEAD
+[6.0.3]: https://github.com/vital-software/scala-redox/compare/6.0.2...6.0.3
 [6.0.2]: https://github.com/vital-software/scala-redox/compare/6.0.1...6.0.2
 [6.0.1]: https://github.com/vital-software/scala-redox/compare/6.0.0...6.0.1
 [6.0.0]: https://github.com/vital-software/scala-redox/compare/5.0.0...6.0.0
