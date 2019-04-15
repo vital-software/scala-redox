@@ -147,7 +147,7 @@ object OrderingFacility extends RobustPrimitives
 
 object Order extends RobustPrimitives
 
-trait OrdersMessageLike extends HasPatient with HasVisitInfo {
+trait OrdersMessageLike extends MetaLike with HasPatient with HasVisitInfo {
   def Meta: Meta
   def Patient: Patient
   def Visit: Option[VisitInfo]
