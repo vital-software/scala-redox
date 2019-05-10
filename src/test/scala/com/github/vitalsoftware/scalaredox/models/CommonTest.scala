@@ -20,6 +20,10 @@ class CommonTest extends Specification {
       JsString("fr").validate[Language] must beLanguageOf("fra")
     }
 
+    "read 'Other' language locale" in {
+      JsString("Other").validate[Language] must beLanguageOf("")
+    }
+
     "read invalid language locale" in {
       val unknown = JsString("unknown").validate[Language]
       unknown must beAnInstanceOf[JsError]
