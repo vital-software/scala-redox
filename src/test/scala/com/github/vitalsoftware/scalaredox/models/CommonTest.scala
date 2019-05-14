@@ -22,10 +22,11 @@ class CommonTest extends Specification {
 
     "read 'Other' language locale" in {
       JsString("Other").validate[Language] must beLanguageOf("")
+      JsString("Unknown").validate[Language] must beLanguageOf("")
     }
 
     "read invalid language locale" in {
-      val unknown = JsString("unknown").validate[Language]
+      val unknown = JsString("invalid").validate[Language]
       unknown must beAnInstanceOf[JsError]
     }
   }

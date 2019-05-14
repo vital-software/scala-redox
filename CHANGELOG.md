@@ -7,13 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Redox sometimes send Language value as "Unknown" when language value is explicitly not specified.
+These "Unknown" values will get assigned the java.util.Locale.ROOT when deserialized.
+
 ## [6.0.4] - 2019-05-13
 
 ### Changed
 
 - Redox sometimes send Language value as "Other" for non-ISO standard values.
 These "Other" values will get assigned the java.util.Locale.ROOT when deserialized.
-
 
 ## [6.0.3] - 2019-04-15
 

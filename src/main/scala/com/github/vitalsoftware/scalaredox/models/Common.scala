@@ -124,7 +124,7 @@ object Language {
 
   val jsonReads: Reads[Language] = new Reads[Language] {
     override def reads(json: JsValue): JsResult[Language] = json match {
-      case JsString("Other") => JsSuccess(Language(Locale.ROOT))
+      case JsString("Other") | JsString("Unknown") => JsSuccess(Language(Locale.ROOT))
       case JsString(str) if Try(new Locale(str).getISO3Language).isSuccess => JsSuccess(Language(Locale.forLanguageTag(str)))
       case _ => JsError(Seq(JsPath -> Seq(JsonValidationError("error.expected.locale"))))
     }
