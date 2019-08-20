@@ -13,8 +13,8 @@ resolvers ++= Seq(
   "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
 )
 
-val playJsonVersion = "2.6.9"
-val playVersion = "2.6.21"
+val playJsonVersion = "2.7.3"
+val playVersion = "2.7.3"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % playJsonVersion,

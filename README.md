@@ -74,7 +74,7 @@ Data-models available at [Redox](https://developer.redoxengine.com/) have been t
 ## Dependencies
 
 - [Play Webservices (WS) standalone HTTP client](https://github.com/playframework/play-ws)
-- [Play-Json 2.6.x](https://github.com/playframework/play-json)
+- [Play-Json 2.7.x](https://github.com/playframework/play-json)
 - Vital's own Scala annotation macros for easy Json.format[T]
 - [Units of Measurement for ISO/UCUM measurements](https://github.com/unitsofmeasurement/uom-systems)
 
