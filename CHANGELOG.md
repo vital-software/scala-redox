@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Upgrade to play-json 2.7.3
+- **Breaking**: Upgrade to play-json 2.7.3
 - Upgrade to play 2.7.3
 - Upgrade to sbt 1.2.8
 
