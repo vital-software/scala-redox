@@ -8,6 +8,8 @@ hat can include Json validation/serialization issues or an HTTP status like 403 
 
 See [tests](https://github.com/vital-software/scala-redox/tree/master/src/test/scala/com/github/vitalsoftware/scalaredox) for usage examples.
 
+You will need to set the environment variables `REDOX_API_SECRET` and `REDOX_API_KEY` in order to run the tests locally.
+
 ```
       val json: String =
         """
