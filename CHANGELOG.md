@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.0.0] - 2019-08-22
+
 ### Changed
 
 - **Breaking**: Upgrade to play-json 2.7.3
@@ -321,7 +323,8 @@ and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes
 
 
 
-[Unreleased]: https://github.com/vital-software/scala-redox/compare/6.0.5...HEAD
+[Unreleased]: https://github.com/vital-software/scala-redox/compare/7.0.0...HEAD
+[7.0.0]: https://github.com/vital-software/scala-redox/compare/6.0.5...7.0.0
 [6.0.5]: https://github.com/vital-software/scala-redox/compare/6.0.4...6.0.5
 [6.0.4]: https://github.com/vital-software/scala-redox/compare/6.0.3...6.0.4
 [6.0.3]: https://github.com/vital-software/scala-redox/compare/6.0.2...6.0.3
