@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [8.0.0] - 2019-08-26
+
 ### Changed
 
 - **Breaking** Upgrade to akka-http 10.1.8
@@ -327,7 +329,8 @@ and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes
 
 
 
-[Unreleased]: https://github.com/vital-software/scala-redox/compare/7.0.0...HEAD
+[Unreleased]: https://github.com/vital-software/scala-redox/compare/8.0.0...HEAD
+[8.0.0]: https://github.com/vital-software/scala-redox/compare/7.0.0...8.0.0
 [7.0.0]: https://github.com/vital-software/scala-redox/compare/6.0.5...7.0.0
 [6.0.5]: https://github.com/vital-software/scala-redox/compare/6.0.4...6.0.5
 [6.0.4]: https://github.com/vital-software/scala-redox/compare/6.0.3...6.0.4
