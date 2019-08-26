@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking** Upgrade to akka-http 10.1.8
+
 ## [7.0.0] - 2019-08-22
 
 ### Changed
