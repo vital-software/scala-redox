@@ -17,8 +17,6 @@ import scala.util.Try
  * Alter operations available on Play-JSON Reads[T] & Writes[T]
  *
  * Inspired by http://kailuowang.blogspot.co.nz/2013/11/addremove-fields-to-plays-default-case.html
- *
- * Created by apatzer on 3/17/17.
  */
 class OWritesOps[A](writes: OWrites[A]) {
   def addField[T: Writes](fieldName: String, field: A => T): OWrites[A] =
@@ -44,7 +42,9 @@ object OWritesOps {
 
 class OReadsOps[A](reads: Reads[A]) {
   def validate(set: Set[A]): Reads[A] =
-    reads.filter(JsonValidationError("set.notFoundIn", set)) { a: A => set.contains(a) }
+    reads.filter(JsonValidationError("set.notFoundIn", set)) { a: A =>
+      set.contains(a)
+    }
 }
 
 object OReadsOps {
@@ -56,24 +56,27 @@ trait JsonImplicits {
     import org.joda.time.DateTime
 
     val isoFormatter: DateTimeFormatter = org.joda.time.format.ISODateTimeFormat.dateTime()
-    val dateDashFormatter: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.UTC)
-    val dateNoDashFormatter: DateTimeFormatter = org.joda.time.format.DateTimeFormat.forPattern("yyyyMMdd").withZone(DateTimeZone.UTC)
+    val dateDashFormatter: DateTimeFormatter =
+      org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.UTC)
+    val dateNoDashFormatter: DateTimeFormatter =
+      org.joda.time.format.DateTimeFormat.forPattern("yyyyMMdd").withZone(DateTimeZone.UTC)
 
     def reads(json: JsValue): JsResult[DateTime] = json match {
       case JsNumber(d) => JsSuccess(new DateTime(d.toLong))
-      case JsString(s) => parseDate(s) match {
-        case Some(d) => JsSuccess(d)
-        case None    => JsError(Seq(JsPath() -> Seq(JsonValidationError("validate.error.expected.date.isoformat", "ISO8601"))))
-      }
+      case JsString(s) =>
+        parseDate(s) match {
+          case Some(d) => JsSuccess(d)
+          case None =>
+            JsError(Seq(JsPath() -> Seq(JsonValidationError("validate.error.expected.date.isoformat", "ISO8601"))))
+        }
       case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("validate.error.expected.date"))))
     }
 
-    private def parseDate(input: String): Option[DateTime] = {
+    private def parseDate(input: String): Option[DateTime] =
       Try(DateTime.parse(input, isoFormatter))
         .orElse(Try(DateTime.parse(input, dateDashFormatter)))
         .orElse(Try(DateTime.parse(input, dateNoDashFormatter)))
         .toOption
-    }
   }
 
   implicit val jodaISODateWrites: Writes[org.joda.time.DateTime] = new Writes[org.joda.time.DateTime] {
@@ -89,7 +92,7 @@ trait JsonImplicits {
     def reduceNullSubtrees: JsValue = reduceNullSubtreesImpl(jsValue)
     def reduceEmptySubtrees: JsValue = reduceEmptySubtreesImpl(jsValue)
 
-    private def reduceNullSubtreesImpl(jv: JsValue): JsValue = {
+    private def reduceNullSubtreesImpl(jv: JsValue): JsValue =
       jv match {
         case JsObject(o) =>
           if (o.valuesIterator.forall(_ == JsNull)) {
@@ -98,22 +101,23 @@ trait JsonImplicits {
             JsObject(o.map { case (s, childVal) => s -> reduceNullSubtreesImpl(childVal) })
           }
         case JsArray(ts) =>
-          JsArray(ts.map(reduceNullSubtreesImpl).filter(_ match {
-            case JsNull => false
-            case _      => true
-          }))
+          JsArray(
+            ts.map(reduceNullSubtreesImpl)
+              .filter(_ match {
+                case JsNull => false
+                case _      => true
+              })
+          )
         case _ =>
           jv
       }
-    }
 
-    private def reduceEmptySubtreesImpl(jv: JsValue): JsValue = {
+    private def reduceEmptySubtreesImpl(jv: JsValue): JsValue =
       jv match {
         case JsObject(o) => if (isEmpty(jv)) JsNull else JsObject(o.mapValues(reduceEmptySubtreesImpl))
         case JsArray(a)  => if (isEmpty(jv)) JsArray.empty else JsArray(a.map(reduceEmptySubtreesImpl))
         case _           => jv
       }
-    }
 
     private def isEmpty(jv: JsValue): Boolean = jv match {
       case JsNull      => true

@@ -30,11 +30,11 @@ import scala.concurrent.Future
 class RedoxTokenManager(
   client: HttpClient,
   baseRestUri: Uri
-)(implicit
+)(
+  implicit
   actorSystem: ActorSystem,
   materializer: Materializer
 ) extends RedoxClientComponents(client, baseRestUri, identity) {
-
   private val RefreshBuffer = 1.minute
 
   /**
@@ -46,14 +46,15 @@ class RedoxTokenManager(
    * Returns an access token for given credentials. If the access token doesn't exist,
    * authorize with Redox to obtain a new access token.
    */
-  def getAccessToken(apiKey: String, apiSecret: String): Future[AuthInfo] = {
-    TokenStore.get(apiKey).map(Future.successful(_))
+  def getAccessToken(apiKey: String, apiSecret: String): Future[AuthInfo] =
+    TokenStore
+      .get(apiKey)
+      .map(Future.successful(_))
       .getOrElse {
         val authInfo = authenticate(apiKey, apiSecret)
         authInfo.foreach(setAuthAndScheduleRefresh(apiKey, _))
         authInfo
       }
-  }
 
   /** Authorize to Redox, returning a Future containing the access and refresh tokens. */
   protected def authenticate(apiKey: String, apiSecret: String): Future[AuthInfo] = {
@@ -92,11 +93,9 @@ class RedoxTokenManager(
   }
 
   /** Parse the result of an auth request, either returning a new AuthInfo object, or throwing an error. */
-  private def parseAuthResponse(authResult: RedoxResponse[AuthInfo], errMsg: String) = {
+  private def parseAuthResponse(authResult: RedoxResponse[AuthInfo], errMsg: String) =
     authResult.result.fold(
       error => throw RedoxAuthorizationException(s"$errMsg: ${error.Errors.map(_.Text).mkString(",")}"),
       identity
     )
-  }
-
 }

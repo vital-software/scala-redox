@@ -7,10 +7,6 @@ import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * Result from laboratories, imaging procedures, and other procedures.
  *
  * @param Code The test performed and resulted. LOINC for Lab - SNOMED CT otherwise
@@ -24,7 +20,8 @@ import play.api.libs.json.{ Format, Reads, Writes }
   Name: Option[String] = None,
   Status: Option[String] = None,
   Observations: Seq[ResultObservation] = Seq.empty
-) extends Code with Status
+) extends Code
+    with Status
 
 object ChartResult extends RobustPrimitives
 
@@ -93,7 +90,8 @@ object ResultsStatusTypes extends Enumeration {
   val InProcess = Value("In Process")
 
   def defaultValue = Other
-  @transient implicit lazy val jsonFormat: Format[ResultsStatusTypes.Value] = Format(Reads.enumNameReads(ResultsStatusTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[ResultsStatusTypes.Value] =
+    Format(Reads.enumNameReads(ResultsStatusTypes), Writes.enumNameWrites)
 }
 
 /**
@@ -139,6 +137,8 @@ object OrderResult extends RobustPrimitives
   Patient: Patient,
   Orders: Seq[OrderResult] = Seq.empty,
   Visit: Option[VisitInfo] = None
-) extends MetaLike with HasPatient with HasVisitInfo
+) extends MetaLike
+    with HasPatient
+    with HasVisitInfo
 
 object ResultsMessage extends RobustPrimitives

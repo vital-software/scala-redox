@@ -6,10 +6,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  *
  * @param Type A code describing the type of encounter (office visit, hospital, etc). CPT-4
  * @param DateTime When the encounter took place, or alternatively when the encounter began if Encounters[].EndDateTime is present. ISO 8601 Format

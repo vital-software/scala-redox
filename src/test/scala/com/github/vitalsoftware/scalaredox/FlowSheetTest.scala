@@ -5,7 +5,6 @@ import com.github.vitalsoftware.scalaredox.models.FlowSheetMessage
 import org.specs2.mutable.Specification
 
 class FlowSheetTest extends Specification with RedoxTest {
-
   "alter Flowsheet" should {
     "post new Flowsheet results" in {
       val json =

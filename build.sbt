@@ -1,5 +1,4 @@
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
-import scalariform.formatter.preferences._
 
 organization := "com.github.vital-software"
 
@@ -22,10 +21,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-ahc-ws" % playVersion,
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.2",
   "com.typesafe.akka" %% "akka-http" % "10.1.8",
-
   "com.github.vital-software" %% "json-annotation" % "0.6.0",
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
-
   "com.typesafe.play" %% "play-specs2" % playVersion % Test,
 )
 
@@ -40,17 +37,18 @@ publishTo := {
   if (isSnapshot.value)
     Some("snapshots" at nexus + "content/repositories/snapshots")
   else
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
 Test / publishArtifact := false
 
-pomIncludeRepository := { _ => false }
+pomIncludeRepository := { _ =>
+  false
+}
 
 sonatypeProfileName := "com.github.vital-software"
 
-pomExtra := (
-  <url>https://github.com/vital-software/scala-redox</url>
+pomExtra := (<url>https://github.com/vital-software/scala-redox</url>
   <licenses>
     <license>
       <name>MIT</name>
@@ -70,15 +68,6 @@ pomExtra := (
     </developer>
   </developers>)
 
-// Scalariform settings
-scalariformPreferences := scalariformPreferences.value
-  .setPreference(AlignSingleLineCaseStatements, true)
-  .setPreference(FormatXml, false)
-  .setPreference(DoubleIndentConstructorArguments, false)
-  .setPreference(DanglingCloseParenthesis, Force)
-// compile only unmanaged sources, not the generated (aka managed) sourced
-Compile / scalariformFormat / sourceDirectories := (Compile / unmanagedSourceDirectories).value
-
 // GPG settings
 credentials += Credentials(
   "GnuPG Key ID",
@@ -88,9 +77,9 @@ credentials += Credentials(
 )
 
 // Release settings
-releaseTagName              := s"${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}" // Remove v prefix
-releaseTagComment           := s"Releasing ${(ThisBuild / version).value}\n\n[skip ci]"
-releaseCommitMessage        := s"Setting version to ${(ThisBuild / version).value}\n\n[skip ci]"
+releaseTagName := s"${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}" // Remove v prefix
+releaseTagComment := s"Releasing ${(ThisBuild / version).value}\n\n[skip ci]"
+releaseCommitMessage := s"Setting version to ${(ThisBuild / version).value}\n\n[skip ci]"
 
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
@@ -127,9 +116,10 @@ updateLinesSchema := Seq(
   UpdateLine(
     file("CHANGELOG.md"),
     unreleasedCompare.unapplySeq(_).isDefined,
-    (v, compareLine) => compareLine match {
-      case unreleasedCompare(project, previous) =>
-        s"[Unreleased]: https://github.com/$project/compare/$v...HEAD\n[$v]: https://github.com/$project/compare/$previous...$v"
-    }
+    (v, compareLine) =>
+      compareLine match {
+        case unreleasedCompare(project, previous) =>
+          s"[Unreleased]: https://github.com/$project/compare/$v...HEAD\n[$v]: https://github.com/$project/compare/$previous...$v"
+      }
   ),
 )

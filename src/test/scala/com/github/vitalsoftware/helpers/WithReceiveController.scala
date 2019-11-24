@@ -15,11 +15,10 @@ import scala.concurrent.Future
 /**
  * Trait for tests and context objects involving the receive controller
  */
-trait WithReceiveController
-  extends Injecting {
+trait WithReceiveController extends Injecting {
   val app: Application
 
-  lazy protected val controller: ReceiveController = inject[ReceiveController]
+  protected lazy val controller: ReceiveController = inject[ReceiveController]
 
   def receive(req: Request[JsValue]): Future[Result] = controller.receive().apply(req)
 }

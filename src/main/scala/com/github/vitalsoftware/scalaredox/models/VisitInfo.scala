@@ -7,10 +7,6 @@ import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json._
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * @param VisitNumber ID for the patient visit/encounter. Either this or a timeframe is required. If both are provided, the visit number will be used.
  * @param StartDateTime Beginning of the timeframe for which to request visit summaries. Either this or a visit number is required. If both are provided, the visit number will be used. ISO 8601 Format
  * @param EndDateTime End of the timeframe for which to request visit summaries. The maximum and default timeframe will extend 5 days from the start date. If both are provided, the visit number will be used. ISO 8601 Format
@@ -70,7 +66,8 @@ object Assessment extends RobustPrimitives
  */
 object PatientClassType extends Enumeration {
   val Inpatient, Outpatient, Emergency = Value
-  @transient implicit lazy val jsonFormat: Format[PatientClassType.Value] = Format(Reads.enumNameReads(PatientClassType), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[PatientClassType.Value] =
+    Format(Reads.enumNameReads(PatientClassType), Writes.enumNameWrites)
 }
 
 /**
@@ -101,13 +98,11 @@ object PatientClassType extends Enumeration {
   Insurances: Seq[Insurance] = Seq.empty,
   Instructions: Seq[String] = Seq.empty,
   Balance: Option[Double] = None,
-
   Type: Option[String] = None, // Claims[].Visit
   DateTime: Option[DateTime] = None,
   DischargeDateTime: Option[DateTime] = None,
   DischargeStatus: Option[BasicCodeset] = None,
   DischargeLocation: Option[CareLocation] = None,
-
   StartDateTime: Option[DateTime] = None, // Header.Document.Visit only
   EndDateTime: Option[DateTime] = None
 )

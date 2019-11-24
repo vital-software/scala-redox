@@ -5,7 +5,6 @@ import org.specs2.mutable.Specification
 import play.api.libs.json.{ JsError, JsResult, JsString, JsSuccess }
 
 class CommonTest extends Specification {
-
   def beLanguageOf(l: String): Matcher[JsResult[Language]] = (s: JsResult[Language]) => {
     s must beAnInstanceOf[JsSuccess[Language]]
     s.get.toString mustEqual (l)

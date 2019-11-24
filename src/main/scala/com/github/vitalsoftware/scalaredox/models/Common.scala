@@ -11,10 +11,6 @@ import play.api.libs.json._
 import scala.util.Try
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * The state of the plan (intent, confirmed, etc). @see [Plan of care status](http://wiki.siframework.org/CDA+-+Plan+of+Care+Activity+Entries)
  */
 trait Status {
@@ -105,7 +101,9 @@ object ValueTypes extends Enumeration {
   val FormattedText = Value("Formatted Text")
 
   def defaultValue = String
-  @transient implicit lazy val jsonFormat: Format[ValueTypes.Value] = Format(Reads.enumNameReads(ValueTypes), Writes.enumNameWrites)
+
+  @transient implicit lazy val jsonFormat: Format[ValueTypes.Value] =
+    Format(Reads.enumNameReads(ValueTypes), Writes.enumNameWrites)
 }
 
 /**
@@ -125,11 +123,11 @@ object Language {
   val jsonReads: Reads[Language] = new Reads[Language] {
     override def reads(json: JsValue): JsResult[Language] = json match {
       case JsString("Other") | JsString("Unknown") => JsSuccess(Language(Locale.ROOT))
-      case JsString(str) if Try(new Locale(str).getISO3Language).isSuccess => JsSuccess(Language(Locale.forLanguageTag(str)))
+      case JsString(str) if Try(new Locale(str).getISO3Language).isSuccess =>
+        JsSuccess(Language(Locale.forLanguageTag(str)))
       case _ => JsError(Seq(JsPath -> Seq(JsonValidationError("error.expected.locale"))))
     }
   }
 
   implicit val jsonFormats: Format[Language] = Format(jsonReads, jsonWrites)
 }
-

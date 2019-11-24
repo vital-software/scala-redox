@@ -45,7 +45,6 @@ object CodeWithText extends RobustPrimitives
 
 object CodeWithStatus extends RobustPrimitives
 
-
 // Alternative to 'Code' used inconsistently in some data models
 trait Codeset {
   def Code: Option[String]

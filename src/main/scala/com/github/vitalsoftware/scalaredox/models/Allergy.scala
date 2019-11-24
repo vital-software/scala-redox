@@ -6,10 +6,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  *
  * @param Type A code for the type of allergy intolerance this is (food, drug, etc.). Allergy/Adverse Event Type Value Set
  * @param Substance The substance that the causes the alergy/intolerance. Brand names and generics will be coded in RxNorm. Drug classes use NDF-RT, and foods use UNII

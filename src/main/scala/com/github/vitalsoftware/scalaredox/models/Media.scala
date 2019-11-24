@@ -6,15 +6,13 @@ import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
  * A New message is used to add a new document to the patient's chart.
- *
- * Created by apatzer on 3/23/17.
  */
-
 object MediaAvailability extends Enumeration {
   val Available, Unavailable = Value
 
   def defaultValue = Unavailable
-  @transient implicit lazy val jsonFormat: Format[MediaAvailability.Value] = Format(Reads.enumNameReads(MediaAvailability), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[MediaAvailability.Value] =
+    Format(Reads.enumNameReads(MediaAvailability), Writes.enumNameWrites)
 }
 
 /**
@@ -53,6 +51,8 @@ object Media extends RobustPrimitives
   Patient: Patient,
   Media: Media,
   Visit: Option[VisitInfo] = None
-) extends MetaLike with HasVisitInfo with HasPatient
+) extends MetaLike
+    with HasVisitInfo
+    with HasPatient
 
 object MediaMessage extends RobustPrimitives

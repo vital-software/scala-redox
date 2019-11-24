@@ -6,10 +6,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/20/17.
- */
-
-/**
  * @param Code A code for the observation (exercise, alcohol intake, etc.) . SNOMED CT
  * @param Value The coded observed value for the code
  * @param ValueText The observed value for the code
@@ -23,7 +19,8 @@ import com.github.vitalsoftware.util.RobustPrimitives
   EndDate: Option[DateTime] = None,
   Value: Option[BasicCode] = None,
   ValueText: Option[String] = None
-) extends Code with DateRange
+) extends Code
+    with DateRange
 
 object SocialHistoryObservation extends RobustPrimitives
 

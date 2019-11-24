@@ -6,10 +6,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * @param Sex Gender of the relative
  * @param DOB Date of Birth of the relative. In YYYY-MM-DD format
  */

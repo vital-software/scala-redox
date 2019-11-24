@@ -4,11 +4,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
- *
  * @param Observations These are procedures that are more observational in nature, such as an EEG or EKG.
  * @param Procedures The procedure that was performed. SNOMED CT
  * @param Services These are procedures that are service-oriented in nature, such as a dressing change, or feeding a patient.

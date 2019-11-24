@@ -6,10 +6,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * Immunization product (i.e. vaccine)
  *
  * @see [CVX code system](http://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.12.292)

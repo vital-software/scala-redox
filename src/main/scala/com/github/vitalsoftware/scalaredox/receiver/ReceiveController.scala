@@ -40,25 +40,28 @@ trait ReceiveController extends BaseController {
       }
     })
 
-  private def challengeResponse(request: RedoxRequest): Future[Result] = request.underlying.body.validate[Challenge].fold(
-    (errors: Seq[(JsPath, Seq[JsonValidationError])]) => {
-      // The challenge has an invalid format
-      logger.error(s"Redox webhook challenge had errors (${JsError.toJson(errors)}) from $request")
-      logger.debug(s"Failed challenge body was: ${request.underlying.body.toString()}")
-      Future.successful(Forbidden(s"Challenge failed."))
-    },
-    (challenge: Challenge) => {
-      if (challenge.verificationToken == verificationToken) {
-        // The challenge is successful: we must respond with the challenge token (only)
-        logger.info(s"Redox endpoint initialized via challenge from $request")
-        Future.successful(Ok(challenge.challenge))
-      } else {
-        // The challenge has an invalid validation token
-        logger.error(s"Redox challenge had invalid token from $request")
-        Future.successful(Forbidden(s"Challenge failed."))
-      }
-    }
-  )
+  private def challengeResponse(request: RedoxRequest): Future[Result] =
+    request.underlying.body
+      .validate[Challenge]
+      .fold(
+        (errors: Seq[(JsPath, Seq[JsonValidationError])]) => {
+          // The challenge has an invalid format
+          logger.error(s"Redox webhook challenge had errors (${JsError.toJson(errors)}) from $request")
+          logger.debug(s"Failed challenge body was: ${request.underlying.body.toString()}")
+          Future.successful(Forbidden(s"Challenge failed."))
+        },
+        (challenge: Challenge) => {
+          if (challenge.verificationToken == verificationToken) {
+            // The challenge is successful: we must respond with the challenge token (only)
+            logger.info(s"Redox endpoint initialized via challenge from $request")
+            Future.successful(Ok(challenge.challenge))
+          } else {
+            // The challenge has an invalid validation token
+            logger.error(s"Redox challenge had invalid token from $request")
+            Future.successful(Forbidden(s"Challenge failed."))
+          }
+        }
+      )
 }
 
 object ReceiveController {

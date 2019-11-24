@@ -6,10 +6,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * Medication to be given.
  */
 @jsonDefaults case class MedicationPlan(
@@ -21,7 +17,9 @@ import com.github.vitalsoftware.util.RobustPrimitives
   EndDate: Option[DateTime] = None,
   Frequency: Option[TimePeriod] = None,
   Product: BasicCode = BasicCode()
-) extends Medication with Status with DateRange
+) extends Medication
+    with Status
+    with DateRange
 
 object MedicationPlan extends RobustPrimitives
 

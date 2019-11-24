@@ -35,7 +35,6 @@ sealed trait ObservationValue { self: Observation =>
   TargetSite: Option[BasicCode] = None,
 ) extends ClinicalSummaryObservation
 
-
 object ProcedureObservation extends RobustPrimitives
 
 /**
@@ -56,7 +55,9 @@ object ProcedureObservation extends RobustPrimitives
   ValueType: Option[ValueTypes.Value] = None,
   Units: Option[String] = None,
   ReferenceRange: Option[ReferenceRange] = None,
-) extends ClinicalSummaryObservation with ObservationInterpretation with ObservationValue
+) extends ClinicalSummaryObservation
+    with ObservationInterpretation
+    with ObservationValue
 
 object ResultObservation extends RobustPrimitives
 
@@ -75,7 +76,9 @@ object ResultObservation extends RobustPrimitives
   DateTime: DateTime,
   Value: Option[String] = None,
   Units: Option[String] = None,
-) extends ClinicalSummaryObservation with ObservationInterpretation with ObservationValue
+) extends ClinicalSummaryObservation
+    with ObservationInterpretation
+    with ObservationValue
 
 object VitalSignObservation extends RobustPrimitives
 
@@ -97,8 +100,8 @@ object VitalSignObservation extends RobustPrimitives
   Observer: Option[Provider] = None,
   ReferenceRange: Option[ReferenceRange] = None,
   AbnormalFlag: Option[String] = None
-) extends Observation with Codeset with ObservationValue
+) extends Observation
+    with Codeset
+    with ObservationValue
 
 object FlowsheetObservation extends RobustPrimitives
-
-

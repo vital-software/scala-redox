@@ -24,7 +24,8 @@ trait WithApplication extends AfterAll with DefaultAwaitTimeout with FutureAwait
     ()
   }
 
-  protected def builder: GuiceApplicationBuilder = GuiceApplicationBuilder()
-    .in(Mode.Test)
-    .configure(Configuration.load(Environment.simple()))
+  protected def builder: GuiceApplicationBuilder =
+    GuiceApplicationBuilder()
+      .in(Mode.Test)
+      .configure(Configuration.load(Environment.simple()))
 }

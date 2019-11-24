@@ -8,22 +8,27 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.{ Format, Reads, Writes }
 
-/**
- * Created by apatzer on 3/17/17.
- */
-
 object DataModelTypes extends Enumeration {
-  val ClinicalSummary = Value("Clinical Summary")
-  val Claim, Device, Financial, Flowsheet, Inventory, Media, Notes, Order, PatientAdmin, PatientSearch, Referral, Results, Scheduling, SurgicalScheduling, Vaccination, Medications, Invalid = Value
+  val ClinicalSummary: Value = Value("Clinical Summary")
+  val Claim, Device, Financial, Flowsheet, Inventory, Media, Notes, Order, PatientAdmin, PatientSearch, Referral,
+    Results, Scheduling, SurgicalScheduling, Vaccination, Medications, Invalid = Value
 
-  @transient implicit lazy val jsonFormat: Format[DataModelTypes.Value] = Format(Reads.enumNameReads(DataModelTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[DataModelTypes.Value] =
+    Format(Reads.enumNameReads(DataModelTypes), Writes.enumNameWrites)
 }
 
 object RedoxEventTypes extends Enumeration {
-  val QueryResponse = Value("Query Response")
-  val Arrival, AvailableSlots, AvailableSlotsResponse, Booked, BookedResponse, Cancel, Delete, Deplete, Discharge, GroupedOrders, Modification, Modify, New, NewPatient, NewUnsolicited, NoShow, PatientMerge, PatientQuery, PatientQueryResponse, PatientPush, PatientUpdate, Payment, PreAdmit, Push, Query, Registration, Replace, Reschedule, Response, Submission, Transaction, Transfer, Update, VisitMerge, VisitQuery, VisitQueryResponse, VisitPush, VisitUpdate, Administration, Invalid = Value
+  val QueryResponse: Value = Value("Query Response")
+  // format: off
+  val Arrival, AvailableSlots, AvailableSlotsResponse, Booked, BookedResponse, Cancel, Delete, Deplete, Discharge,
+      GroupedOrders, Modification, Modify, New, NewPatient, NewUnsolicited, NoShow, PatientMerge, PatientQuery,
+      PatientQueryResponse, PatientPush, PatientUpdate, Payment, PreAdmit, Push, Query, Registration, Replace,
+      Reschedule, Response, Submission, Transaction, Transfer, Update, VisitMerge, VisitQuery, VisitQueryResponse,
+      VisitPush, VisitUpdate, Administration, Invalid = Value
+  // format: on
 
-  @transient implicit lazy val jsonFormat: Format[RedoxEventTypes.Value] = Format(Reads.enumNameReads(RedoxEventTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[RedoxEventTypes.Value] =
+    Format(Reads.enumNameReads(RedoxEventTypes), Writes.enumNameWrites)
 }
 
 // Message source or destination

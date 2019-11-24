@@ -8,7 +8,6 @@ import org.specs2.mutable.Specification
  * @author andrew.zurn@dexcom.com - 11/1/17.
  */
 class UploadTest extends Specification with RedoxTest {
-
   "alter Uploads" should {
     "post new Uploads" in {
       val file = Files.createTempFile("test-file", ".txt")
@@ -20,5 +19,4 @@ class UploadTest extends Specification with RedoxTest {
       maybe.get.URI must contain("https://blob.redoxengine.com")
     }
   }
-
 }

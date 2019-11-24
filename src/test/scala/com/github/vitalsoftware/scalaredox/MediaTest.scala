@@ -8,9 +8,7 @@ import org.specs2.mutable.Specification
  * Created by apatzer on 3/23/17.
  */
 class MediaTest extends Specification with RedoxTest {
-
   "alter Media" should {
-
     "post new Media" in {
       val json =
         """

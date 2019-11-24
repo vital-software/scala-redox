@@ -5,10 +5,6 @@ import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
-/**
- * Created by apatzer on 3/17/17.
- */
-
 trait Medication extends DateRange {
   /** Dose The size of the dose for pills, capsules, etc. */
   def Dose: Option[Dose]
@@ -80,7 +76,6 @@ object MedicationTaken extends RobustPrimitives
 
 object Pharmacy extends RobustPrimitives
 
-
 /**
  *
  * @param Dose The size of the dose for pills, capsules, etc (UCUM Units of Measure).
@@ -108,7 +103,6 @@ object Pharmacy extends RobustPrimitives
 
 object OrderedMedication extends RobustPrimitives
 
-
 /**
  *
  * @param ID ID assigned by the ordering system
@@ -131,7 +125,6 @@ object OrderedMedication extends RobustPrimitives
 
 object MedicationOrder extends RobustPrimitives
 
-
 /**
  * The Medications data model allows real-time notification of new prescriptions and modifications or cancellations to existing ones.
  */
@@ -141,6 +134,8 @@ object MedicationOrder extends RobustPrimitives
   Patient: Patient,
   Visit: Option[VisitInfo] = None,
   Order: MedicationOrder,
-) extends MetaLike with HasPatient with HasVisitInfo
+) extends MetaLike
+    with HasPatient
+    with HasVisitInfo
 
 object MedicationsMessage extends RobustPrimitives
