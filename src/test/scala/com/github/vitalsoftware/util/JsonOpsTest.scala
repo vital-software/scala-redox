@@ -6,13 +6,11 @@ import org.specs2.mutable.Specification
 import play.api.libs.json._
 
 class JsonOpsTest extends Specification {
-  def reduceEmpty(value: String, expected: String): MatchResult[String] = {
+  def reduceEmpty(value: String, expected: String): MatchResult[String] =
     Json.parse(value).reduceEmptySubtrees.toString must beEqualTo(Json.parse(expected).toString)
-  }
 
-  def reduceNull(value: String, expected: String): MatchResult[String] = {
+  def reduceNull(value: String, expected: String): MatchResult[String] =
     Json.parse(value).reduceNullSubtrees.toString must beEqualTo(Json.parse(expected).toString)
-  }
 
   "JsonOps" should {
     "JsValue.reduceNullSubtrees" in {

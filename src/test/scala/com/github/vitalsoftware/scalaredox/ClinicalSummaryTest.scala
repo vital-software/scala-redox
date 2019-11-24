@@ -12,9 +12,7 @@ import scala.concurrent.duration._
  * Created by apatzer on 3/23/17.
  */
 class ClinicalSummaryTest extends Specification with RedoxTest {
-
   "query ClinicalSummary" should {
-
     "return an error" in {
       val shouldFailQuery = PatientQuery(
         Meta(DataModel = DataModelTypes.ClinicalSummary, EventType = RedoxEventTypes.Query),
@@ -67,7 +65,6 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       val maybe = handleResponse(fut)
       maybe must beSome
       maybe.map { clinicalSummary =>
-
         // Meta
         val meta = clinicalSummary.Meta
         meta.EventType must be equalTo RedoxEventTypes.PatientQuery
@@ -109,7 +106,6 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
         val header = clinicalSummary.Header
         header.Patient.Identifiers must not be empty
         header.Patient.Demographics must beSome
-
       }.get
     }
 
@@ -151,7 +147,6 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       val maybe = handleResponse(fut)
       maybe must beSome
       maybe.map { visit =>
-
         // Meta
         val meta = visit.Meta
         meta.EventType must be equalTo RedoxEventTypes.VisitQuery
@@ -202,13 +197,11 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
         // Results
         //val results = visitQueryResponse.Results
         //results.size must be_>(0)
-
       }.get
     }
   }
 
   "post ClinicalSummary" should {
-
     "return OK" in {
       val json =
         """

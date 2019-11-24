@@ -4,10 +4,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * Provider responsible for a Document
  *
  * @param ID ID of the Provider responsible for the document. This ID is required for Inpatient Visits

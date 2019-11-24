@@ -23,43 +23,46 @@ abstract class RedoxClientComponents(
   protected def baseUpload = baseRequest(baseRestUri.withPath(/("upload")).toString()).withMethod("POST")
 
   /** Raw request execution */
-  protected def execute[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] = {
-    request.execute().map {
+  protected def execute[T](request: StandaloneWSRequest)(implicit format: Reads[T]): Future[RedoxResponse[T]] =
+    request
+      .execute()
+      .map {
+        // Failure status
+        case r
+            if Set[StatusCode](
+              BadRequest,
+              Unauthorized,
+              Forbidden,
+              NotFound,
+              MethodNotAllowed,
+              RequestedRangeNotSatisfiable
+            ).contains(r.status) =>
+          Try {
+            // In case we do not get valid JSON back, wrap everything in a Try block
+            (r.body[JsValue] \ "Meta").as[RedoxErrorResponse]
+          } match {
+            case Success(t) => Left(t)
+            case Failure(e) => Left(RedoxErrorResponse.simple(r.statusText, r.body))
+          }
 
-      // Failure status
-      case r if Set[StatusCode](
-        BadRequest,
-        Unauthorized,
-        Forbidden,
-        NotFound,
-        MethodNotAllowed,
-        RequestedRangeNotSatisfiable
-      ).contains(r.status) =>
-        Try {
-          // In case we do not get valid JSON back, wrap everything in a Try block
-          (r.body[JsValue] \ "Meta").as[RedoxErrorResponse]
-        } match {
-          case Success(t) => Left(t)
-          case Failure(e) => Left(RedoxErrorResponse.simple(r.statusText, r.body))
-        }
+        // Success status
+        case r =>
+          if (r.body.isEmpty) {
+            Right(EmptyResponse.asInstanceOf[T])
+          } else {
+            val json = reducer(r.body[JsValue])
 
-      // Success status
-      case r =>
-        if (r.body.isEmpty) {
-          Right(EmptyResponse.asInstanceOf[T])
-        } else {
-          val json = reducer(r.body[JsValue])
-
-          Json.fromJson(json).fold(
-            // Json to Scala objects failed...force into RedoxError format
-            invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
-
-            // All good
-            valid = t => Right(t)
-          )
-        }
-    }.map { response =>
-      RedoxResponse[T](response)
-    }
-  }
+            Json
+              .fromJson(json)
+              .fold(
+                // Json to Scala objects failed...force into RedoxError format
+                invalid = err => Left(RedoxErrorResponse.fromJsError(JsError(err))),
+                // All good
+                valid = t => Right(t)
+              )
+          }
+      }
+      .map { response =>
+        RedoxResponse[T](response)
+      }
 }

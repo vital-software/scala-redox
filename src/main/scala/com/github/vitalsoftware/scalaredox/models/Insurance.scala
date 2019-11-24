@@ -7,10 +7,6 @@ import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
- * Created by apatzer on 3/23/17.
- */
-
-/**
  *
  * @param ID Identifier of insurance plan
  * @param IDType ID type of insurance plan
@@ -46,21 +42,24 @@ object InsuranceRelationshipTypes extends Enumeration {
   val Self, Spouse, Other = Value
 
   def defaultValue = Other
-  @transient implicit lazy val jsonFormat: Format[InsuranceRelationshipTypes.Value] = Format(Reads.enumNameReads(InsuranceRelationshipTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[InsuranceRelationshipTypes.Value] =
+    Format(Reads.enumNameReads(InsuranceRelationshipTypes), Writes.enumNameWrites)
 }
 
 object InsuranceAgreementTypes extends Enumeration {
   val Standard, Unified, Maternity, Other = Value
 
   def defaultValue = Other
-  @transient implicit lazy val jsonFormat: Format[InsuranceAgreementTypes.Value] = Format(Reads.enumNameReads(InsuranceAgreementTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[InsuranceAgreementTypes.Value] =
+    Format(Reads.enumNameReads(InsuranceAgreementTypes), Writes.enumNameWrites)
 }
 
 object InsuranceCoverageTypes extends Enumeration {
   val Patient, Clinic, Insurance, Other = Value
 
   def defaultValue = Other
-  @transient implicit lazy val jsonFormat: Format[InsuranceCoverageTypes.Value] = Format(Reads.enumNameReads(InsuranceCoverageTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[InsuranceCoverageTypes.Value] =
+    Format(Reads.enumNameReads(InsuranceCoverageTypes), Writes.enumNameWrites)
 }
 
 /** Individual who has the agreement with the insurance company for the related policy */

@@ -6,10 +6,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * Piece of medical equipment.
  *
  * @param Status The current status of the equipment (active, completed, etc.)

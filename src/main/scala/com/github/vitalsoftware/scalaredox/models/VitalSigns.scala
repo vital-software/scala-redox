@@ -5,9 +5,6 @@ import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.{ Format, Reads, Writes }
-/**
- * Created by apatzer on 3/20/17.
- */
 
 /**
  * @param DateTime The date and time of the reading. ISO 8601 Format
@@ -23,7 +20,8 @@ object VitalSigns extends RobustPrimitives
 
 object CommonVitalTypes extends Enumeration {
   val Height, Weight, Oximetry, Temperature, RespirationRate, Pulse, BPSystolic, BPDiastolic = Value
-  @transient implicit lazy val jsonFormat: Format[CommonVitalTypes.Value] = Format(Reads.enumNameReads(CommonVitalTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[CommonVitalTypes.Value] =
+    Format(Reads.enumNameReads(CommonVitalTypes), Writes.enumNameWrites)
 }
 
 /**

@@ -10,10 +10,6 @@ import play.api.libs.json._
 import scala.collection.Seq
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * Patient identifier
  *
  * @param ID The actual identifier for the patient.
@@ -37,7 +33,7 @@ object SexType extends Enumeration {
       val transform = json match {
         case JsString(str) if str.equalsIgnoreCase("M") => JsString(Male.toString)
         case JsString(str) if str.equalsIgnoreCase("F") => JsString(Female.toString)
-        case _ => json
+        case _                                          => json
       }
       strictReads.reads(transform)
     }
@@ -134,6 +130,8 @@ object PatientSearch extends RobustPrimitives
   Meta: Meta,
   Patient: Patient,
   Visit: Option[VisitInfo] = None
-) extends MetaLike with HasPatient with HasVisitInfo
+) extends MetaLike
+    with HasPatient
+    with HasVisitInfo
 
 object PatientAdminMessage extends RobustPrimitives

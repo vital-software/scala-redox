@@ -6,10 +6,6 @@ import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
 /**
- * Created by apatzer on 3/17/17.
- */
-
-/**
  * Advance directive documents that the healthcare organization has on file for the patient.
  *
  * @param Type The value of the advance directive (such as 'Do not resuscitate'). SNOMED CT
@@ -30,7 +26,8 @@ import com.github.vitalsoftware.util.RobustPrimitives
   ExternalReference: Option[String],
   VerifiedBy: Seq[BasicPerson] = Seq.empty, // Todo missing VerifiedBy.DateTime
   Custodians: Seq[BasicPerson] = Seq.empty
-) extends Code with DateRange
+) extends Code
+    with DateRange
 
 object AdvanceDirective extends RobustPrimitives
 

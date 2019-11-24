@@ -6,17 +6,14 @@ import com.github.vitalsoftware.util.RobustPrimitives
 import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
 
-/**
- * Created by apatzer on 3/23/17.
- */
-
 object NoteContentTypes extends Enumeration {
   val PlainText = Value("Plain Text")
   val RichText = Value("Rich Text")
   val Base64 = Value("Base64 Encoded")
 
   def defaultValue = PlainText
-  @transient implicit lazy val jsonFormat: Format[NoteContentTypes.Value] = Format(Reads.enumNameReads(NoteContentTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[NoteContentTypes.Value] =
+    Format(Reads.enumNameReads(NoteContentTypes), Writes.enumNameWrites)
 }
 
 /**
@@ -72,6 +69,8 @@ object Note extends RobustPrimitives
   Visit: Option[VisitInfo] = None,
   Note: Note,
   Orders: Seq[NoteOrder] = Seq.empty
-) extends MetaLike with HasPatient with HasVisitInfo
+) extends MetaLike
+    with HasPatient
+    with HasVisitInfo
 
 object NoteMessage extends RobustPrimitives

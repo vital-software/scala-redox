@@ -8,7 +8,6 @@ import org.specs2.mutable.Specification
  * Created by apatzer on 3/23/17.
  */
 class NotesTest extends Specification with RedoxTest {
-
   "alter Notes" should {
     "post new Notes" in {
       val json =

@@ -16,22 +16,27 @@ import scala.concurrent.Future
  * Test that actually communicates with a Kinesis endpoint (e.g. via a Kinesalite
  * container in development environments)
  */
-object ReceiveControllerTest extends PlaySpecification
-  with Results
-  with Matchers
-  with Mockito
-  with WithApplication
-  with WithReceiveController {
-
-  private final val Request = FakeRequest()
+object ReceiveControllerTest
+    extends PlaySpecification
+    with Results
+    with Matchers
+    with Mockito
+    with WithApplication
+    with WithReceiveController {
+  final private val Request = FakeRequest()
     .withBody(Json.obj("foo" -> "bar"))
 
   private val environment = Environment.simple()
 
-  override protected def builder: GuiceApplicationBuilder = super.builder
-    .configure(Configuration.load(environment) ++ Configuration.from(Map(
-      "redox-receiver.verificationToken" -> WithReceiveController.ValidToken
-    )))
+  override protected def builder: GuiceApplicationBuilder =
+    super.builder
+      .configure(
+        Configuration.load(environment) ++ Configuration.from(
+          Map(
+            "redox-receiver.verificationToken" -> WithReceiveController.ValidToken
+          )
+        )
+      )
 
   // --- Tests --- //
 
@@ -57,32 +62,52 @@ object ReceiveControllerTest extends PlaySpecification
       }
 
       "that blocks invalid requests with bad tokens" in {
-        status(receive(Request.withHeaders(
-          TokenHeader -> WithReceiveController.InvalidToken
-        ))) mustEqual FORBIDDEN
+        status(
+          receive(
+            Request.withHeaders(
+              TokenHeader -> WithReceiveController.InvalidToken
+            )
+          )
+        ) mustEqual FORBIDDEN
       }
 
       "that responds to valid challenge requests" in {
-        val result = receive(Request.withBody(Json.obj(
-          "challenge" -> "something",
-          "verification-token" -> WithReceiveController.ValidToken
-        )))
+        val result = receive(
+          Request.withBody(
+            Json.obj(
+              "challenge" -> "something",
+              "verification-token" -> WithReceiveController.ValidToken
+            )
+          )
+        )
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual "something"
       }
 
       "that blocks invalid challenge requests with no token" in {
-        status(receive(Request.withBody(Json.obj(
-          "challenge" -> "something",
-        )))) mustEqual FORBIDDEN
+        status(
+          receive(
+            Request.withBody(
+              Json.obj(
+                "challenge" -> "something",
+              )
+            )
+          )
+        ) mustEqual FORBIDDEN
       }
 
       "that blocks invalid challenge requests with bad tokens" in {
-        status(receive(Request.withBody(Json.obj(
-          "challenge" -> "something",
-          "verification-token" -> WithReceiveController.InvalidToken
-        )))) mustEqual FORBIDDEN
+        status(
+          receive(
+            Request.withBody(
+              Json.obj(
+                "challenge" -> "something",
+                "verification-token" -> WithReceiveController.InvalidToken
+              )
+            )
+          )
+        ) mustEqual FORBIDDEN
       }
     }
   }

@@ -9,7 +9,6 @@ import play.api.libs.json._
 object Primitives extends RobustPrimitives
 
 class RobustPrimitivesTest extends Specification {
-
   trait TestScope extends RobustPrimitives with Scope
 
   "RobustPrimitives" should {
@@ -29,8 +28,8 @@ class RobustPrimitivesTest extends Specification {
       Reads.of[Int].reads(JsString("123")) mustEqual (JsSuccess(123))
       Reads.of[Short].reads(JsString("123")) mustEqual (JsSuccess(123.toShort))
       Reads.of[Long].reads(JsString("123")) mustEqual (JsSuccess(123L))
-      Reads.of[Float].reads(JsString("123.456")) mustEqual (JsSuccess(123.456F))
-      Reads.of[Double].reads(JsString("123.456")) mustEqual (JsSuccess(123.456D))
+      Reads.of[Float].reads(JsString("123.456")) mustEqual (JsSuccess(123.456f))
+      Reads.of[Double].reads(JsString("123.456")) mustEqual (JsSuccess(123.456d))
       Reads.of[Byte].reads(JsString("4")) mustEqual (JsSuccess(4.toByte))
       Reads.of[Int].reads(JsNumber(123)) mustEqual (JsSuccess(123))
 

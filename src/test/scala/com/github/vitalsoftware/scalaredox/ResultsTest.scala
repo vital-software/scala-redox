@@ -8,9 +8,7 @@ import org.specs2.mutable.Specification
  * Created by apatzer on 3/23/17.
  */
 class ResultsTest extends Specification with RedoxTest {
-
   "alter Results" should {
-
     "post new Results" in {
       val json =
         """
@@ -303,5 +301,4 @@ class ResultsTest extends Specification with RedoxTest {
       maybe must beSome
     }
   }
-
 }

@@ -2,11 +2,6 @@ package com.github.vitalsoftware.scalaredox.models
 
 import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
-//import ai.x.play.json.Jsonx
-
-/**
- * Created by apatzer on 3/20/17.
- */
 
 /**
  * @param Meta Message header
@@ -130,4 +125,4 @@ trait ClinicalSummaryLike extends MetaLike with HasPatient {
 object Visit {
   implicit lazy val jsonFormat = Jsonx.formatCaseClass[Visit]
 }
-*/
+ */

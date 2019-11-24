@@ -12,7 +12,6 @@ import play.api.libs.json._
 @jsonDefaults case class PrimitiveContainer(data: List[Int] = List(1, 2, 3))
 
 class RobustParsingTest extends Specification {
-
   "robustParsing" should {
     "make invalid option values None" in {
       val json = Json.obj(
@@ -83,7 +82,6 @@ class RobustParsingTest extends Specification {
     }
 
     "recursively fix errors on arrays" in {
-
       val json = Json.arr(
         Json.obj("f1" -> "arr 1", "f2" -> "a"), // fail on f2 as its a string
         Json.obj("f1" -> "arr 2", "f2" -> 2),
@@ -94,12 +92,19 @@ class RobustParsingTest extends Specification {
 
       val (errors, result) = RobustParsing.robustParsing(implicitly[Reads[List[TestWithNoFallback]]], json)
       errors must beSome[JsError]
-      result must beSome(List(TestWithNoFallback("arr 1", 99), TestWithNoFallback("arr 2", 2), TestWithNoFallback("arr 3", 99), TestWithNoFallback("arr 4", 99), TestWithNoFallback("arr 5", 5)))
+      result must beSome(
+        List(
+          TestWithNoFallback("arr 1", 99),
+          TestWithNoFallback("arr 2", 2),
+          TestWithNoFallback("arr 3", 99),
+          TestWithNoFallback("arr 4", 99),
+          TestWithNoFallback("arr 5", 5)
+        )
+      )
       errors.get.errors.map(_._1.toJsonString) must contain(allOf("obj[0].f2", "obj[2].f2", "obj[3].f2"))
     }
 
     "recursively fix errors on arrays in containers" in {
-
       val json = Json.obj(
         "data" -> Json.arr(
           Json.obj("f1" -> "arr 1", "f2" -> "a"), // fail on f2 as its a string
@@ -112,12 +117,21 @@ class RobustParsingTest extends Specification {
 
       val (errors, result) = RobustParsing.robustParsing(implicitly[Reads[Container]], json)
       errors must beSome[JsError]
-      result must beSome(Container(List(TestWithNoFallback("arr 1", 99), TestWithNoFallback("arr 2", 2), TestWithNoFallback("arr 3", 99), TestWithNoFallback("arr 4", 99), TestWithNoFallback("arr 5", 5))))
+      result must beSome(
+        Container(
+          List(
+            TestWithNoFallback("arr 1", 99),
+            TestWithNoFallback("arr 2", 2),
+            TestWithNoFallback("arr 3", 99),
+            TestWithNoFallback("arr 4", 99),
+            TestWithNoFallback("arr 5", 5)
+          )
+        )
+      )
       errors.get.errors.map(_._1.toJsonString) must contain(allOf("obj.data[0].f2", "obj.data[2].f2", "obj.data[3].f2"))
     }
 
     "fail on arrays un-recoverable failures in arrays" in {
-
       val json = Json.arr(
         Json.obj("f1" -> "arr 1", "f2" -> "a"),
         Json.obj("f1" -> 234, "f2" -> 2), // fail on f1 as its a string
@@ -132,12 +146,13 @@ class RobustParsingTest extends Specification {
     }
 
     "recover on arrays with default values" in {
-
-      val json = Json.obj("data" -> Json.arr(
-        Json.obj("f1" -> "arr 1", "f2" -> "a"),
-        Json.obj("f1" -> 234, "f2" -> 2), // fail on f1 as its a string
-        Json.obj("f1" -> "arr 3", "f2" -> "c")
-      ))
+      val json = Json.obj(
+        "data" -> Json.arr(
+          Json.obj("f1" -> "arr 1", "f2" -> "a"),
+          Json.obj("f1" -> 234, "f2" -> 2), // fail on f1 as its a string
+          Json.obj("f1" -> "arr 3", "f2" -> "c")
+        )
+      )
 
       val (errors, result) = RobustParsing.robustParsing(implicitly[Reads[Container]], json)
       errors must beSome[JsError]

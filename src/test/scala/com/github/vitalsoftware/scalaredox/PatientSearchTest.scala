@@ -10,9 +10,7 @@ import scala.concurrent.duration._
  * Created by apatzer on 3/23/17.
  */
 class PatientSearchTest extends Specification with RedoxTest {
-
   "query PatientSearch" should {
-
     "not find anyone" in {
       val json =
         """

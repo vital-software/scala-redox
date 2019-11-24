@@ -9,13 +9,6 @@ import org.joda.time.DateTime
 import play.api.libs.json._
 
 /**
- * Order messages communicate details of diagnostic tests such as labs, radiology imaging, etc.
- *
- * Created by apatzer on 3/23/17.
- */
-
-/**
- *
  * @param Source Source of the specimen. [Allowed values](http://phinvads.cdc.gov/vads/ViewValueSet.action?id=C9271C18-7B67-DE11-9B52-0015173D1785)
  * @param BodySite Body site from which the specimen was collected. [Allowed values](http://www.hl7.org/FHIR/v2/0163/index.html)
  * @param ID ID of the collected specimen
@@ -43,10 +36,13 @@ object OrderPriorityTypes extends Enumeration {
     "RT" -> "Routine"
   )
 
-  @transient implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(Reads {
-    case JsString(v) => JsSuccess(JsString(mappings.getOrElse(v, v)))
-    case _           => JsError("error.expected.jsstring")
-  } andThen Reads.enumNameReads(OrderPriorityTypes), Writes.enumNameWrites)
+  @transient implicit lazy val jsonFormat: Format[OrderPriorityTypes.Value] = Format(
+    Reads {
+      case JsString(v) => JsSuccess(JsString(mappings.getOrElse(v, v)))
+      case _           => JsError("error.expected.jsstring")
+    } andThen Reads.enumNameReads(OrderPriorityTypes),
+    Writes.enumNameWrites
+  )
 }
 
 /**
@@ -154,12 +150,16 @@ trait OrdersMessageLike extends MetaLike with HasPatient with HasVisitInfo {
   def Orders: Seq[Order]
 }
 
+/**
+ * Order messages communicate details of diagnostic tests such as labs, radiology imaging, etc.
+ */
 @jsonDefaults case class OrderMessage(
   Meta: Meta,
   Patient: Patient,
   Visit: Option[VisitInfo] = None,
   Order: Order
-) extends MetaLike with OrdersMessageLike {
+) extends MetaLike
+    with OrdersMessageLike {
   def Orders = Seq(Order)
 }
 
@@ -170,6 +170,7 @@ object OrderMessage extends RobustPrimitives
   Patient: Patient,
   Visit: Option[VisitInfo] = None,
   Orders: Seq[Order] = Seq.empty
-) extends MetaLike with OrdersMessageLike
+) extends MetaLike
+    with OrdersMessageLike
 
 object GroupedOrdersMessage extends RobustPrimitives

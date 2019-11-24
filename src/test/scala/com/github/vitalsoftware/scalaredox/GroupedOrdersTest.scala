@@ -1,6 +1,6 @@
 package com.github.vitalsoftware.scalaredox
 
-import com.github.vitalsoftware.scalaredox.models.{ SexType, GroupedOrdersMessage, Order }
+import com.github.vitalsoftware.scalaredox.models.{ GroupedOrdersMessage, Order, SexType }
 import org.specs2.mutable.Specification
 
 class GroupedOrdersTest extends Specification with RedoxTest {
