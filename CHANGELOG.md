@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [8.0.1] - 2019-11-24
+
 ### Added
 
 - Added `Invalid` sentinel values to `DataModel` and `EventType` enums, so that
@@ -339,7 +341,8 @@ and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes
 
 
 
-[Unreleased]: https://github.com/vital-software/scala-redox/compare/8.0.0...HEAD
+[Unreleased]: https://github.com/vital-software/scala-redox/compare/8.0.1...HEAD
+[8.0.1]: https://github.com/vital-software/scala-redox/compare/8.0.0...8.0.1
 [8.0.0]: https://github.com/vital-software/scala-redox/compare/7.0.0...8.0.0
 [7.0.0]: https://github.com/vital-software/scala-redox/compare/6.0.5...7.0.0
 [6.0.5]: https://github.com/vital-software/scala-redox/compare/6.0.4...6.0.5
