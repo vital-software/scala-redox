@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `Invalid` sentinel values to `DataModel` and `EventType` enums, so that
+  it is possible to construct a `Meta` for any JSON message (essentially, all
+  fields on `Meta` are now optional)
+
 ## [8.0.0] - 2019-08-26
 
 ### Changed
