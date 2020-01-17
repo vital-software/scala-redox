@@ -124,18 +124,3 @@ object OrderedMedication extends RobustPrimitives
 )
 
 object MedicationOrder extends RobustPrimitives
-
-/**
- * The Medications data model allows real-time notification of new prescriptions and modifications or cancellations to existing ones.
- */
-// Todo: Handle Administrations (we don't get this message yet)
-@jsonDefaults case class MedicationsMessage(
-  Meta: Meta,
-  Patient: Patient,
-  Visit: Option[VisitInfo] = None,
-  Order: MedicationOrder,
-) extends MetaLike
-    with HasPatient
-    with HasVisitInfo
-
-object MedicationsMessage extends RobustPrimitives

@@ -70,9 +70,16 @@ object PatientClassType extends Enumeration {
     Format(Reads.enumNameReads(PatientClassType), Writes.enumNameWrites)
 }
 
+trait VisitLike {
+  def VisitNumber: Option[String]
+  def Location: Option[CareLocation]
+  def AccountNumber: Option[String]
+}
+
 /**
  * Information about the visit associate with models.Order and/or models.Result
  *
+ * TODO: Running into Function22 and Tuple22 limits here...
  * @param Location Location of the appointment
  * @param Duration Length of visit. In minutes
  * @param PatientClass Patient class is used in many EHRs to determine where to put the patient. Examples: Inpatient, Outpatient, Emergency
@@ -84,6 +91,7 @@ object PatientClassType extends Enumeration {
  */
 @jsonDefaults case class VisitInfo(
   VisitNumber: Option[String] = None,
+  AccountNumber: Option[String] = None,
   VisitDateTime: Option[DateTime] = None,
   Duration: Option[Double] = None,
   Reason: Option[String] = None,
@@ -97,7 +105,7 @@ object PatientClassType extends Enumeration {
   Insurance: Option[Insurance] = None,
   Insurances: Seq[Insurance] = Seq.empty,
   Instructions: Seq[String] = Seq.empty,
-  Balance: Option[Double] = None,
+//  Balance: Option[Double] = None,
   Type: Option[String] = None, // Claims[].Visit
   DateTime: Option[DateTime] = None,
   DischargeDateTime: Option[DateTime] = None,
@@ -105,7 +113,7 @@ object PatientClassType extends Enumeration {
   DischargeLocation: Option[CareLocation] = None,
   StartDateTime: Option[DateTime] = None, // Header.Document.Visit only
   EndDateTime: Option[DateTime] = None
-)
+) extends VisitLike
 
 object VisitInfo extends RobustPrimitives
 
@@ -118,6 +126,6 @@ object VisitInfo extends RobustPrimitives
   VisitNumber: Option[String] = None,
   Location: Option[CareLocation] = None,
   AccountNumber: Option[String] = None
-)
+) extends VisitLike
 
 object BasicVisitInfo extends RobustPrimitives
