@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-specs2" % playVersion % Test,
 )
 
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
 
 ThisBuild / scalacOptions ++= Seq("-unchecked", "-deprecation")
 
