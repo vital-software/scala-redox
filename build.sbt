@@ -4,12 +4,15 @@ organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.12.10"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"),
-  "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
+  Resolver.jcenterRepo,
+  "Typesafe Repo" at "https://repo.typesafe.com/typesafe/releases/",
+  "Typesafe Repo" at "https://repo.typesafe.com/typesafe/releases/",
+  "Atlassian Releases" at "https://maven.atlassian.com/public/",
 )
 
 val playJsonVersion = "2.7.3"
@@ -26,7 +29,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-specs2" % playVersion % Test,
 )
 
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0"  cross CrossVersion.full)
 
 ThisBuild / scalacOptions ++= Seq("-unchecked", "-deprecation")
 
@@ -122,4 +125,11 @@ updateLinesSchema := Seq(
           s"[Unreleased]: https://github.com/$project/compare/$v...HEAD\n[$v]: https://github.com/$project/compare/$previous...$v"
       }
   ),
+)
+
+
+mimaPreviousArtifacts := Set(organization.value %% name.value % "8.0.1")
+
+mimaBinaryIssueFilters ++= Seq(
+  // e.g. ProblemFilters.exclude[MissingClassProblem]("co.vitaler.events.*"),
 )

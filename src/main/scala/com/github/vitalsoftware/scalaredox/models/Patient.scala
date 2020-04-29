@@ -107,31 +107,3 @@ object Contact extends RobustPrimitives
 )
 
 object Patient extends RobustPrimitives
-
-/**
- * Used for both query (without the 'PotentialMatches') and holding the response to a patient search query.
- *
- * Meta.DataModel: "PatientSearch",
- * Meta.EventType: {Query, Response}
- */
-@jsonDefaults case class PatientSearch(
-  Meta: Meta,
-  Patient: Option[Patient] = None,
-  PotentialMatches: Seq[Patient] = Seq.empty
-) extends MetaLike
-
-object PatientSearch extends RobustPrimitives
-
-/**
- * Meta.DataModel: "PatientAdmin",
- * Meta.EventType: {Arrival, Cancel, Discharge, NewPatient, PatientUpdate, PatientMerge, PreAdmit, Registration, Transfer, VisitMerge, VisitUpdate}
- */
-@jsonDefaults case class PatientAdminMessage(
-  Meta: Meta,
-  Patient: Patient,
-  Visit: Option[VisitInfo] = None
-) extends MetaLike
-    with HasPatient
-    with HasVisitInfo
-
-object PatientAdminMessage extends RobustPrimitives
