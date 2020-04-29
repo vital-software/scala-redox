@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [8.0.3] - 2020-04-29
+
+### Changed
+
+- All Redox message models not extend sealed trait hierarchy bellow, making them an ADT
+  - RedoxMessage
+    - PatientRedoxMessage
+      - VisitRedoxMessage
+        
 ## [8.0.1] - 2019-11-24
 
 ### Added
@@ -341,7 +350,8 @@ and a failure being logged. (except for `SexType`, `DataModel`, `RedoxEventTypes
 
 
 
-[Unreleased]: https://github.com/vital-software/scala-redox/compare/8.0.1...HEAD
+[Unreleased]: https://github.com/vital-software/scala-redox/compare/8.0.3...HEAD
+[8.0.3]: https://github.com/vital-software/scala-redox/compare/8.0.1...8.0.3
 [8.0.1]: https://github.com/vital-software/scala-redox/compare/8.0.0...8.0.1
 [8.0.0]: https://github.com/vital-software/scala-redox/compare/7.0.0...8.0.0
 [7.0.0]: https://github.com/vital-software/scala-redox/compare/6.0.5...7.0.0

@@ -128,17 +128,3 @@ object ResultsStatusTypes extends Enumeration {
 )
 
 object OrderResult extends RobustPrimitives
-
-/**
- * Results messages communicate results of diagnostic tests such as labs, radiology imaging, etc.
- */
-@jsonDefaults case class ResultsMessage(
-  Meta: Meta,
-  Patient: Patient,
-  Orders: Seq[OrderResult] = Seq.empty,
-  Visit: Option[VisitInfo] = None
-) extends MetaLike
-    with HasPatient
-    with HasVisitInfo
-
-object ResultsMessage extends RobustPrimitives
