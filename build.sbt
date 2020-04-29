@@ -9,7 +9,10 @@ scalaVersion := "2.12.8"
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"),
-  "Typesafe Repo" at "https://repo.typesafe.com/typesafe/releases/"
+  Resolver.jcenterRepo,
+  "Typesafe Repo" at "https://repo.typesafe.com/typesafe/releases/",
+  "Typesafe Repo" at "https://repo.typesafe.com/typesafe/releases/",
+  "Atlassian Releases" at "https://maven.atlassian.com/public/",
 )
 
 val playJsonVersion = "2.7.3"
