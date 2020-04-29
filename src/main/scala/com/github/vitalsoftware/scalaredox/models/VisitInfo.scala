@@ -73,7 +73,6 @@ object PatientClassType extends Enumeration {
 trait VisitLike {
   def VisitNumber: Option[String]
   def Location: Option[CareLocation]
-  def AccountNumber: Option[String]
 }
 
 /**
@@ -91,7 +90,7 @@ trait VisitLike {
  */
 @jsonDefaults case class VisitInfo(
   VisitNumber: Option[String] = None,
-  AccountNumber: Option[String] = None,
+//  AccountNumber: Option[String] = None,
   VisitDateTime: Option[DateTime] = None,
   Duration: Option[Double] = None,
   Reason: Option[String] = None,
@@ -105,7 +104,7 @@ trait VisitLike {
   Insurance: Option[Insurance] = None,
   Insurances: Seq[Insurance] = Seq.empty,
   Instructions: Seq[String] = Seq.empty,
-//  Balance: Option[Double] = None,
+  Balance: Option[Double] = None,
   Type: Option[String] = None, // Claims[].Visit
   DateTime: Option[DateTime] = None,
   DischargeDateTime: Option[DateTime] = None,

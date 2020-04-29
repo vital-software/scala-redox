@@ -123,3 +123,10 @@ updateLinesSchema := Seq(
       }
   ),
 )
+
+
+mimaPreviousArtifacts := Set(organization.value %% name.value % "8.0.1")
+
+mimaBinaryIssueFilters ++= Seq(
+  // e.g. ProblemFilters.exclude[MissingClassProblem]("co.vitaler.events.*"),
+)

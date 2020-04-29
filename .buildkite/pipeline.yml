@@ -34,6 +34,18 @@ steps:
       artifacts#v1.0.0:
         upload: "target/test-reports/*.xml"
 
+  - name: ":scala: Check BC with MiMa"
+    command: sbt -batch mimaReportBinaryIssues
+    timeout_in_minutes: 5
+    soft_fail:
+      - exit_status: 1
+    plugins:
+      vital-software/docker-compose#vital-v2.5:
+        config:
+          - docker-compose.yml
+          - docker-compose.buildkite.yml
+        run: scala-redox-base
+
   - wait: ~
     continue_on_failure: true
 

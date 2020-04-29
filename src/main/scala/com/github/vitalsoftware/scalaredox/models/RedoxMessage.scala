@@ -158,6 +158,7 @@ object MediaMessage extends RobustPrimitives
 ) extends MetaLike
   with HasPatient
   with VisitRedoxMessage
+  with HasVisitInfo
 
 object MedicationsMessage extends RobustPrimitives
 
@@ -177,7 +178,7 @@ object MedicationsMessage extends RobustPrimitives
 
 object NoteMessage extends RobustPrimitives
 
-trait OrdersMessageLike extends VisitRedoxMessage {
+trait OrdersMessageLike extends VisitRedoxMessage with HasVisitInfo {
   def Meta: Meta
   def Patient: Patient
   def Visit: Option[VisitInfo]
@@ -229,7 +230,7 @@ object PatientSearch extends RobustPrimitives
   Meta: Meta,
   Patient: Patient,
   Visit: Option[VisitInfo] = None
-) extends VisitRedoxMessage
+) extends VisitRedoxMessage with HasVisitInfo
 
 object PatientAdminMessage extends RobustPrimitives
 
@@ -241,6 +242,6 @@ object PatientAdminMessage extends RobustPrimitives
   Patient: Patient,
   Orders: Seq[OrderResult] = Seq.empty,
   Visit: Option[VisitInfo] = None
-) extends VisitRedoxMessage
+) extends VisitRedoxMessage with HasVisitInfo
 
 object ResultsMessage extends RobustPrimitives

@@ -12,6 +12,8 @@ import com.github.vitalsoftware.util.RobustPrimitives
   Patient: Patient
 ) extends HasPatient
 
+object PatientQuery extends RobustPrimitives
+
 /*
 object Visit {
   implicit lazy val jsonFormat = Jsonx.formatCaseClass[Visit]
