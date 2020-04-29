@@ -4,7 +4,7 @@ organization := "com.github.vital-software"
 
 name := "scala-redox"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.12.10"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
@@ -29,7 +29,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-specs2" % playVersion % Test,
 )
 
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0")
 
 ThisBuild / scalacOptions ++= Seq("-unchecked", "-deprecation")
 
