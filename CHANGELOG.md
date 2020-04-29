@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- All Redox message models not extend sealed trait hierarchy bellow, making them an ADT
+  - RedoxMessage
+    - PatientRedoxMessage
+      - VisitRedoxMessage
+        
 ## [8.0.1] - 2019-11-24
 
 ### Added

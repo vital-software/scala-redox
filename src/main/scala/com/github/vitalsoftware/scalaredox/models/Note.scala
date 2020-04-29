@@ -59,18 +59,3 @@ object NoteComponent extends RobustPrimitives
 )
 
 object Note extends RobustPrimitives
-
-/**
- * @param Visit Requires only VisitNumber + VisitDateTime
- */
-@jsonDefaults case class NoteMessage(
-  Meta: Meta,
-  Patient: Patient,
-  Visit: Option[VisitInfo] = None,
-  Note: Note,
-  Orders: Seq[NoteOrder] = Seq.empty
-) extends MetaLike
-    with HasPatient
-    with HasVisitInfo
-
-object NoteMessage extends RobustPrimitives

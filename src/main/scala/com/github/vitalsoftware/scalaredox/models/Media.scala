@@ -42,17 +42,3 @@ object MediaAvailability extends Enumeration {
 )
 
 object Media extends RobustPrimitives
-
-/**
- * @param Visit Only Visit.VisitNumber A VisitNumber is highly recommended so that the document can be associated with a specific visit
- */
-@jsonDefaults case class MediaMessage(
-  Meta: Meta,
-  Patient: Patient,
-  Media: Media,
-  Visit: Option[VisitInfo] = None
-) extends MetaLike
-    with HasVisitInfo
-    with HasPatient
-
-object MediaMessage extends RobustPrimitives
