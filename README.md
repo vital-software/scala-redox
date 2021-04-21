@@ -1,6 +1,6 @@
-# Scala Redox [![Build status](https://badge.buildkite.com/b0bbb5518c0cee6021cd4f31c5ac97537aa0a2a17bf88bee2b.svg)](https://buildkite.com/vital/scala-redox) [![Test Coverage](https://api.codeclimate.com/v1/badges/c4eaeef835cead5f5717/test_coverage)](https://codeclimate.com/github/vital-software/scala-redox/test_coverage) [![Maintainability](https://api.codeclimate.com/v1/badges/c4eaeef835cead5f5717/maintainability)](https://codeclimate.com/github/vital-software/scala-redox/maintainability)
+# Scala Redox
 
-Scala rest-client (Java compatible) for sending and receiving messages from the Redox healthcare APIs. Messages are sent
+Scala REST-client (Java compatible) for sending and receiving messages from the Redox healthcare APIs. Messages are sent
 and received asynchronously, returning Future[RedoxResponse[T]] objects that are either a type T or a RedoxErrorResponse
 hat can include Json validation/serialization issues or an HTTP status like 403 or 404.
 
@@ -82,7 +82,7 @@ Data-models available at [Redox](https://developer.redoxengine.com/) have been t
 
 ## Future Work
 
-Writing objects to Redox is still "hard", meaning you often need to know the Code and CodSystem used. We may bind a
+Writing objects to Redox is still "hard", meaning you often need to know the Code and CodeSystem used. We may bind a
 `CodeProvider` trait that can be extended to provide codes to objects in a flexible way, such that your system
 does not need to know whether a code is Snomed CT or LOINC.
 
