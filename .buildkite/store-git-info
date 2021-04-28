@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
-
-echo -n "Adding information from git context..." >&2
-GIT_COMMITTED_AT=$(git show -s --format=%ct)
-
-buildkite-agent meta-data set env-GIT_COMMITTED_AT ${GIT_COMMITTED_AT}

@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-sbt -batch -v coverage test coverageReport
-
-cc-test-reporter format-coverage target/scala-*/coverage-report/cobertura.xml --input-type=cobertura
-cc-test-reporter upload-coverage
