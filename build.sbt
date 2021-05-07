@@ -24,6 +24,7 @@ val playVersion = "2.7.3"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % playJsonVersion,
+  "com.typesafe.play" %% "play-logback" % playJsonVersion,
   "com.typesafe.play" %% "play-json-joda" % playJsonVersion,
   "com.typesafe.play" %% "play-ahc-ws" % playVersion,
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.2",
