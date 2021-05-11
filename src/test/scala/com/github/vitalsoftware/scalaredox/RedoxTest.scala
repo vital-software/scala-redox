@@ -2,13 +2,13 @@ package com.github.vitalsoftware.scalaredox
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import com.github.vitalsoftware.scalaredox.client.{ ClientConfig, RedoxClient, RedoxResponse, RedoxTokenManager }
+import com.github.vitalsoftware.scalaredox.client.{ClientConfig, RedoxClient, RedoxResponse, RedoxTokenManager}
 import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
 import com.typesafe.config.ConfigFactory
-import play.api.libs.json.{ JsError, Json, Reads }
+import play.api.libs.json.{JsError, Json, Reads}
 import play.api.libs.ws.ahc.StandaloneAhcWSClient
 
-import scala.concurrent.{ Await, Future }
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 
 /**
@@ -17,9 +17,9 @@ import scala.concurrent.duration._
 trait RedoxTest {
   implicit val system = ActorSystem("redox-test")
   implicit val materializer = ActorMaterializer()(system)
-
   val conf = ClientConfig(ConfigFactory.load("resources/reference.conf"))
   val httpClient = StandaloneAhcWSClient()
+
   val tokenManager = new RedoxTokenManager(httpClient, conf.baseRestUri)
   val client = new RedoxClient(conf, httpClient, tokenManager)
   val timeout: FiniteDuration = 20.seconds

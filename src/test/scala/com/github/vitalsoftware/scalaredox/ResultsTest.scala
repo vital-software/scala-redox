@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox
 
 import com.github.vitalsoftware.scalaredox.client.EmptyResponse
-import com.github.vitalsoftware.scalaredox.models.{ Result, ResultsMessage }
+import com.github.vitalsoftware.scalaredox.models.{AbnormalFlagTypes, OrderResultsStatusTypes, Result, ResultsMessage, ResultsStatusTypes}
 import org.specs2.mutable.Specification
 
 /**
@@ -111,6 +111,25 @@ class ResultsTest extends Specification with RedoxTest {
           |   },
           |   "Orders": [
           |      {
+          |         "Extensions": {
+          |            "ordering-facility-name": {
+          |               "url": "https://api.redoxengine.com/extensions/ordering-facility-name",
+          |               "string": "Test Facility"
+          |            },
+          |            "ordering-facility-address": {
+          |               "url": "https://api.redoxengine.com/extensions/ordering-facility-address",
+          |               "address": {
+          |                  "line": "116 Auburn Drive",
+          |                  "city": "El Paso",
+          |                  "state": "TX",
+          |                  "postalCode": "79936"
+          |               }
+          |            },
+          |            "ordered-date-time": {
+          |               "url": "https://api.redoxengine.com/extensions/ordered-date-time",
+          |               "dateTime": "2020-04-13T10:33:12.000Z"
+          |            }
+          |         },
           |         "ID": "157968300",
           |         "ApplicationOrderID": null,
           |         "TransactionDateTime": "2015-05-06T06:00:58.872Z",
@@ -151,6 +170,12 @@ class ResultsTest extends Specification with RedoxTest {
           |         "Priority": "Stat",
           |         "Results": [
           |            {
+          |               "Extensions": {
+          |                  "device-id": {
+          |                     "url": "https://api.redoxengine.com/extensions/device-id",
+          |                     "string": "ModelName/DeviceID_Manufacturer_TypeAbbreviation"
+          |                  }
+          |               },
           |               "Code": "TEST0001",
           |               "Codeset": null,
           |               "Description": "Cystic Fibrosis",
@@ -288,13 +313,26 @@ class ResultsTest extends Specification with RedoxTest {
 
       val data = validateJsonInput[ResultsMessage](json)
       data.Orders must not be empty
+      data.Visit must beNone
+
       val order = data.Orders.head
       order.Provider must beSome
+      order.Status must be(OrderResultsStatusTypes.Resulted)
+      order.ResultsStatus must beSome(ResultsStatusTypes.Final)
+
+      val provider = order.Provider.get
+      provider.NPI must beSome
       order.Procedure must beSome
       order.Results must not be empty
+
       val result = order.Results.head
       result.Producer must beSome
-      data.Visit must beNone
+      result.Extensions must beSome
+      result.AbnormalFlag must beSome(AbnormalFlagTypes.VeryAbnormal)
+      result.Status must beSome
+
+      val extension = result.Extensions.get
+      extension.`device-id` must beSome
 
       val fut = client.post[ResultsMessage, EmptyResponse](data)
       val maybe = handleResponse(fut)
