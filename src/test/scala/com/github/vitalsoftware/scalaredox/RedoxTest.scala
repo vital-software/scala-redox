@@ -15,11 +15,11 @@ import scala.concurrent.duration._
  * Created by apatzer on 3/23/17.
  */
 trait RedoxTest {
-  val conf = ClientConfig(ConfigFactory.load("resources/reference.conf"))
-  val httpClient = StandaloneAhcWSClient()
   implicit val system = ActorSystem("redox-test")
   implicit val materializer = ActorMaterializer()(system)
 
+  val conf = ClientConfig(ConfigFactory.load("resources/reference.conf"))
+  val httpClient = StandaloneAhcWSClient()
   val tokenManager = new RedoxTokenManager(httpClient, conf.baseRestUri)
   val client = new RedoxClient(conf, httpClient, tokenManager)
   val timeout: FiniteDuration = 20.seconds
