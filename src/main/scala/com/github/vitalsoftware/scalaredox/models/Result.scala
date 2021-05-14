@@ -150,7 +150,7 @@ object AbnormalFlagTypes extends Enumeration {
   val CriticallyLow = Value("Critically Low")
   val CriticallyHigh = Value("Critically High")
   val NotSusceptible = Value("Not Susceptible")
-  val InconclusiveInconclusive = Value("Inconclusive Inconclusive")
+  val Inconclusive = Value("Inconclusive")
   val VeryAbnormal = Value("Very Abnormal")
 
   @transient implicit lazy val jsonFormat: Format[AbnormalFlagTypes.Value] =
