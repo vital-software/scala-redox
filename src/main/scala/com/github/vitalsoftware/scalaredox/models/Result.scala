@@ -92,7 +92,7 @@ object OrderResultProvider extends RobustPrimitives
   Units: Option[String] = None,
   Notes: Seq[String] = Seq.empty,
   AbnormalFlag: Option[AbnormalFlagTypes.Value] = None,
-  Status: Option[String] = None,
+  Status: Option[ResultStatusTypes.Value] = None,
   Producer: Option[OrderProducer] = None,
   Performer: Option[ResultPerformer] = None,
   ReferenceRange: Option[ReferenceRange] = None,
@@ -102,7 +102,9 @@ object OrderResultProvider extends RobustPrimitives
 
 object Result extends RobustPrimitives
 
-// Current overall status of the order. One of the following: "Final", "Preliminary", "In Process", "Corrected", "Canceled", "Other".
+/**
+ * Current overall status of the order.
+ */
 object ResultsStatusTypes extends Enumeration {
   val Final, Preliminary, Corrected, Canceled, Other = Value
   val InProcess = Value("In Process")
@@ -112,6 +114,9 @@ object ResultsStatusTypes extends Enumeration {
     Format(Reads.enumNameReads(ResultsStatusTypes), Writes.enumNameWrites)
 }
 
+/**
+ * Current status of the order
+ */
 object OrderResultsStatusTypes extends Enumeration {
   val Resulted, New, Cancel, Update = Value
 
@@ -119,14 +124,22 @@ object OrderResultsStatusTypes extends Enumeration {
     Format(Reads.enumNameReads(OrderResultsStatusTypes), Writes.enumNameWrites)
 }
 
+
+/**
+ * Status of a single Result
+ */
 object ResultStatusTypes extends Enumeration {
   val Preliminary, Incomplete, Corrected, Final, Unavailable, Canceled, Deleted = Value
   val NoneSpecified = Value("None Specified")
 
+  def defaultValue = Unavailable
   @transient implicit lazy val jsonFormat: Format[ResultStatusTypes.Value] =
     Format(Reads.enumNameReads(ResultStatusTypes), Writes.enumNameWrites)
 }
 
+/**
+ * Indication of whether the result was abnormal
+ */
 object AbnormalFlagTypes extends Enumeration {
   val Normal, Low, High, Abnormal, Susceptible, Resistant, Intermediate = Value
   val VeryLow = Value("Very Low")

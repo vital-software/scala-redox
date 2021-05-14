@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox
 
 import com.github.vitalsoftware.scalaredox.client.EmptyResponse
-import com.github.vitalsoftware.scalaredox.models.{AbnormalFlagTypes, OrderResultsStatusTypes, Result, ResultsMessage, ResultsStatusTypes}
+import com.github.vitalsoftware.scalaredox.models.{AbnormalFlagTypes, OrderResultsStatusTypes, Result, ResultStatusTypes, ResultsMessage, ResultsStatusTypes}
 import org.specs2.mutable.Specification
 
 /**
@@ -329,7 +329,7 @@ class ResultsTest extends Specification with RedoxTest {
       result.Producer must beSome
       result.Extensions must beSome
       result.AbnormalFlag must beSome(AbnormalFlagTypes.VeryAbnormal)
-      result.Status must beSome
+      result.Status must beSome(ResultStatusTypes.Final)
 
       val extension = result.Extensions.get
       extension.`device-id` must beSome
