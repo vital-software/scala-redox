@@ -6,10 +6,6 @@ name := "scala-redox"
 
 scalaVersion := "2.12.10"
 
-githubTokenSource := TokenSource.GitConfig("github.token") || TokenSource.Environment("GITHUB_TOKEN")
-githubOwner := "mdcollab"
-githubRepository := "scala-redox"
-
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"),
@@ -33,6 +29,9 @@ libraryDependencies ++= Seq(
   "com.github.nscala-time" %% "nscala-time" % "2.14.0",
   "com.typesafe.play" %% "play-specs2" % playVersion % Test,
 )
+
+credentials += Credentials(Path.userHome / ".sbt" / ".credentials")
+publishTo := { Some("Cloudsmith API" at "https://maven.cloudsmith.io/carbon-health/scala-redox/") }
 
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0"  cross CrossVersion.full)
 
