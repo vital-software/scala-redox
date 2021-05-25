@@ -114,7 +114,6 @@ Publishing is currently done via SBT. Artefacts are stored on Cloudsmith.io. To 
 
 Create/Edit the `~/.sbt/credentials` file:
 ```
-~/.sbt/.credentials                                                                                 ✔  1286  13:24:00
 realm=Cloudsmith API
 host=maven.cloudsmith.io
 user=<cloudsmith.io user name>
