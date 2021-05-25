@@ -68,7 +68,7 @@ object NumericIdentifier extends RobustPrimitives
   FacilityCode: Option[String] = None,
   IsIncomplete: Option[Boolean] = None,
   CanceledEvent: Option[RedoxEventTypes.Value] = None,
-  Extensions: Option[Seq[Extension]] = None,
+  Extensions: Option[Extension] = None,
 )
 
 object Meta extends RobustPrimitives
