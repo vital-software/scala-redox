@@ -15,11 +15,14 @@ import com.github.vitalsoftware.util.RobustPrimitives
 
 @json case class OrderedDateTimeExtension(url: String, dateTime: DateTime)
 
+@json case class OrganizationIdExtension(url: String, string: String)
+
 @json case class Extension(
   `device-id`: Option[DeviceIdExtension] = None,
   `ordering-facility-name`: Option[OrderingFacilityNameExtension] = None,
   `ordering-facility-address`: Option[OrderingFacilityAddressExtension] = None,
-  `ordered-date-time`: Option[OrderedDateTimeExtension] = None
+  `ordered-date-time`: Option[OrderedDateTimeExtension] = None,
+  `organization-id`: Option[OrganizationIdExtension] = None,
 )
 
 object Extension extends RobustPrimitives

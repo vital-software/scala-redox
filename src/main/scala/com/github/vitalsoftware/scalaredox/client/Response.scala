@@ -1,6 +1,8 @@
 package com.github.vitalsoftware.scalaredox.client
 
 import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.scalaredox.models.{Meta, MetaLike}
+import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.JsError
 
 /**
@@ -16,6 +18,9 @@ case class RedoxResponse[T](result: Either[RedoxErrorResponse, T]) {
 }
 
 @jsonDefaults case class EmptyResponse(none: Option[String] = None)
+
+@jsonDefaults case class MetaResponse(Meta: Meta) extends MetaLike
+object MetaResponse extends RobustPrimitives
 
 @json case class RedoxError(ID: Long, Text: String, Type: Option[String] = None, Module: Option[String] = None)
 
