@@ -110,6 +110,11 @@ To run tests via `sbt tests`, a Redox integration will be needed. To run locally
 You may see an error about `GITHUB_TOKEN` not being set. An unfortunate side effect of our publishing plugin (see below), requires this env variable to be set. You can either create your own personal access token, or locally disable the `sbt-github-packages` plugin by commenting out lines in `plugins.sbt:5` and `build.sbt:9-11`.
 
 ## Publishing
+
+[![Hosted By: Cloudsmith](https://img.shields.io/badge/OSS%20hosting%20by-cloudsmith-blue?logo=cloudsmith&style=for-the-badge)](https://cloudsmith.com)
+
+Package repository hosting is graciously provided by  [Cloudsmith](https://cloudsmith.com).
+
 Publishing is currently done via SBT. Artefacts are stored on Cloudsmith.io. To publish, make sure you have a Cloudsmith account and have publish access to the [Carbon repository](https://cloudsmith.io/orgs/carbon-health/).
 
 Create/Edit the `~/.sbt/credentials` file:
