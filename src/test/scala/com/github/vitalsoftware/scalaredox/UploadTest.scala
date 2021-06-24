@@ -12,7 +12,7 @@ class UploadTest extends Specification with RedoxTest {
       val file = Files.createTempFile("test-file", ".txt")
       java.nio.file.Files.newOutputStream(file).write("This is a test".getBytes)
 
-      val fut = client.upload(file.toFile)
+      val fut = client.upload(file = file.toFile, contentLength = -1L)
       val maybe = handleResponse(fut)
       maybe must beSome
       maybe.get.URI must contain("https://blob.redoxengine.com")
