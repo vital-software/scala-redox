@@ -22,12 +22,36 @@ import scala.collection.Seq
 
 object Identifier extends RobustPrimitives
 
+object RaceType extends Enumeration {
+  val Asian, White, Unknown = Value
+  val AmericanIndianOrAlaskanNative = Value("American Indian or Alaska Native")
+  val BlackOrAfricanAmerican = Value("Black or African American")
+  val NativeHawaiianOrOtherPacificIslander = Value("Native Hawaiian or Other Pacific Islander")
+  val OtherRace = Value("Other Race")
+
+  def defaultValue = Unknown
+
+  @transient implicit lazy val jsonFormat: Format[RaceType.Value] =
+    Format(Reads.enumNameReads(RaceType), Writes.enumNameWrites)
+}
+
+object IsHispanicType extends Enumeration {
+  val IsHispanic = Value("true")
+  val IsNotHispanic = Value("false")
+  val Unknown = Value("null")
+
+  def defaultValue = Unknown
+
+  @transient implicit lazy val jsonFormat: Format[IsHispanicType.Value] =
+    Format(Reads.enumNameReads(IsHispanicType), Writes.enumNameWrites)
+}
+
 object SexType extends Enumeration {
   val Male, Female, Unknown, Other = Value
 
   @transient lazy val strictReads: Reads[SexType.Value] = Reads.enumNameReads(SexType)
 
-  // Allow coversion of "M" and "F" into "Male" and "Female" types
+  // Allow conversion of "M" and "F" into "Male" and "Female" types
   @transient implicit lazy val fuzzyReads: Reads[SexType.Value] = new Reads[SexType.Value] {
     def reads(json: JsValue) = {
       val transform = json match {
@@ -68,8 +92,8 @@ object SexType extends Enumeration {
   EmailAddresses: Seq[String] = Seq.empty,
   Language: Option[Language] = None,
   Citizenship: Seq[String] = Seq.empty, // TODO ISO 3166
-  Race: Option[String] = None,
-  Ethnicity: Option[String] = None,
+  Race: Option[RaceType.Value] = None,
+  IsHispanic: Option[Boolean] = None,
   Religion: Option[String] = None,
   MaritalStatus: Option[String] = None
 ) extends WithContactDetails
