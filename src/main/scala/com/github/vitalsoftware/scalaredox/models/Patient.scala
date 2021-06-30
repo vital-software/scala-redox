@@ -93,7 +93,7 @@ object SexType extends Enumeration {
   Language: Option[Language] = None,
   Citizenship: Seq[String] = Seq.empty, // TODO ISO 3166
   Race: Option[RaceType.Value] = None,
-  IsHispanic: Option[Boolean] = None,
+  IsHispanic: Option[IsHispanicType.Value] = None,
   Religion: Option[String] = None,
   MaritalStatus: Option[String] = None
 ) extends WithContactDetails
