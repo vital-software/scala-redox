@@ -1,7 +1,14 @@
 package com.github.vitalsoftware.scalaredox
 
 import com.github.vitalsoftware.scalaredox.client.EmptyResponse
-import com.github.vitalsoftware.scalaredox.models.{AbnormalFlagTypes, OrderResultsStatusTypes, Result, ResultStatusTypes, ResultsMessage, ResultsStatusTypes}
+import com.github.vitalsoftware.scalaredox.models.{
+  AbnormalFlagTypes,
+  OrderResultsStatusTypes,
+  Result,
+  ResultStatusTypes,
+  ResultsMessage,
+  ResultsStatusTypes
+}
 import org.specs2.mutable.Specification
 
 /**
@@ -101,7 +108,9 @@ class ResultsTest extends Specification with RedoxTest {
           |            },
           |            "RelationToPatient": "Mother",
           |            "EmailAddresses": [
-          |               "barb.bixby@test.net"
+          |               {
+          |                 "Address": "barb.bixby@test.net"
+          |               }
           |            ],
           |            "Roles": [
           |               "Emergency Contact"

@@ -308,7 +308,11 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |					"Home": "+18088675301",
           |					"Mobile": null
           |				},
-          |				"EmailAddresses": [],
+          |				"EmailAddresses": [
+          |               {
+          |                 "Address": "12313124@fake.com"
+          |               }
+          |             ],
           |				"Race": "Asian",
           |				"IsHispanic": null,
           |				"Religion": null,
