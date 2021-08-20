@@ -98,7 +98,9 @@ class FlowSheetTest extends Specification with RedoxTest {
           |            },
           |            "RelationToPatient": "Mother",
           |            "EmailAddresses": [
-          |               "barb.bixby@test.net"
+          |               {
+          |                 "Address": "barb.bixby@test.net"
+          |               }
           |            ],
           |            "Roles": [
           |               "Emergency Contact"
