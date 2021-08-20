@@ -43,7 +43,7 @@ trait ProviderLike {
 
 trait WithAddress { def Address: Option[Address] }
 trait WithPhoneNumber { def PhoneNumber: Option[PhoneNumber] }
-trait WithEmails { def EmailAddresses: Seq[String] }
+trait WithEmails { def EmailAddresses: Seq[EmailAddress] }
 trait WithContactDetails extends WithAddress with WithPhoneNumber with WithEmails
 
 @jsonDefaults case class BasicPerson(
@@ -51,7 +51,7 @@ trait WithContactDetails extends WithAddress with WithPhoneNumber with WithEmail
   LastName: Option[String] = None,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[String] = Seq.empty,
+  EmailAddresses: Seq[EmailAddress] = Seq.empty,
   Credentials: Option[String] = None
 ) extends WithContactDetails
 

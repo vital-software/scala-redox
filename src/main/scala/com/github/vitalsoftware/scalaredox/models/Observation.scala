@@ -47,6 +47,7 @@ object ProcedureObservation extends RobustPrimitives
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
+  AltCodes: Option[Seq[BasicCode]] = None,
   Status: Option[String] = None,
   Interpretation: Option[String] = None, // Used by Result
   DateTime: DateTime,
