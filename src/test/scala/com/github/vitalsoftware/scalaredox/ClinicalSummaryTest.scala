@@ -107,7 +107,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
         header.Patient.Identifiers must not be empty
         header.Patient.Demographics must beSome
       }.get
-    }.pendingUntilFixed
+    }
 
     "return a VisitQueryResponse" in {
       val json =
@@ -198,7 +198,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
         //val results = visitQueryResponse.Results
         //results.size must be_>(0)
       }.get
-    }.pendingUntilFixed
+    }
   }
 
   "post ClinicalSummary" should {
@@ -308,7 +308,11 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |					"Home": "+18088675301",
           |					"Mobile": null
           |				},
-          |				"EmailAddresses": [],
+          |				"EmailAddresses": [
+          |               {
+          |                 "Address": "12313124@fake.com"
+          |               }
+          |             ],
           |				"Race": "Asian",
           |				"IsHispanic": null,
           |				"Religion": null,

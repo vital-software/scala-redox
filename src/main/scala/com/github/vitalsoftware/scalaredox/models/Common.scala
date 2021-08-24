@@ -37,6 +37,12 @@ trait DateRange {
 
 object Address extends RobustPrimitives
 
+@jsonDefaults case class EmailAddress(
+  Address: Option[String] = None,
+)
+
+object EmailAddress extends RobustPrimitives
+
 /**
  * Location of provider or care given.
  *

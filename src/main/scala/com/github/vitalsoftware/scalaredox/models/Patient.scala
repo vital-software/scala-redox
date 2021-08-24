@@ -78,7 +78,7 @@ object SexType extends Enumeration {
   Sex: SexType.Value = SexType.Unknown,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[String] = Seq.empty,
+  EmailAddresses: Seq[EmailAddress] = Seq.empty,
   Language: Option[Language] = None,
   Citizenship: Seq[String] = Seq.empty, // TODO ISO 3166
   Race: Option[RaceType.Value] = None,
@@ -98,7 +98,7 @@ object Demographics extends RobustPrimitives
   LastName: Option[String] = None,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[String] = Seq.empty,
+  EmailAddresses: Seq[EmailAddress] = Seq.empty,
   RelationToPatient: Option[String] = None,
   Roles: Seq[String] = Seq.empty
 ) extends WithContactDetails
