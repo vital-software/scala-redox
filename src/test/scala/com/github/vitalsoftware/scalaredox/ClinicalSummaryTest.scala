@@ -947,6 +947,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |					"Interpretation": "Normal",
           |					"DateTime": "2012-08-10T14:00:00.000Z",
           |					"Value": "10.2",
+          |                 "ValueType": "PhysicalQuantity",
           |					"Units": "g/dl",
           |					"ReferenceRange": {
           |						"Low": null,
@@ -963,6 +964,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |					"Interpretation": "Normal",
           |					"DateTime": "2012-08-10T14:00:00.000Z",
           |					"Value": "12.3",
+          |                 "ValueType": "PhysicalQuantity",
           |					"Units": "10+3/ul",
           |					"ReferenceRange": {
           |						"Low": null,
@@ -979,6 +981,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |					"Interpretation": "Low",
           |					"DateTime": "2012-08-10T14:00:00.000Z",
           |					"Value": "123",
+          |                 "ValueType": "PhysicalQuantity",
           |					"Units": "10+3/ul",
           |					"ReferenceRange": {
           |						"Low": null,
@@ -1100,17 +1103,17 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |}
         """.stripMargin
 
-      val clinicalSummary = validateJsonInput[PatientPush](json)
+      val patientPush = validateJsonInput[PatientPush](json)
 
       // Check chart deserialization
 
       // Meta
-      val meta = clinicalSummary.Meta
+      val meta = patientPush.Meta
       meta.EventType must be equalTo RedoxEventTypes.PatientPush
       meta.Destinations must not be empty
 
       // Header
-      val h = clinicalSummary.Header
+      val h = patientPush.Header
       h.Document.Author must beSome
       h.Document.Author.flatMap(_.Address) must beSome
       h.Document.Visit must beSome
@@ -1123,33 +1126,38 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       h.Patient.Demographics.get.EmailAddresses.head.Address.get must be equalTo ("12313124@fake.com")
 
       // Collections
-      clinicalSummary.AdvanceDirectives must not be empty
-      clinicalSummary.Allergies must not be empty
-      clinicalSummary.Encounters must not be empty
-      clinicalSummary.FamilyHistory must not be empty
-      clinicalSummary.Immunizations must not be empty
-      clinicalSummary.MedicalEquipment must not be empty
-      clinicalSummary.Medications must not be empty
-      clinicalSummary.PlanOfCare must beSome
-      clinicalSummary.PlanOfCare.get.Encounters must not be empty
-      clinicalSummary.PlanOfCare.get.MedicationAdministration must not be empty
-      clinicalSummary.PlanOfCare.get.Orders must not be empty
-      clinicalSummary.PlanOfCare.get.Procedures must not be empty
-      clinicalSummary.PlanOfCare.get.Services must not be empty
-      clinicalSummary.Problems must not be empty
-      clinicalSummary.Procedures must beSome
-      clinicalSummary.Procedures.get.Observations must not be empty
-      clinicalSummary.Procedures.get.Procedures must not be empty
-      clinicalSummary.Procedures.get.Services must not be empty
-      clinicalSummary.SocialHistory must beSome
-      clinicalSummary.SocialHistory.get.Observations must not be empty
-      clinicalSummary.SocialHistory.get.TobaccoUse must not be empty
-      clinicalSummary.VitalSigns must not be empty
-      clinicalSummary.VitalSigns.head.Observations must not be empty
+      patientPush.AdvanceDirectives must not be empty
+      patientPush.Allergies must not be empty
+      patientPush.Encounters must not be empty
+      patientPush.FamilyHistory must not be empty
+      patientPush.Immunizations must not be empty
+      patientPush.MedicalEquipment must not be empty
+      patientPush.Medications must not be empty
+      patientPush.PlanOfCare must beSome
+      patientPush.PlanOfCare.get.Encounters must not be empty
+      patientPush.PlanOfCare.get.MedicationAdministration must not be empty
+      patientPush.PlanOfCare.get.Orders must not be empty
+      patientPush.PlanOfCare.get.Procedures must not be empty
+      patientPush.PlanOfCare.get.Services must not be empty
+      patientPush.Problems must not be empty
+      patientPush.Procedures must beSome
+      patientPush.Procedures.get.Observations must not be empty
+      patientPush.Procedures.get.Procedures must not be empty
+      patientPush.Procedures.get.Services must not be empty
+      patientPush.Results must not be empty
+      patientPush.Results.head.Observations must not be empty
+      patientPush.Results.head.Observations.head.ValueType.get must be equalTo (ValueTypes.PhysicalQuantity)
+      patientPush.Results.head.Observations(1).ValueType.get must be equalTo (ValueTypes.PhysicalQuantity)
+      patientPush.Results.head.Observations(2).ValueType.get must be equalTo (ValueTypes.PhysicalQuantity)
+      patientPush.SocialHistory must beSome
+      patientPush.SocialHistory.get.Observations must not be empty
+      patientPush.SocialHistory.get.TobaccoUse must not be empty
+      patientPush.VitalSigns must not be empty
+      patientPush.VitalSigns.head.Observations must not be empty
 
       // Check request and response message
 
-      val fut = client.post[PatientPush, EmptyResponse](clinicalSummary)
+      val fut = client.post[PatientPush, EmptyResponse](patientPush)
       val maybe = handleResponse(fut)
       maybe must beSome
     }.pendingUntilFixed

@@ -136,7 +136,7 @@ object PhoneNumber extends RobustPrimitives
 object ReferenceRange extends RobustPrimitives
 
 object ValueTypes extends Enumeration {
-  val Numeric, String, Date, Time, DateTime = Value
+  val Numeric, String, Date, Time, DateTime, PhysicalQuantity, Number, Interval, Ratio, Code = Value
   val CodedEntry = Value("Coded Entry")
   val EncapsulatedData = Value("Encapsulated Data")
   val FormattedText = Value("Formatted Text")
