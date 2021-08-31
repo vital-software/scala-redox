@@ -9,48 +9,6 @@ sealed trait RedoxMessage extends MetaLike
 sealed trait PatientRedoxMessage extends RedoxMessage with HasPatient
 sealed trait VisitRedoxMessage extends PatientRedoxMessage with HasVisit
 
-// Common structure between Visit and ClinicalSummary
-sealed trait ClinicalSummaryLike extends PatientRedoxMessage {
-  def Meta: Meta
-  def Header: Header
-  def Patient: Patient = Header.Patient
-  def Allergies: Seq[Allergy]
-  def Encounters: Seq[Encounter]
-  def Medications: Seq[MedicationTaken]
-  def PlanOfCare: Option[PlanOfCare]
-  def Problems: Seq[Problem]
-  def Results: Seq[ChartResult]
-  def VitalSigns: Seq[VitalSigns]
-}
-
-/**
- * A Clinical Summary represents a snapshot of the patient's chart at a moment in time. It is structured in sections,
- * each focusing on a different aspect of the patient's chart, such as allergies, immunizations, and medications.
- * The full list of sections is at the left.
- *
- * You can obtain a Clinical Summary from an EHR via Query. You can send a Clinical Summary to an EHR via Push.
- */
-@jsonDefaults case class ClinicalSummary(
-  Meta: Meta,
-  Header: Header,
-  AdvanceDirectives: Seq[AdvanceDirective] = Seq.empty,
-  Allergies: Seq[Allergy] = Seq.empty,
-  Encounters: Seq[Encounter] = Seq.empty,
-  FamilyHistory: Seq[FamilyHistory] = Seq.empty,
-  Immunizations: Seq[Immunization] = Seq.empty,
-  Insurances: Seq[Insurance] = Seq.empty,
-  MedicalEquipment: Seq[MedicalEquipment] = Seq.empty,
-  Medications: Seq[MedicationTaken] = Seq.empty,
-  PlanOfCare: Option[PlanOfCare] = None,
-  Problems: Seq[Problem] = Seq.empty,
-  Procedures: Option[Procedures] = None,
-  Results: Seq[ChartResult] = Seq.empty,
-  SocialHistory: Option[SocialHistory] = None,
-  VitalSigns: Seq[VitalSigns] = Seq.empty
-) extends ClinicalSummaryLike
-
-object ClinicalSummary extends RobustPrimitives
-
 /**
  * TODO: Running into Function22 and Tuple22 limits here...
  * https://stackoverflow.com/questions/20258417/how-to-get-around-the-scala-case-class-limit-of-22-fields
@@ -86,7 +44,7 @@ object ClinicalSummary extends RobustPrimitives
  */
 @jsonDefaults case class Visit(
   Meta: Meta,
-  Header: Header,
+  Header: clinicalsummary.Header,
   AllergyText: Option[String] = None,
   Allergies: Seq[Allergy] = Seq.empty,
   AssessmentText: Option[String] = None,
@@ -112,7 +70,7 @@ object ClinicalSummary extends RobustPrimitives
   SubjectiveText: Option[String] = None,
   VitalSignsText: Option[String] = None,
   VitalSigns: Seq[VitalSigns] = Seq.empty
-) extends ClinicalSummaryLike
+)
 
 object Visit extends RobustPrimitives
 
@@ -127,7 +85,8 @@ object Visit extends RobustPrimitives
   Visit: Option[BasicVisitInfo] = None,
   Observations: Seq[FlowsheetObservation] = Nil
 ) extends MetaLike
-  with HasPatient with VisitRedoxMessage
+    with HasPatient
+    with VisitRedoxMessage
 
 object FlowSheetMessage extends RobustPrimitives
 
@@ -140,9 +99,9 @@ object FlowSheetMessage extends RobustPrimitives
   Media: Media,
   Visit: Option[VisitInfo] = None
 ) extends MetaLike
-  with HasVisitInfo
-  with HasPatient
-  with VisitRedoxMessage
+    with HasVisitInfo
+    with HasPatient
+    with VisitRedoxMessage
 
 object MediaMessage extends RobustPrimitives
 
@@ -156,9 +115,9 @@ object MediaMessage extends RobustPrimitives
   Visit: Option[VisitInfo] = None,
   Order: MedicationOrder,
 ) extends MetaLike
-  with HasPatient
-  with VisitRedoxMessage
-  with HasVisitInfo
+    with HasPatient
+    with VisitRedoxMessage
+    with HasVisitInfo
 
 object MedicationsMessage extends RobustPrimitives
 
@@ -172,9 +131,9 @@ object MedicationsMessage extends RobustPrimitives
   Note: Note,
   Orders: Seq[NoteOrder] = Seq.empty
 ) extends MetaLike
-  with HasPatient
-  with HasVisitInfo
-  with VisitRedoxMessage
+    with HasPatient
+    with HasVisitInfo
+    with VisitRedoxMessage
 
 object NoteMessage extends RobustPrimitives
 
@@ -194,8 +153,8 @@ trait OrdersMessageLike extends VisitRedoxMessage with HasVisitInfo {
   Visit: Option[VisitInfo] = None,
   Order: Order
 ) extends OrdersMessageLike {
-    def Orders = Seq(Order)
-  }
+  def Orders = Seq(Order)
+}
 
 object OrderMessage extends RobustPrimitives
 
@@ -230,7 +189,8 @@ object PatientSearch extends RobustPrimitives
   Meta: Meta,
   Patient: Patient,
   Visit: Option[VisitInfo] = None
-) extends VisitRedoxMessage with HasVisitInfo
+) extends VisitRedoxMessage
+    with HasVisitInfo
 
 object PatientAdminMessage extends RobustPrimitives
 
@@ -242,6 +202,7 @@ object PatientAdminMessage extends RobustPrimitives
   Patient: Patient,
   Orders: Seq[OrderResult] = Seq.empty,
   Visit: Option[VisitInfo] = None
-) extends VisitRedoxMessage with HasVisitInfo
+) extends VisitRedoxMessage
+    with HasVisitInfo
 
 object ResultsMessage extends RobustPrimitives

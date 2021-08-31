@@ -108,9 +108,7 @@ class ResultsTest extends Specification with RedoxTest {
           |            },
           |            "RelationToPatient": "Mother",
           |            "EmailAddresses": [
-          |               {
-          |                 "Address": "barb.bixby@test.net"
-          |               }
+          |               "barb.bixby@test.net"
           |            ],
           |            "Roles": [
           |               "Emergency Contact"
@@ -333,6 +331,9 @@ class ResultsTest extends Specification with RedoxTest {
       provider.NPI must beSome
       order.Procedure must beSome
       order.Results must not be empty
+
+      val contacts = data.Patient.Contacts.head
+      contacts.EmailAddresses must not be empty
 
       val result = order.Results.head
       result.Producer must beSome

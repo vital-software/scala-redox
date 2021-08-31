@@ -1,12 +1,13 @@
 package com.github.vitalsoftware.scalaredox.models
 
 import java.util.UUID
-
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 import play.api.libs.json.{ Format, Reads, Writes }
+
+import scala.collection.Seq
 
 object DataModelTypes extends Enumeration {
   val ClinicalSummary: Value = Value("Clinical Summary")
@@ -31,16 +32,6 @@ object RedoxEventTypes extends Enumeration {
     Format(Reads.enumNameReads(RedoxEventTypes), Writes.enumNameWrites)
 }
 
-// Message source or destination
-@jsonDefaults case class SourceDestination(ID: UUID, Name: Option[String] = None)
-
-object SourceDestination extends RobustPrimitives
-
-// Numeric identifier
-@jsonDefaults case class NumericIdentifier(ID: Long)
-
-object NumericIdentifier extends RobustPrimitives
-
 /**
  * Request/response header meta-data
  *
@@ -63,6 +54,7 @@ object NumericIdentifier extends RobustPrimitives
   Test: Option[Boolean] = None,
   Source: Option[SourceDestination] = None,
   Destinations: Seq[SourceDestination] = Seq.empty,
+  Logs: Seq[Log] = Seq.empty,
   Message: Option[NumericIdentifier] = None,
   Transmission: Option[NumericIdentifier] = None,
   FacilityCode: Option[String] = None,

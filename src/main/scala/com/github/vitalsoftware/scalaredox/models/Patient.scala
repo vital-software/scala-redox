@@ -4,23 +4,10 @@ import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
-import play.api.libs.json.Reads.DefaultJodaDateReads
+import org.joda.time.DateTime
 import play.api.libs.json._
 
 import scala.collection.Seq
-
-/**
- * Patient identifier
- *
- * @param ID The actual identifier for the patient.
- * @param IDType An ID type associated with identifier (Medical Record Number, etc.)
- */
-@jsonDefaults case class Identifier(
-  ID: String,
-  IDType: String
-)
-
-object Identifier extends RobustPrimitives
 
 object RaceType extends Enumeration {
   val Asian, White, Unknown = Value
@@ -78,7 +65,7 @@ object SexType extends Enumeration {
   Sex: SexType.Value = SexType.Unknown,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  EmailAddresses: Seq[String] = Seq.empty,
   Language: Option[Language] = None,
   Citizenship: Seq[String] = Seq.empty, // TODO ISO 3166
   Race: Option[RaceType.Value] = None,
@@ -98,7 +85,7 @@ object Demographics extends RobustPrimitives
   LastName: Option[String] = None,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  EmailAddresses: Seq[String] = Seq.empty,
   RelationToPatient: Option[String] = None,
   Roles: Seq[String] = Seq.empty
 ) extends WithContactDetails

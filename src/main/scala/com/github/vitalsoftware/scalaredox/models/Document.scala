@@ -22,7 +22,7 @@ import com.github.vitalsoftware.util.RobustPrimitives
   Locale: String = java.util.Locale.ROOT.toString, // TODO java.util.Locale
   Title: String,
   DateTime: DateTime,
-  Type: String
+  Type: String,
 ) extends HasVisitInfo
 
 object Document extends RobustPrimitives

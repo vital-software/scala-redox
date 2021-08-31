@@ -99,6 +99,7 @@ object Pharmacy extends RobustPrimitives
   EndDate: Option[DateTime] = None,
   Frequency: Option[TimePeriod] = None,
   IsPRN: Option[Boolean] = None,
+  ReasonNotGiven: Option[String] = None,
 ) extends Medication
 
 object OrderedMedication extends RobustPrimitives

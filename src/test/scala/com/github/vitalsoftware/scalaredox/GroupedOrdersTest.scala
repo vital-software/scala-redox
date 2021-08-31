@@ -49,7 +49,7 @@ class GroupedOrdersTest extends Specification with RedoxTest {
           |      "LastName": "Bixby",
           |      "DOB": "2008-01-06",
           |      "SSN": "101-01-0001",
-          |      "Sex": null,
+          |      "Sex": "Female",
           |      "Race": "Asian",
           |      "IsHispanic": null,
           |      "MaritalStatus": "Single",
@@ -60,7 +60,9 @@ class GroupedOrdersTest extends Specification with RedoxTest {
           |        "Office": null,
           |        "Mobile": null
           |      },
-          |      "EmailAddresses": [],
+          |      "EmailAddresses": [
+          |         "testmail@gmail.com"
+          |      ],
           |      "Language": "en",
           |      "Citizenship": [],
           |      "Address": {
@@ -451,7 +453,8 @@ class GroupedOrdersTest extends Specification with RedoxTest {
 
       val patient = data.Patient
       patient.Demographics must beSome
-      patient.Demographics.get.Sex must beEqualTo(SexType.Unknown)
+      patient.Demographics.get.Sex must beEqualTo(SexType.Female)
+      patient.Demographics.get.EmailAddresses must not be empty
     }
   }
 }

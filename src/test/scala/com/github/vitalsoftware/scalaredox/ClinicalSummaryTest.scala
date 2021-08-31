@@ -2,6 +2,13 @@ package com.github.vitalsoftware.scalaredox
 
 import com.github.vitalsoftware.scalaredox.client.EmptyResponse
 import com.github.vitalsoftware.scalaredox.models._
+import com.github.vitalsoftware.scalaredox.models.clinicalsummary.{
+  Demographics,
+  Patient,
+  PatientPush,
+  PatientQuery,
+  PatientQueryResponse
+}
 import org.joda.time.DateTime
 import org.specs2.mutable.Specification
 
@@ -12,13 +19,16 @@ import scala.concurrent.duration._
  * Created by apatzer on 3/23/17.
  */
 class ClinicalSummaryTest extends Specification with RedoxTest {
-  "query ClinicalSummary" should {
+  "query PatientQuery" should {
     "return an error" in {
       val shouldFailQuery = PatientQuery(
         Meta(DataModel = DataModelTypes.ClinicalSummary, EventType = RedoxEventTypes.Query),
-        Patient(Demographics = Some(Demographics("John", "Doe", Some(DateTime.parse("1970-1-1")), Sex = SexType.Male)))
+        Patient(
+          Identifiers = Seq.empty,
+          Demographics = Some(Demographics("John", None, "Doe", DateTime.parse("1970-1-1"), Sex = SexType.Male))
+        )
       )
-      val fut = client.get[PatientQuery, ClinicalSummary](shouldFailQuery)
+      val fut = client.get[PatientQuery, PatientQueryResponse](shouldFailQuery)
       val resp = Await.result(fut, timeout)
       resp.isError must beTrue
       resp.get must throwA[Exception]
@@ -61,7 +71,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
         """.stripMargin
 
       val query = validateJsonInput[PatientQuery](json)
-      val fut = client.get[PatientQuery, ClinicalSummary](query)
+      val fut = client.get[PatientQuery, PatientQueryResponse](query)
       val maybe = handleResponse(fut)
       maybe must beSome
       maybe.map { clinicalSummary =>
@@ -201,7 +211,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
     }
   }
 
-  "post ClinicalSummary" should {
+  "post PatientPush" should {
     "return OK" in {
       val json =
         """
@@ -1090,7 +1100,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |}
         """.stripMargin
 
-      val clinicalSummary = validateJsonInput[ClinicalSummary](json)
+      val clinicalSummary = validateJsonInput[PatientPush](json)
 
       // Check chart deserialization
 
@@ -1108,6 +1118,9 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       h.Patient.Demographics must beSome
       h.Patient.Demographics.flatMap(_.Address) must beSome
       h.Patient.Demographics.flatMap(_.PhoneNumber) must beSome
+      h.Patient.Demographics.get.EmailAddresses must not be empty
+      h.Patient.Demographics.get.EmailAddresses.size must be equalTo (1)
+      h.Patient.Demographics.get.EmailAddresses.head.Address.get must be equalTo ("12313124@fake.com")
 
       // Collections
       clinicalSummary.AdvanceDirectives must not be empty
@@ -1136,7 +1149,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
 
       // Check request and response message
 
-      val fut = client.post[ClinicalSummary, EmptyResponse](clinicalSummary)
+      val fut = client.post[PatientPush, EmptyResponse](clinicalSummary)
       val maybe = handleResponse(fut)
       maybe must beSome
     }.pendingUntilFixed

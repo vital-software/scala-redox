@@ -3,6 +3,8 @@ package com.github.vitalsoftware.scalaredox.models
 import com.github.vitalsoftware.macros._
 import com.github.vitalsoftware.util.RobustPrimitives
 
+import scala.collection.Seq
+
 /**
  * Provider responsible for a Document
  *
@@ -43,7 +45,7 @@ trait ProviderLike {
 
 trait WithAddress { def Address: Option[Address] }
 trait WithPhoneNumber { def PhoneNumber: Option[PhoneNumber] }
-trait WithEmails { def EmailAddresses: Seq[EmailAddress] }
+trait WithEmails { def EmailAddresses: Seq[String] }
 trait WithContactDetails extends WithAddress with WithPhoneNumber with WithEmails
 
 @jsonDefaults case class BasicPerson(
@@ -51,7 +53,7 @@ trait WithContactDetails extends WithAddress with WithPhoneNumber with WithEmail
   LastName: Option[String] = None,
   Address: Option[Address] = None,
   PhoneNumber: Option[PhoneNumber] = None,
-  EmailAddresses: Seq[EmailAddress] = Seq.empty,
+  EmailAddresses: Seq[String] = Seq.empty,
   Credentials: Option[String] = None
 ) extends WithContactDetails
 

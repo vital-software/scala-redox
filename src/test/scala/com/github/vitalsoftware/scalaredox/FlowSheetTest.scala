@@ -98,9 +98,7 @@ class FlowSheetTest extends Specification with RedoxTest {
           |            },
           |            "RelationToPatient": "Mother",
           |            "EmailAddresses": [
-          |               {
-          |                 "Address": "barb.bixby@test.net"
-          |               }
+          |               "barb.bixby@test.net"
           |            ],
           |            "Roles": [
           |               "Emergency Contact"
@@ -192,6 +190,7 @@ class FlowSheetTest extends Specification with RedoxTest {
       val data = validateJsonInput[FlowSheetMessage](json)
       data.Observations must not be empty
       data.Observations.head.Observer must beSome
+      data.Patient.Contacts.head.EmailAddresses must not be empty
 
       val fut = client.post[FlowSheetMessage, EmptyResponse](data)
       val maybe = handleResponse(fut)

@@ -1,13 +1,13 @@
 package com.github.vitalsoftware.scalaredox.client
 
 import java.io.File
-
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
 import akka.stream.Materializer
 import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
-import com.github.vitalsoftware.scalaredox.models.Upload
+import com.github.vitalsoftware.scalaredox.models.{ RedoxEventTypes, Upload }
+import com.github.vitalsoftware.scalaredox.models.clinicalsummary.{ PatientPush, PatientQueryResponse }
 import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
 import com.github.vitalsoftware.util.RobustParsing
 import com.typesafe.config.Config
@@ -130,31 +130,31 @@ object RedoxClient {
     import com.github.vitalsoftware.scalaredox.models.RedoxEventTypes._
     val reads = (__ \ "Meta").read[models.Meta]
     val unsupported = JsError("Not yet supported").errors
-    val clinicalSummaryTypes = List(PatientQueryResponse, PatientPush)
     val visitTypes = List(VisitQueryResponse, VisitPush)
 
     json.validate[models.Meta](reads).asEither.flatMap { meta =>
       (meta.DataModel, meta.EventType) match {
-        case (Order, GroupedOrders)                             => Right(implicitly[Reads[models.GroupedOrdersMessage]])
-        case (Order, _)                                         => Right(implicitly[Reads[models.OrderMessage]])
-        case (Claim, _)                                         => Left(unsupported)
-        case (Device, _)                                        => Left(unsupported)
-        case (Financial, _)                                     => Left(unsupported)
-        case (Flowsheet, _)                                     => Right(implicitly[Reads[models.FlowSheetMessage]])
-        case (Inventory, _)                                     => Left(unsupported)
-        case (Media, _)                                         => Right(implicitly[Reads[models.MediaMessage]])
-        case (Notes, _)                                         => Right(implicitly[Reads[models.NoteMessage]])
-        case (PatientAdmin, _)                                  => Right(implicitly[Reads[models.PatientAdminMessage]])
-        case (PatientSearch, _)                                 => Right(implicitly[Reads[models.PatientSearch]])
-        case (Referral, _)                                      => Left(unsupported)
-        case (Results, _)                                       => Right(implicitly[Reads[models.ResultsMessage]])
-        case (Scheduling, _)                                    => Left(unsupported)
-        case (SurgicalScheduling, _)                            => Left(unsupported)
-        case (Vaccination, _)                                   => Left(unsupported)
-        case (Medications, _)                                   => Right(implicitly[Reads[models.MedicationsMessage]])
-        case _ if clinicalSummaryTypes.contains(meta.EventType) => Right(implicitly[Reads[models.ClinicalSummary]])
-        case _ if visitTypes.contains(meta.EventType)           => Right(implicitly[Reads[models.Visit]])
-        case _                                                  => Left(unsupported)
+        case (Order, GroupedOrders)                                  => Right(implicitly[Reads[models.GroupedOrdersMessage]])
+        case (Order, _)                                              => Right(implicitly[Reads[models.OrderMessage]])
+        case (Claim, _)                                              => Left(unsupported)
+        case (Device, _)                                             => Left(unsupported)
+        case (Financial, _)                                          => Left(unsupported)
+        case (Flowsheet, _)                                          => Right(implicitly[Reads[models.FlowSheetMessage]])
+        case (Inventory, _)                                          => Left(unsupported)
+        case (Media, _)                                              => Right(implicitly[Reads[models.MediaMessage]])
+        case (Notes, _)                                              => Right(implicitly[Reads[models.NoteMessage]])
+        case (PatientAdmin, _)                                       => Right(implicitly[Reads[models.PatientAdminMessage]])
+        case (PatientSearch, _)                                      => Right(implicitly[Reads[models.PatientSearch]])
+        case (Referral, _)                                           => Left(unsupported)
+        case (Results, _)                                            => Right(implicitly[Reads[models.ResultsMessage]])
+        case (Scheduling, _)                                         => Left(unsupported)
+        case (SurgicalScheduling, _)                                 => Left(unsupported)
+        case (Vaccination, _)                                        => Left(unsupported)
+        case (Medications, _)                                        => Right(implicitly[Reads[models.MedicationsMessage]])
+        case (ClinicalSummary, RedoxEventTypes.PatientQueryResponse) => Right(implicitly[Reads[PatientQueryResponse]])
+        case (ClinicalSummary, RedoxEventTypes.PatientPush)          => Right(implicitly[Reads[PatientPush]])
+        case _ if visitTypes.contains(meta.EventType)                => Right(implicitly[Reads[models.Visit]])
+        case _                                                       => Left(unsupported)
       }
     } match {
       case Left(error)  => (Some(JsError(error)), None)

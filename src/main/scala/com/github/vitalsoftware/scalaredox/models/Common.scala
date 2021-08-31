@@ -1,7 +1,6 @@
 package com.github.vitalsoftware.scalaredox.models
 
-import java.util.Locale
-
+import java.util.{ Locale, UUID }
 import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.macros._
@@ -42,6 +41,42 @@ object Address extends RobustPrimitives
 )
 
 object EmailAddress extends RobustPrimitives
+
+@jsonDefaults case class Log(
+  ID: Option[String] = None,
+  AttemptID: Option[String] = None,
+)
+
+object Log extends RobustPrimitives
+
+@jsonDefaults case class Department(
+  Location: Option[String] = None,
+)
+
+object Department extends RobustPrimitives
+
+/**
+ * Patient identifier
+ *
+ * @param ID The actual identifier for the patient.
+ * @param IDType An ID type associated with identifier (Medical Record Number, etc.)
+ */
+@jsonDefaults case class Identifier(
+  ID: String,
+  IDType: String
+)
+
+object Identifier extends RobustPrimitives
+
+// Message source or destination
+@jsonDefaults case class SourceDestination(ID: UUID, Name: Option[String] = None)
+
+object SourceDestination extends RobustPrimitives
+
+// Numeric identifier
+@jsonDefaults case class NumericIdentifier(ID: Long)
+
+object NumericIdentifier extends RobustPrimitives
 
 /**
  * Location of provider or care given.
