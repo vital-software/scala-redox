@@ -1,14 +1,8 @@
 package com.github.vitalsoftware.scalaredox
 
+import org.joda.time.DateTime
 import com.github.vitalsoftware.scalaredox.client.EmptyResponse
-import com.github.vitalsoftware.scalaredox.models.{
-  AbnormalFlagTypes,
-  OrderResultsStatusTypes,
-  Result,
-  ResultStatusTypes,
-  ResultsMessage,
-  ResultsStatusTypes
-}
+import com.github.vitalsoftware.scalaredox.models.{AbnormalFlagTypes, OrderResultsStatusTypes, Result, ResultStatusTypes, ResultsMessage, ResultsStatusTypes}
 import org.specs2.mutable.Specification
 
 /**
@@ -177,6 +171,7 @@ class ResultsTest extends Specification with RedoxTest {
           |         "Priority": "Stat",
           |         "Results": [
           |            {
+          |               "CompletionDateTime": "2015-05-06T06:00:58.872Z",
           |               "Extensions": {
           |                  "device-id": {
           |                     "url": "https://api.redoxengine.com/extensions/device-id",
@@ -340,6 +335,7 @@ class ResultsTest extends Specification with RedoxTest {
       result.Extensions must beSome
       result.AbnormalFlag must beSome(AbnormalFlagTypes.VeryAbnormal)
       result.Status must beSome(ResultStatusTypes.Final)
+      result.CompletionDateTime.map(_.getMillis) must beSome(DateTime.parse("2015-05-06T06:00:58.872Z").getMillis)
 
       val extension = result.Extensions.get
       extension.`device-id` must beSome

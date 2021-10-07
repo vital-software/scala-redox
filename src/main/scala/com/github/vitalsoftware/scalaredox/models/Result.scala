@@ -98,6 +98,7 @@ object OrderResultProvider extends RobustPrimitives
   ReferenceRange: Option[ReferenceRange] = None,
   ObservationMethod: Option[BasicCodeset] = None,
   Extensions: Option[Extension] = None,
+  CompletionDateTime: Option[DateTime] = None
 )
 
 object Result extends RobustPrimitives
