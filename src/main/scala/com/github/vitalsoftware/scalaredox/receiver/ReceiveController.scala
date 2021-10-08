@@ -26,12 +26,15 @@ trait ReceiveController extends BaseController {
    *
    * @see http://developer.redoxengine.com/getting-started/create-a-destination/
    */
-  protected def validatedAction(verifiedAction: RedoxRequest => Future[Result]): Action[JsValue] =
-    Action(parse.json).async({ request: Request[JsValue] =>
+  protected def validatedAction(
+    verifiedAction: RedoxRequest => Future[Result],
+    maxContentLength: Long = 1024 * 100, // Default is 100KB
+  ): Action[JsValue] =
+    Action(parse.json(maxLength = maxContentLength)).async({ request: Request[JsValue] =>
       RedoxRequest(request).token match {
         case Some(token) if token == verificationToken =>
           verifiedAction(RedoxRequest(request))
-        case Some(token) =>
+        case Some(_) =>
           // The verification token is incorrect
           logger.error(s"Redox webhook had an incorrect token from ${RedoxRequest(request)}")
           Future.successful(Forbidden(s"Validation failed."))
