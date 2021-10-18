@@ -55,6 +55,7 @@ object TimePeriod extends RobustPrimitives
   StartDate: DateTime,
   EndDate: Option[DateTime] = None,
   Frequency: Option[TimePeriod] = None,
+  IsPRN: Option[Boolean] = None,
   Product: BasicCode = BasicCode()
 ) extends Medication
 
