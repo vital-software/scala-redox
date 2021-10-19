@@ -1,7 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.scalaredox.models.{ BasicCode, HasVisitInfo, Provider, VisitInfo }
+import com.github.vitalsoftware.scalaredox.models.{ BasicCode, DocumentExtension, HasVisitInfo, Provider, VisitInfo }
 import com.github.vitalsoftware.util.RobustPrimitives
 import org.joda.time.DateTime
 import play.api.libs.json.JodaWrites._
@@ -28,6 +28,7 @@ import play.api.libs.json.JodaReads._
   Type: Option[String] = None,
   TypeCode: Option[BasicCode] = None,
   Visit: Option[VisitInfo] = None,
+  Extensions: Option[DocumentExtension] = None,
 ) extends HasVisitInfo
 
 object Document extends RobustPrimitives

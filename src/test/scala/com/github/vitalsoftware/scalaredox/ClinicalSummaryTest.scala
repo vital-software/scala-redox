@@ -281,6 +281,10 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |			"Title": "Community Health and Hospitals: Health Summary",
           |			"DateTime": "2012-09-12T00:00:00.000Z",
           |			"Type": "Summarization of Episode Note"
+          |         "Extensions": {
+          |            "url": "https://api.redoxengine.com/extensions/file-contents",
+          |            "string": "filename.xml"
+          |         }
           |		},
           |		"Patient": {
           |			"Identifiers": [
@@ -1117,6 +1121,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       h.Document.Author must beSome
       h.Document.Author.flatMap(_.Address) must beSome
       h.Document.Visit must beSome
+      h.Document.Extensions must beSome
       h.Patient.Identifiers must not be empty
       h.Patient.Demographics must beSome
       h.Patient.Demographics.flatMap(_.Address) must beSome
