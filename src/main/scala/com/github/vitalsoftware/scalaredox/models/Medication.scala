@@ -62,6 +62,23 @@ object TimePeriod extends RobustPrimitives
 object MedicationTaken extends RobustPrimitives
 
 /**
+  * @param ReasonNotGiven 
+  *
+  */
+@jsonDefaults case class MedicationGiven (
+  Dose: Option[Dose] = None,
+  Rate: Option[Dose] = None,
+  Route: Option[BasicCode] = None,
+  StartDate: DateTime,
+  EndDate: Option[DateTime] = None,
+  Frequency: Option[TimePeriod] = None,
+  Product: BasicCode = BasicCode(),
+  ReasonNotGiven: Option[String],
+)
+
+object MedicationGiven extends RobustPrimitives
+
+/**
  *
  * @param Code Code for the pharmacy.
  * @param Codeset Code set used to identify the pharmacy.
