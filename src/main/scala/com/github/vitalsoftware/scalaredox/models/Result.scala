@@ -7,6 +7,18 @@ import org.joda.time.DateTime
 import play.api.libs.json.{ Format, Reads, Writes }
 
 /**
+ * Lab who produced the chart result.
+ */
+@jsonDefaults case class ChartResultProducer(
+  ID: Option[String] = None,
+  Name: Option[String] = None,
+  IDType: Option[String] = None,
+  Address: Option[Address] = None,
+)
+
+object ChartResultProducer extends RobustPrimitives
+
+/**
  * Result from laboratories, imaging procedures, and other procedures.
  *
  * @param Code The test performed and resulted. LOINC for Lab - SNOMED CT otherwise
@@ -19,6 +31,7 @@ import play.api.libs.json.{ Format, Reads, Writes }
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Status: Option[String] = None,
+  Producer: Option[ChartResultProducer] = None,
   Observations: Seq[ResultObservation] = Seq.empty
 ) extends Code
     with Status
@@ -44,7 +57,7 @@ object ChartResult extends RobustPrimitives
 
 object ResultPerformer extends RobustPrimitives
 
-@jsonDefaults case class OrderResultProvider (
+@jsonDefaults case class OrderResultProvider(
   ID: Option[String],
   IDType: Option[String],
   NPI: Option[String] = None,
@@ -124,7 +137,6 @@ object OrderResultsStatusTypes extends Enumeration {
   @transient implicit lazy val jsonFormat: Format[OrderResultsStatusTypes.Value] =
     Format(Reads.enumNameReads(OrderResultsStatusTypes), Writes.enumNameWrites)
 }
-
 
 /**
  * Status of a single Result
