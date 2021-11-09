@@ -62,7 +62,6 @@ object TimePeriod extends RobustPrimitives
 object MedicationTaken extends RobustPrimitives
 
 /**
-  * @param ReasonNotGiven 
   *
   */
 @jsonDefaults case class MedicationGiven (
@@ -74,7 +73,7 @@ object MedicationTaken extends RobustPrimitives
   Frequency: Option[TimePeriod] = None,
   Product: BasicCode = BasicCode(),
   ReasonNotGiven: Option[String],
-)
+) extends Medication
 
 object MedicationGiven extends RobustPrimitives
 
