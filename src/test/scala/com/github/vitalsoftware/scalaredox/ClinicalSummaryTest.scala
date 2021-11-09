@@ -227,7 +227,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |		},
           |		"Destinations": [
           |			{
-          |				"ID": "ef9e7448-7f65-4432-aa96-059647e9b358",
+          |				"ID": "ef9e7448-7f65-4432-aa96-059647e9b357",
           |				"Name": "Clinical Summary Push Endpoint"
           |			}
           |		],
@@ -280,7 +280,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |			"Locale": "US",
           |			"Title": "Community Health and Hospitals: Health Summary",
           |			"DateTime": "2012-09-12T00:00:00.000Z",
-          |			"Type": "Summarization of Episode Note"
+          |			"Type": "Summarization of Episode Note",
           |         "Extensions": {
           |            "url": "https://api.redoxengine.com/extensions/file-contents",
           |            "string": "filename.xml"
@@ -1165,6 +1165,6 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       val fut = client.post[PatientPush, EmptyResponse](patientPush)
       val maybe = handleResponse(fut)
       maybe must beSome
-    }.pendingUntilFixed
+    }
   }
 }

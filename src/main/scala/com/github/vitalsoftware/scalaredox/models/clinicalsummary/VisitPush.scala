@@ -1,18 +1,10 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary
 
-import com.github.vitalsoftware.macros.{json, jsonDefaults}
+import ai.x.play.json.Encoders.encoder
+import ai.x.play.json.Jsonx
 import com.github.vitalsoftware.scalaredox.models.{AdvanceDirective, Allergy, ChartResult, Encounter, FamilyHistory, Immunization, Insurance, MedicalEquipment, MedicationGiven, MedicationTaken, Meta, PlanOfCare, Problem, Procedures, SocialHistory, VitalSigns}
-import com.github.vitalsoftware.util.RobustPrimitives
-import play.api.libs.functional.syntax.toFunctionalBuilderOps
-import play.api.libs.json.Format.GenericFormat
-import play.api.libs.json.JodaWrites._
-import play.api.libs.json.JodaReads._
-import play.api.libs.json.OFormat.oFormatFromReadsAndOWrites
-import play.api.libs.json.{Json, OFormat, Reads, Writes, __}
 
 import scala.collection.Seq
-
-// Have to provide a formatter since VisitPush has more than 22 params -> no unapply method can be generated
 
 /**
  * https://developer.redoxengine.com/data-models/ClinicalSummary.html#VisitPush
@@ -44,24 +36,17 @@ import scala.collection.Seq
  * @param SubjectiveText Free text description of the patient's condition as reported by the patient + documented by clinician (plain text only, no markup)
  * @param VitalSigns An array of groups of vital signs. Each element represents one time period in which vitals were recorded.
  */
-// Leaving some of these out for now since:
-// * JSON serialization relies on the case class' "unapply" function
-// * case classes can contain more than 22 constructor args, but tuples are capped at length 22
-// * case class with more than 22 constructor args can't generate an "unapply" function
-// * VisitPush case class _would_ have 24 constructor args
-// * => VisitPush would not be JSON serializable
-// Removing things that are included in PatientAdmin^PatientUpdate for now
-@jsonDefaults case class VisitPush(
+case class VisitPush(
   Meta: Meta,
   Header: Header,
   AdvanceDirectives: Seq[AdvanceDirective] = Seq.empty,
-//  Allergies: Seq[Allergy] = Seq.empty,
+  Allergies: Seq[Allergy] = Seq.empty,
   Encounters: Seq[Encounter] = Seq.empty,
   FamilyHistory: Seq[FamilyHistory] = Seq.empty,
   Immunizations: Seq[Immunization] = Seq.empty,
   InstructionsText: Option[String] = None,
   InterventionsText: Option[String] = None,
-//  Insurances: Seq[Insurance] = Seq.empty,
+  Insurances: Seq[Insurance] = Seq.empty,
   MedicalEquipment: Seq[MedicalEquipment] = Seq.empty,
   Medications: Seq[MedicationTaken] = Seq.empty,
   MedicationsAdministered: Seq[MedicationGiven] = Seq.empty,
@@ -78,4 +63,6 @@ import scala.collection.Seq
   VitalSigns: Seq[VitalSigns] = Seq.empty
 ) extends ClinicalSummaryLike
 
-object VisitPush extends RobustPrimitives
+object VisitPush {
+  implicit val format = Jsonx.formatCaseClassUseDefaults[VisitPush]
+}
