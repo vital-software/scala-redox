@@ -755,9 +755,11 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |                 "url": "https://api.redoxengine.com/extensions/author-name",
           |                 "humanName": {
           |                     "use": "usual",
-          |                     "text": "Billy",
+          |                     "text": "Billy Bob Smith",
+          |                     "family": "Smith",
           |                     "given": [
-          |                         "Billy"
+          |                         "Billy",
+          |                         "Bob"
           |                     ]
           |                 }
           |             }
@@ -811,10 +813,12 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |             "url": "https://api.redoxengine.com/extensions/author-name",
           |             "humanName": {
           |                 "use": "usual",
-          |                 "text": "Billy",
+          |                 "text": "Billy Bob Smith",
           |                 "given": [
-          |                     "Billy"
+          |                     "Billy",
+          |                     "Bob",
           |                 ]
+          |                 "family": "Smith",
           |             }
           |         }
           |		}
@@ -1196,8 +1200,9 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       patientPush.Medications.head.Extensions.get.Indication.get.coding.display must be("Lobar pneumonia")
       patientPush.Medications.head.Extensions.get.`author-id`.get.string must be("7236481726")
       patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.use must be("usual")
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.text must be("Billy")
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.`given` must be(Seq("Billy"))
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.text must be("Billy Bob Smith")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.`given` must be(Seq("Billy", "Bob"))
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.family must be("Smith")
       patientPush.Medications(1).Status must be(Some("completed"))
       patientPush.Medications(1).NumberOfRefillsRemaining must be(Some(1))
       patientPush.Medications(1).Extensions must beSome

@@ -7,7 +7,12 @@ import com.github.vitalsoftware.util.RobustPrimitives
 
 @json case class ExtensionFacilityAddress(line: String, city: String, state: String, postalCode: String)
 
-@json case class ExtensionMedicationProviderName(use: String, text: String, given: Seq[String] = Seq.empty)
+@json case class ExtensionMedicationProviderName(
+  use: String,
+  text: String,
+  given: Seq[String] = Seq.empty,
+  family: String
+)
 
 @json case class DeviceIdExtension(url: String, string: String)
 
