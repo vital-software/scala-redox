@@ -52,11 +52,14 @@ object TimePeriod extends RobustPrimitives
   Dose: Option[Dose] = None,
   Rate: Option[Dose] = None,
   Route: Option[BasicCode] = None,
+  Status: Option[String] = None,
   StartDate: DateTime,
   EndDate: Option[DateTime] = None,
   Frequency: Option[TimePeriod] = None,
+  NumberOfRefillsRemaining: Option[Double] = None,
   IsPRN: Option[Boolean] = None,
-  Product: BasicCode = BasicCode()
+  Product: BasicCode = BasicCode(),
+  Extensions: Option[MedicationExtension] = None,
 ) extends Medication
 
 object MedicationTaken extends RobustPrimitives
