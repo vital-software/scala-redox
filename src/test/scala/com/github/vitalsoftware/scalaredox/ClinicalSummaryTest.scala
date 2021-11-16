@@ -1194,18 +1194,21 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       patientPush.Immunizations must not be empty
       patientPush.MedicalEquipment must not be empty
       patientPush.Medications must not be empty
-      patientPush.Medications.head.Status must be(Some("active"))
-      patientPush.Medications.head.NumberOfRefillsRemaining must be(Some(2))
-      patientPush.Medications.head.Extensions.get.Indication.get.coding.system must be("2.16.840.1.113883.6.90")
-      patientPush.Medications.head.Extensions.get.Indication.get.coding.code must be("J18.1")
-      patientPush.Medications.head.Extensions.get.Indication.get.coding.display must be("Lobar pneumonia")
-      patientPush.Medications.head.Extensions.get.`author-id`.get.string must be("7236481726")
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.use must be("usual")
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.text must be("Billy Bob Smith")
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.`given` must be(Seq("Billy", "Bob"))
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.family must be("Smith")
-      patientPush.Medications(1).Status must be(Some("completed"))
-      patientPush.Medications(1).NumberOfRefillsRemaining must be(Some(1))
+      patientPush.Medications.head.Status must beSome("active")
+      patientPush.Medications.head.NumberOfRefillsRemaining must beSome(2)
+      patientPush.Medications.head.Extensions.get.Indication.get.coding.system must be equalTo ("2.16.840.1.113883.6.90")
+      patientPush.Medications.head.Extensions.get.Indication.get.coding.code must be equalTo ("J18.1")
+      patientPush.Medications.head.Extensions.get.Indication.get.coding.display must be equalTo ("Lobar pneumonia")
+      patientPush.Medications.head.Extensions.get.`author-id`.get.string must be equalTo ("7236481726")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.use must be equalTo ("usual")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.text must be equalTo ("Billy Bob Smith")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.`given` must be equalTo (Seq(
+        "Billy",
+        "Bob"
+      ))
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.family must be equalTo ("Smith")
+      patientPush.Medications(1).Status must beSome("completed")
+      patientPush.Medications(1).NumberOfRefillsRemaining must beSome(1)
       patientPush.Medications(1).Extensions must beSome
       patientPush.PlanOfCare must beSome
       patientPush.PlanOfCare.get.Encounters must not be empty
