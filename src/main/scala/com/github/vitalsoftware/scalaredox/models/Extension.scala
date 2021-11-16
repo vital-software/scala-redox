@@ -9,6 +9,13 @@ import com.github.vitalsoftware.util.RobustPrimitives
 
 @json case class ExtensionFacilityAddress(line: String, city: String, state: String, postalCode: String)
 
+@json case class ExtensionMedicationProviderName(
+  use: String,
+  text: String,
+  given: Seq[String] = Seq.empty,
+  family: String
+)
+
 @json case class DeviceIdExtension(url: String, string: String)
 
 @json case class OrderingFacilityNameExtension(url: String, string: String)
@@ -26,6 +33,18 @@ import com.github.vitalsoftware.util.RobustPrimitives
 @json case class UserIdExtension(url: String, string: String) // Querying user ID from your system
 @json case class UserRoleExtension(url: String, coding: ExtensionCodeset ) // SNOMED CT code https://www.hl7.org/fhir/valueset-practitioner-role.html
 @json case class PurposeOfUseExtension(url: String, coding: ExtensionCodeset) // Always use { code: "TREATMENT", display: "Treatment" }
+
+@json case class IndicationExtension(url: String, coding: BasicCodeAsExtension)
+
+@json case class MedicationAuthorIdExtension(url: String, string: String)
+
+@json case class MedicationAuthorNameExtension(url: String, humanName: ExtensionMedicationProviderName)
+
+@json case class MedicationExtension(
+  Indication: Option[IndicationExtension] = None,
+  `author-id`: Option[MedicationAuthorIdExtension] = None,
+  `author-name`: Option[MedicationAuthorNameExtension] = None
+)
 
 @json case class Extension(
   `device-id`: Option[DeviceIdExtension] = None,

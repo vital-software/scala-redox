@@ -24,6 +24,14 @@ trait Code {
 
 object BasicCode extends RobustPrimitives
 
+@jsonDefaults case class BasicCodeAsExtension(
+  system: String,
+  code: String,
+  display: String,
+)
+
+object BasicCodeAsExtension extends RobustPrimitives
+
 @jsonDefaults case class CodeWithText(
   Code: Option[String] = None,
   CodeSystem: Option[String] = None,

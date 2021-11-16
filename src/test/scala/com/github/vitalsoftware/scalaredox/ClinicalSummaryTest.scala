@@ -724,19 +724,47 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |				"CodeSystemName": "NCI Thesaurus",
           |				"Name": "Oral"
           |			},
+          |         "Status": "active",
           |			"StartDate": "2013-11-11T05:00:00.000Z",
           |			"EndDate": null,
           |			"Frequency": {
           |				"Period": "8",
           |				"Unit": "h"
           |			},
+          |         "NumberOfRefillsRemaining": 2,
           |			"Product": {
           |				"Code": "104894",
           |				"CodeSystem": "2.16.840.1.113883.6.88",
           |				"CodeSystemName": "RxNorm",
           |				"Name": "Ondansetron 4 Mg Po Tbdp"
-          |			}
-          |		},
+          |			},
+          |         "Extensions": {
+          |             "Indication": {
+          |                 "url": "https://api.redoxengine.com/extensions/indication",
+          |                 "coding": {
+          |                     "system": "2.16.840.1.113883.6.90",
+          |                     "code": "J18.1",
+          |                     "display": "Lobar pneumonia"
+          |                 }
+          |             },
+          |             "author-id": {
+          |                 "url": "https://api.redoxengine.com/extensions/author-id",
+          |                 "string": "7236481726"
+          |             },
+          |             "author-name": {
+          |                 "url": "https://api.redoxengine.com/extensions/author-name",
+          |                 "humanName": {
+          |                     "use": "usual",
+          |                     "text": "Billy Bob Smith",
+          |                     "family": "Smith",
+          |                     "given": [
+          |                         "Billy",
+          |                         "Bob"
+          |                     ]
+          |                 }
+          |             }
+          |		    }
+          |     },
           |		{
           |			"Prescription": false,
           |			"FreeTextSig": null,
@@ -754,18 +782,45 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |				"CodeSystemName": "NCI Thesaurus",
           |				"Name": "RESPIRATORY (INHALATION)"
           |			},
+          |         "Status": "completed",
           |			"StartDate": "2012-08-06T04:00:00.000Z",
           |			"EndDate": "2012-08-13T04:00:00.000Z",
           |			"Frequency": {
           |				"Period": "12",
           |				"Unit": "h"
           |			},
+          |         "NumberOfRefillsRemaining": 1,
           |			"Product": {
           |				"Code": "573621",
           |				"CodeSystem": "2.16.840.1.113883.6.88",
           |				"CodeSystemName": "RxNorm",
           |				"Name": "Albuterol 0.09 MG/ACTUAT inhalant solution"
-          |			}
+          |			},
+          |        "Extensions": {
+          |         "Indication": {
+          |             "url": "https://api.redoxengine.com/extensions/indication",
+          |             "coding": {
+          |                 "system": "2.16.840.1.113883.6.90",
+          |                 "code": "J18.1",
+          |                 "display": "Lobar pneumonia"
+          |             }
+          |         },
+          |         "author-id": {
+          |             "url": "https://api.redoxengine.com/extensions/author-id",
+          |             "string": "7236481726"
+          |         },
+          |         "author-name": {
+          |             "url": "https://api.redoxengine.com/extensions/author-name",
+          |             "humanName": {
+          |                 "use": "usual",
+          |                 "text": "Billy Bob Smith",
+          |                 "given": [
+          |                     "Billy",
+          |                     "Bob",
+          |                 ]
+          |                 "family": "Smith",
+          |             }
+          |         }
           |		}
           |	],
           |	"PlanOfCare": {
@@ -1138,6 +1193,19 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       patientPush.Immunizations must not be empty
       patientPush.MedicalEquipment must not be empty
       patientPush.Medications must not be empty
+      patientPush.Medications.head.Status must be(Some("active"))
+      patientPush.Medications.head.NumberOfRefillsRemaining must be(Some(2))
+      patientPush.Medications.head.Extensions.get.Indication.get.coding.system must be("2.16.840.1.113883.6.90")
+      patientPush.Medications.head.Extensions.get.Indication.get.coding.code must be("J18.1")
+      patientPush.Medications.head.Extensions.get.Indication.get.coding.display must be("Lobar pneumonia")
+      patientPush.Medications.head.Extensions.get.`author-id`.get.string must be("7236481726")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.use must be("usual")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.text must be("Billy Bob Smith")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.`given` must be(Seq("Billy", "Bob"))
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.family must be("Smith")
+      patientPush.Medications(1).Status must be(Some("completed"))
+      patientPush.Medications(1).NumberOfRefillsRemaining must be(Some(1))
+      patientPush.Medications(1).Extensions must beSome
       patientPush.PlanOfCare must beSome
       patientPush.PlanOfCare.get.Encounters must not be empty
       patientPush.PlanOfCare.get.MedicationAdministration must not be empty
