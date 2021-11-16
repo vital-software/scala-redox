@@ -816,11 +816,12 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |                 "text": "Billy Bob Smith",
           |                 "given": [
           |                     "Billy",
-          |                     "Bob",
-          |                 ]
-          |                 "family": "Smith",
+          |                     "Bob"
+          |                 ],
+          |                 "family": "Smith"
           |             }
           |         }
+          |      }
           |		}
           |	],
           |	"PlanOfCare": {
