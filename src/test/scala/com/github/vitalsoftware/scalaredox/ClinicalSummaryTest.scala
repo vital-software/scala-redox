@@ -227,7 +227,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |		},
           |		"Destinations": [
           |			{
-          |				"ID": "ef9e7448-7f65-4432-aa96-059647e9b358",
+          |				"ID": "ef9e7448-7f65-4432-aa96-059647e9b357",
           |				"Name": "Clinical Summary Push Endpoint"
           |			}
           |		],
@@ -280,7 +280,7 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |			"Locale": "US",
           |			"Title": "Community Health and Hospitals: Health Summary",
           |			"DateTime": "2012-09-12T00:00:00.000Z",
-          |			"Type": "Summarization of Episode Note"
+          |			"Type": "Summarization of Episode Note",
           |         "Extensions": {
           |            "url": "https://api.redoxengine.com/extensions/file-contents",
           |            "string": "filename.xml"
@@ -706,38 +706,38 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |			}
           |		}
           |	],
-          |	"Medications": [
-          |		{
-          |			"Prescription": false,
-          |			"FreeTextSig": null,
-          |			"Dose": {
-          |				"Quantity": "4",
-          |				"Units": "mg"
-          |			},
-          |			"Rate": {
-          |				"Quantity": null,
-          |				"Units": null
-          |			},
-          |			"Route": {
-          |				"Code": "C38288",
-          |				"CodeSystem": "2.16.840.1.113883.3.26.1.1",
-          |				"CodeSystemName": "NCI Thesaurus",
-          |				"Name": "Oral"
-          |			},
+          |    "Medications": [
+          |        {
+          |            "Prescription": false,
+          |            "FreeTextSig": null,
+          |            "Dose": {
+          |                "Quantity": "4",
+          |                "Units": "mg"
+          |            },
+          |            "Rate": {
+          |                "Quantity": null,
+          |                "Units": null
+          |            },
+          |            "Route": {
+          |                "Code": "C38288",
+          |                "CodeSystem": "2.16.840.1.113883.3.26.1.1",
+          |                "CodeSystemName": "NCI Thesaurus",
+          |                "Name": "Oral"
+          |            },
           |         "Status": "active",
-          |			"StartDate": "2013-11-11T05:00:00.000Z",
-          |			"EndDate": null,
-          |			"Frequency": {
-          |				"Period": "8",
-          |				"Unit": "h"
-          |			},
+          |            "StartDate": "2013-11-11T05:00:00.000Z",
+          |            "EndDate": null,
+          |            "Frequency": {
+          |                "Period": "8",
+          |                "Unit": "h"
+          |            },
           |         "NumberOfRefillsRemaining": 2,
-          |			"Product": {
-          |				"Code": "104894",
-          |				"CodeSystem": "2.16.840.1.113883.6.88",
-          |				"CodeSystemName": "RxNorm",
-          |				"Name": "Ondansetron 4 Mg Po Tbdp"
-          |			},
+          |            "Product": {
+          |                "Code": "104894",
+          |                "CodeSystem": "2.16.840.1.113883.6.88",
+          |                "CodeSystemName": "RxNorm",
+          |                "Name": "Ondansetron 4 Mg Po Tbdp"
+          |            },
           |         "Extensions": {
           |             "Indication": {
           |                 "url": "https://api.redoxengine.com/extensions/indication",
@@ -763,39 +763,39 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |                     ]
           |                 }
           |             }
-          |		    }
+          |            }
           |     },
-          |		{
-          |			"Prescription": false,
-          |			"FreeTextSig": null,
-          |			"Dose": {
-          |				"Quantity": "0.09",
-          |				"Units": "mg/actuat"
-          |			},
-          |			"Rate": {
-          |				"Quantity": "90",
-          |				"Units": "ml/min"
-          |			},
-          |			"Route": {
-          |				"Code": "C38216",
-          |				"CodeSystem": "2.16.840.1.113883.3.26.1.1",
-          |				"CodeSystemName": "NCI Thesaurus",
-          |				"Name": "RESPIRATORY (INHALATION)"
-          |			},
+          |        {
+          |            "Prescription": false,
+          |            "FreeTextSig": null,
+          |            "Dose": {
+          |                "Quantity": "0.09",
+          |                "Units": "mg/actuat"
+          |            },
+          |            "Rate": {
+          |                "Quantity": "90",
+          |                "Units": "ml/min"
+          |            },
+          |            "Route": {
+          |                "Code": "C38216",
+          |                "CodeSystem": "2.16.840.1.113883.3.26.1.1",
+          |                "CodeSystemName": "NCI Thesaurus",
+          |                "Name": "RESPIRATORY (INHALATION)"
+          |            },
           |         "Status": "completed",
-          |			"StartDate": "2012-08-06T04:00:00.000Z",
-          |			"EndDate": "2012-08-13T04:00:00.000Z",
-          |			"Frequency": {
-          |				"Period": "12",
-          |				"Unit": "h"
-          |			},
+          |            "StartDate": "2012-08-06T04:00:00.000Z",
+          |            "EndDate": "2012-08-13T04:00:00.000Z",
+          |            "Frequency": {
+          |                "Period": "12",
+          |                "Unit": "h"
+          |            },
           |         "NumberOfRefillsRemaining": 1,
-          |			"Product": {
-          |				"Code": "573621",
-          |				"CodeSystem": "2.16.840.1.113883.6.88",
-          |				"CodeSystemName": "RxNorm",
-          |				"Name": "Albuterol 0.09 MG/ACTUAT inhalant solution"
-          |			},
+          |            "Product": {
+          |                "Code": "573621",
+          |                "CodeSystem": "2.16.840.1.113883.6.88",
+          |                "CodeSystemName": "RxNorm",
+          |                "Name": "Albuterol 0.09 MG/ACTUAT inhalant solution"
+          |            },
           |        "Extensions": {
           |         "Indication": {
           |             "url": "https://api.redoxengine.com/extensions/indication",
@@ -814,15 +814,16 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |             "humanName": {
           |                 "use": "usual",
           |                 "text": "Billy Bob Smith",
-          |                 "given": [
-          |                     "Billy",
-          |                     "Bob",
-          |                 ]
           |                 "family": "Smith",
+          |                 "given": [
+          |                    "Billy",
+          |                    "Bob"
+          |                 ]
           |             }
           |         }
-          |		}
-          |	],
+          |        }
+          |  }
+          |    ],
           |	"PlanOfCare": {
           |		"Orders": [
           |			{
@@ -1193,18 +1194,21 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       patientPush.Immunizations must not be empty
       patientPush.MedicalEquipment must not be empty
       patientPush.Medications must not be empty
-      patientPush.Medications.head.Status must be(Some("active"))
-      patientPush.Medications.head.NumberOfRefillsRemaining must be(Some(2))
-      patientPush.Medications.head.Extensions.get.Indication.get.coding.system must be("2.16.840.1.113883.6.90")
-      patientPush.Medications.head.Extensions.get.Indication.get.coding.code must be("J18.1")
-      patientPush.Medications.head.Extensions.get.Indication.get.coding.display must be("Lobar pneumonia")
-      patientPush.Medications.head.Extensions.get.`author-id`.get.string must be("7236481726")
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.use must be("usual")
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.text must be("Billy Bob Smith")
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.`given` must be(Seq("Billy", "Bob"))
-      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.family must be("Smith")
-      patientPush.Medications(1).Status must be(Some("completed"))
-      patientPush.Medications(1).NumberOfRefillsRemaining must be(Some(1))
+      patientPush.Medications.head.Status must beSome("active")
+      patientPush.Medications.head.NumberOfRefillsRemaining must beSome(2)
+      patientPush.Medications.head.Extensions.get.Indication.get.coding.system must be equalTo ("2.16.840.1.113883.6.90")
+      patientPush.Medications.head.Extensions.get.Indication.get.coding.code must be equalTo ("J18.1")
+      patientPush.Medications.head.Extensions.get.Indication.get.coding.display must be equalTo ("Lobar pneumonia")
+      patientPush.Medications.head.Extensions.get.`author-id`.get.string must be equalTo ("7236481726")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.use must be equalTo ("usual")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.text must be equalTo ("Billy Bob Smith")
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.`given` must be equalTo (Seq(
+        "Billy",
+        "Bob"
+      ))
+      patientPush.Medications.head.Extensions.get.`author-name`.get.humanName.family must be equalTo ("Smith")
+      patientPush.Medications(1).Status must beSome("completed")
+      patientPush.Medications(1).NumberOfRefillsRemaining must beSome(1)
       patientPush.Medications(1).Extensions must beSome
       patientPush.PlanOfCare must beSome
       patientPush.PlanOfCare.get.Encounters must not be empty
@@ -1233,6 +1237,6 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
       val fut = client.post[PatientPush, EmptyResponse](patientPush)
       val maybe = handleResponse(fut)
       maybe must beSome
-    }.pendingUntilFixed
+    }
   }
 }

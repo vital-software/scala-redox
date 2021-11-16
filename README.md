@@ -117,7 +117,7 @@ Package repository hosting is graciously provided by  [Cloudsmith](https://cloud
 
 Publishing is currently done via SBT. Artefacts are stored on Cloudsmith.io. To publish, make sure you have a Cloudsmith account and have publish access to the [Carbon repository](https://cloudsmith.io/orgs/carbon-health/).
 
-Create/Edit the `~/.sbt/credentials` file:
+Create/Edit the `~/.sbt/.credentials` file:
 ```
 realm=Cloudsmith API
 host=maven.cloudsmith.io
@@ -126,6 +126,8 @@ password=<cloudsmith.io user password>
 ```
 
 You will need to increment the version appropriately in `version.sbt`, as duplicate versions are not allowed.
+
+You can publish a test version by declaring a non-semver-compliant version number in `version.sbt`, like `10.0.8-RC1`. This published version will not be picked up automatically by users of the `scala-redox` SDK, but can be included to test new changes prior to making an actual release. We should remove the test packages from cloudsmith when testing is complete.
 
 Running `sbt publish` will build and push the new version to cloudsmith.
 

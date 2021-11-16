@@ -5,6 +5,8 @@ import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.util.RobustPrimitives
 
+@json case class ExtensionCodeset( code: Option[String] = None, display: Option[String])
+
 @json case class ExtensionFacilityAddress(line: String, city: String, state: String, postalCode: String)
 
 @json case class ExtensionMedicationProviderName(
@@ -26,6 +28,12 @@ import com.github.vitalsoftware.util.RobustPrimitives
 
 @json case class DocumentExtension(url: String, string: String)
 
+// Carequality extensions present in Meta object for queries
+@json case class SenderOrganizationIdExtension(url: String, string: String) // Carequality Organization OID
+@json case class UserIdExtension(url: String, string: String) // Querying user ID from your system
+@json case class UserRoleExtension(url: String, coding: ExtensionCodeset ) // SNOMED CT code https://www.hl7.org/fhir/valueset-practitioner-role.html
+@json case class PurposeOfUseExtension(url: String, coding: ExtensionCodeset) // Always use { code: "TREATMENT", display: "Treatment" }
+
 @json case class IndicationExtension(url: String, coding: BasicCodeAsExtension)
 
 @json case class MedicationAuthorIdExtension(url: String, string: String)
@@ -44,6 +52,10 @@ import com.github.vitalsoftware.util.RobustPrimitives
   `ordering-facility-address`: Option[OrderingFacilityAddressExtension] = None,
   `ordered-date-time`: Option[OrderedDateTimeExtension] = None,
   `organization-id`: Option[OrganizationIdExtension] = None,
+  `sender-organization-id`: Option[SenderOrganizationIdExtension] = None,
+  `user-id`: Option[UserIdExtension] = None,
+  `user-role`: Option[UserRoleExtension] = None,
+  `purpose-of-use`: Option[PurposeOfUseExtension] = None,
 )
 
 object Extension extends RobustPrimitives
