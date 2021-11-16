@@ -814,14 +814,15 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |             "humanName": {
           |                 "use": "usual",
           |                 "text": "Billy Bob Smith",
-          |                 "given": [
-          |                     "Billy",
-          |                     "Bob",
-          |                 ]
           |                 "family": "Smith",
+          |                 "given": [
+          |                    "Billy",
+          |                    "Bob"
+          |                 ]
           |             }
           |         }
           |		}
+          |  }
           |	],
           |	"PlanOfCare": {
           |		"Orders": [
