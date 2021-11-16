@@ -706,38 +706,38 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |			}
           |		}
           |	],
-          |	"Medications": [
-          |		{
-          |			"Prescription": false,
-          |			"FreeTextSig": null,
-          |			"Dose": {
-          |				"Quantity": "4",
-          |				"Units": "mg"
-          |			},
-          |			"Rate": {
-          |				"Quantity": null,
-          |				"Units": null
-          |			},
-          |			"Route": {
-          |				"Code": "C38288",
-          |				"CodeSystem": "2.16.840.1.113883.3.26.1.1",
-          |				"CodeSystemName": "NCI Thesaurus",
-          |				"Name": "Oral"
-          |			},
+          |    "Medications": [
+          |        {
+          |            "Prescription": false,
+          |            "FreeTextSig": null,
+          |            "Dose": {
+          |                "Quantity": "4",
+          |                "Units": "mg"
+          |            },
+          |            "Rate": {
+          |                "Quantity": null,
+          |                "Units": null
+          |            },
+          |            "Route": {
+          |                "Code": "C38288",
+          |                "CodeSystem": "2.16.840.1.113883.3.26.1.1",
+          |                "CodeSystemName": "NCI Thesaurus",
+          |                "Name": "Oral"
+          |            },
           |         "Status": "active",
-          |			"StartDate": "2013-11-11T05:00:00.000Z",
-          |			"EndDate": null,
-          |			"Frequency": {
-          |				"Period": "8",
-          |				"Unit": "h"
-          |			},
+          |            "StartDate": "2013-11-11T05:00:00.000Z",
+          |            "EndDate": null,
+          |            "Frequency": {
+          |                "Period": "8",
+          |                "Unit": "h"
+          |            },
           |         "NumberOfRefillsRemaining": 2,
-          |			"Product": {
-          |				"Code": "104894",
-          |				"CodeSystem": "2.16.840.1.113883.6.88",
-          |				"CodeSystemName": "RxNorm",
-          |				"Name": "Ondansetron 4 Mg Po Tbdp"
-          |			},
+          |            "Product": {
+          |                "Code": "104894",
+          |                "CodeSystem": "2.16.840.1.113883.6.88",
+          |                "CodeSystemName": "RxNorm",
+          |                "Name": "Ondansetron 4 Mg Po Tbdp"
+          |            },
           |         "Extensions": {
           |             "Indication": {
           |                 "url": "https://api.redoxengine.com/extensions/indication",
@@ -763,39 +763,39 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |                     ]
           |                 }
           |             }
-          |		    }
+          |            }
           |     },
-          |		{
-          |			"Prescription": false,
-          |			"FreeTextSig": null,
-          |			"Dose": {
-          |				"Quantity": "0.09",
-          |				"Units": "mg/actuat"
-          |			},
-          |			"Rate": {
-          |				"Quantity": "90",
-          |				"Units": "ml/min"
-          |			},
-          |			"Route": {
-          |				"Code": "C38216",
-          |				"CodeSystem": "2.16.840.1.113883.3.26.1.1",
-          |				"CodeSystemName": "NCI Thesaurus",
-          |				"Name": "RESPIRATORY (INHALATION)"
-          |			},
+          |        {
+          |            "Prescription": false,
+          |            "FreeTextSig": null,
+          |            "Dose": {
+          |                "Quantity": "0.09",
+          |                "Units": "mg/actuat"
+          |            },
+          |            "Rate": {
+          |                "Quantity": "90",
+          |                "Units": "ml/min"
+          |            },
+          |            "Route": {
+          |                "Code": "C38216",
+          |                "CodeSystem": "2.16.840.1.113883.3.26.1.1",
+          |                "CodeSystemName": "NCI Thesaurus",
+          |                "Name": "RESPIRATORY (INHALATION)"
+          |            },
           |         "Status": "completed",
-          |			"StartDate": "2012-08-06T04:00:00.000Z",
-          |			"EndDate": "2012-08-13T04:00:00.000Z",
-          |			"Frequency": {
-          |				"Period": "12",
-          |				"Unit": "h"
-          |			},
+          |            "StartDate": "2012-08-06T04:00:00.000Z",
+          |            "EndDate": "2012-08-13T04:00:00.000Z",
+          |            "Frequency": {
+          |                "Period": "12",
+          |                "Unit": "h"
+          |            },
           |         "NumberOfRefillsRemaining": 1,
-          |			"Product": {
-          |				"Code": "573621",
-          |				"CodeSystem": "2.16.840.1.113883.6.88",
-          |				"CodeSystemName": "RxNorm",
-          |				"Name": "Albuterol 0.09 MG/ACTUAT inhalant solution"
-          |			},
+          |            "Product": {
+          |                "Code": "573621",
+          |                "CodeSystem": "2.16.840.1.113883.6.88",
+          |                "CodeSystemName": "RxNorm",
+          |                "Name": "Albuterol 0.09 MG/ACTUAT inhalant solution"
+          |            },
           |        "Extensions": {
           |         "Indication": {
           |             "url": "https://api.redoxengine.com/extensions/indication",
@@ -816,16 +816,14 @@ class ClinicalSummaryTest extends Specification with RedoxTest {
           |                 "text": "Billy Bob Smith",
           |                 "family": "Smith",
           |                 "given": [
-          |                     "Billy",
-          |                     "Bob"
-          |                 ],
-          |                 "family": "Smith"
+          |                    "Billy",
+          |                    "Bob"
+          |                 ]
           |             }
           |         }
-          |      }
-          |		}
+          |        }
           |  }
-          |	],
+          |    ],
           |	"PlanOfCare": {
           |		"Orders": [
           |			{
