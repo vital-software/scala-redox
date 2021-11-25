@@ -7,7 +7,8 @@ import akka.stream.Materializer
 import akka.stream.scaladsl.{ FileIO, Source }
 import com.github.vitalsoftware.scalaredox._
 import com.github.vitalsoftware.scalaredox.models.{ RedoxEventTypes, Upload }
-import com.github.vitalsoftware.scalaredox.models.clinicalsummary.{ PatientPush, PatientQueryResponse }
+import com.github.vitalsoftware.scalaredox.models.clinicalsummary.PatientQueryResponse
+import com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound.PatientPush
 import com.github.vitalsoftware.util.JsonImplicits.JsValueExtensions
 import com.github.vitalsoftware.util.RobustParsing
 import com.typesafe.config.Config

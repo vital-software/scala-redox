@@ -22,8 +22,9 @@ import com.github.vitalsoftware.util.RobustPrimitives
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
   Category: BasicCode = BasicCode(),
-  //HealthStatus: Option[BasicCode] = None, // TODO Seems to come back as HealthStatus: { null, null, null, null } which violates the constraints of BasicCode
-  Status: Option[BasicCode] = None
+  HealthStatus: BasicCode = BasicCode(),
+  Status: Option[BasicCode] = None,
+  Comment: Option[String] = None,
 ) extends Code
 
 object Problem extends RobustPrimitives
