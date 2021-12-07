@@ -5,7 +5,7 @@ import org.joda.time.DateTime
 import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.util.RobustPrimitives
 
-@json case class ExtensionCodeset( code: Option[String] = None, display: Option[String])
+@json case class ExtensionCodeset(code: Option[String] = None, display: Option[String])
 
 @json case class ExtensionFacilityAddress(line: String, city: String, state: String, postalCode: String)
 
@@ -14,6 +14,11 @@ import com.github.vitalsoftware.util.RobustPrimitives
   text: String,
   given: Seq[String] = Seq.empty,
   family: String
+)
+
+@json case class DocumentFilename(
+  url: String,
+  string: String,
 )
 
 @json case class DeviceIdExtension(url: String, string: String)
@@ -26,12 +31,12 @@ import com.github.vitalsoftware.util.RobustPrimitives
 
 @json case class OrganizationIdExtension(url: String, string: String)
 
-@json case class DocumentExtension(url: String, string: String)
+@json case class DocumentExtension(filename: Option[DocumentFilename] = None)
 
 // Carequality extensions present in Meta object for queries
 @json case class SenderOrganizationIdExtension(url: String, string: String) // Carequality Organization OID
 @json case class UserIdExtension(url: String, string: String) // Querying user ID from your system
-@json case class UserRoleExtension(url: String, coding: ExtensionCodeset ) // SNOMED CT code https://www.hl7.org/fhir/valueset-practitioner-role.html
+@json case class UserRoleExtension(url: String, coding: ExtensionCodeset) // SNOMED CT code https://www.hl7.org/fhir/valueset-practitioner-role.html
 @json case class PurposeOfUseExtension(url: String, coding: ExtensionCodeset) // Always use { code: "TREATMENT", display: "Treatment" }
 
 @json case class IndicationExtension(url: String, coding: BasicCodeAsExtension)
