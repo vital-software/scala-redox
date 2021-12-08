@@ -53,3 +53,20 @@ object ResultObservation extends RobustPrimitives
     with Status
 
 object ChartResult extends RobustPrimitives
+
+/**
+ * Reference range for the result.
+ * Numeric result values will use the low and high properties.
+ * Non-numeric result values will put the normal value in the text property.
+ *
+ * @param Low Lower bound for a normal result
+ * @param High Upper bound for a normal result
+ * @param Text The normal value for non-numeric results
+ */
+@jsonDefaults case class ReferenceRange(
+ Low: Option[String] = None,
+ High: Option[String] = None,
+ Text: Option[String] = None
+)
+
+object ReferenceRange extends RobustPrimitives
