@@ -1,10 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.BasicCode
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  * Piece of medical equipment.
@@ -16,7 +14,7 @@ import org.joda.time.DateTime
  */
 @jsonDefaults case class MedicalEquipment(
   Status: Option[String] = None,
-  StartDate: Option[DateTime] = None,
+  StartDate: Option[String] = None,
   Quantity: Option[String] = None, // Todo Int?
   Product: BasicCode = BasicCode()
 )

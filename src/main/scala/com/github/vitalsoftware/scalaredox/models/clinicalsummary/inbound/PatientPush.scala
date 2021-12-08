@@ -1,11 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.scalaredox.models.{ Allergy, Insurance, Meta, Problem }
-import com.github.vitalsoftware.scalaredox.models.clinicalsummary.{ ClinicalSummaryLike, Header }
+import com.github.vitalsoftware.scalaredox.models.Meta
 import com.github.vitalsoftware.util.RobustPrimitives
-import play.api.libs.json.JodaWrites._
-import play.api.libs.json.JodaReads._
 
 import scala.collection.Seq
 

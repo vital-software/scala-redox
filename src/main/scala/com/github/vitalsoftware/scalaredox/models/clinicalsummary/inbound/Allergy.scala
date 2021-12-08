@@ -1,0 +1,41 @@
+package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
+
+import com.github.vitalsoftware.macros._
+import com.github.vitalsoftware.scalaredox.models.{BasicCode, CodeWithText}
+import com.github.vitalsoftware.util.RobustPrimitives
+
+/**
+ *
+ * @param Type A code for the type of allergy intolerance this is (food, drug, etc.). Allergy/Adverse Event Type Value Set
+ * @param Substance The substance that the causes the alergy/intolerance. Brand names and generics will be coded in RxNorm. Drug classes use NDF-RT, and foods use UNII
+ * @param Reaction A code for the reaction caused by the allergy (dissiness, hives ,etc.). SNOMED CT
+ * @param Severity A code for the severity of the reaction (moderate, severe, etc.). SNOMED CT
+ * @param Status The current status of the Allergy (active, historic, etc.). SNOMED CT (Active, Inactive, Resolved)
+ * @param StartDate When the allergy was first noted. ISO 8601 Format
+ * @param EndDate When the allergy was no longer a problem (if applicable). ISO 8601 Format
+ * @param Comment Free text comment about the allergy.
+ */
+@jsonDefaults case class Allergy(
+  Type: BasicCode = BasicCode(),
+  Substance: BasicCode = BasicCode(),
+  Reaction: Seq[CodeWithText] = Seq.empty,
+  Severity: BasicCode = BasicCode(),
+  Status: BasicCode = BasicCode(),
+  StartDate: Option[String] = None,
+  EndDate: Option[String] = None,
+  Comment: Option[String] = None
+)
+
+object Allergy extends RobustPrimitives
+
+/**
+ * describes any medication allergies, food allergies, or reactions to other substances
+ * (such as latex, iodine, tape adhesives). At a minimum, it should list currently active
+ * and relevant historical allergies and adverse reactions.
+ */
+@jsonDefaults case class AllergiesMessage(
+  AllergyText: Option[String] = None,
+  Allergies: Seq[Allergy] = Seq.empty
+)
+
+object AllergiesMessage extends RobustPrimitives

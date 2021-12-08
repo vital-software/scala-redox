@@ -1,10 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.{ BasicCode, CodeWithStatus, Dose, TimePeriod }
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  * Medication to be given.
@@ -14,8 +12,8 @@ import org.joda.time.DateTime
   Dose: Option[Dose] = None,
   Rate: Option[Dose] = None,
   Route: Option[BasicCode] = None,
-  StartDate: Option[DateTime] = None,
-  EndDate: Option[DateTime] = None,
+  StartDate: Option[String] = None,
+  EndDate: Option[String] = None,
   Frequency: Option[TimePeriod] = None,
   Product: BasicCode = BasicCode()
 )

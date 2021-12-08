@@ -1,10 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.{ BasicCode, Dose, ImmunizationProduct }
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  * Immunization given.
@@ -15,7 +13,7 @@ import org.joda.time.DateTime
  * @param Dose Dosage
  */
 @jsonDefaults case class Immunization(
-  DateTime: Option[DateTime] = None,
+  DateTime: Option[String] = None,
   Route: Option[BasicCode] = None,
   Product: Option[ImmunizationProduct] = None,
   Dose: Option[Dose] = None

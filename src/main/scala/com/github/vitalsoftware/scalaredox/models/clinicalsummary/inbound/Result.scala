@@ -1,7 +1,6 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.{
   BasicCode,
   ChartResultProducer,
@@ -11,7 +10,6 @@ import com.github.vitalsoftware.scalaredox.models.{
   ValueTypes
 }
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  * Result observation
@@ -26,7 +24,7 @@ import org.joda.time.DateTime
   AltCodes: Option[Seq[BasicCode]] = None,
   Status: Option[String] = None,
   Interpretation: Option[String] = None, // Used by Result
-  DateTime: Option[DateTime] = None,
+  DateTime: Option[String] = None,
   CodedValue: Option[BasicCode] = None, // Used by Result
   Value: Option[String] = None,
   ValueType: Option[ValueTypes.Value] = None,

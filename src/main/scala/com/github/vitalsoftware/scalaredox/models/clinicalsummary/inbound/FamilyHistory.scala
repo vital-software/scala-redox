@@ -1,7 +1,6 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.{ FamilyHistoryProblem, Relation }
 import com.github.vitalsoftware.util.RobustPrimitives
 

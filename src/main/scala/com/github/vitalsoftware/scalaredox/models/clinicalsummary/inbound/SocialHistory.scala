@@ -1,10 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.BasicCode
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  * @param Code A code for the observation (exercise, alcohol intake, etc.) . SNOMED CT
@@ -16,8 +14,8 @@ import org.joda.time.DateTime
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  StartDate: Option[DateTime] = None,
-  EndDate: Option[DateTime] = None,
+  StartDate: Option[String] = None,
+  EndDate: Option[String] = None,
   Value: Option[BasicCode] = None,
   ValueText: Option[String] = None
 )
@@ -30,8 +28,8 @@ object SocialHistoryObservation extends RobustPrimitives
  * @param EstimatedDelivery Estimate delivery date if pregnancy is still active.
  */
 @jsonDefaults case class Pregnancy(
-  StartDate: Option[DateTime] = None,
-  EndDate: Option[DateTime] = None,
+  StartDate: Option[String] = None,
+  EndDate: Option[String] = None,
   EstimatedDelivery: Option[String] = None
 )
 
@@ -47,8 +45,8 @@ object Pregnancy extends RobustPrimitives
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  StartDate: Option[DateTime] = None,
-  EndDate: Option[DateTime] = None
+  StartDate: Option[String] = None,
+  EndDate: Option[String] = None
 )
 
 object TobaccoUse extends RobustPrimitives

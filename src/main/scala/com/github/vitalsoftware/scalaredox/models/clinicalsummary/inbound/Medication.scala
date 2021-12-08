@@ -1,10 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.{ BasicCode, Dose, MedicationExtension, TimePeriod }
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  * @param Prescription Whether the medication is a prescription. For a prescription: true. For a patient reported med, or a med administered by a provider: false
@@ -17,8 +15,8 @@ import org.joda.time.DateTime
   Rate: Option[Dose] = None,
   Route: Option[BasicCode] = None,
   Status: Option[String] = None,
-  StartDate: Option[DateTime] = None,
-  EndDate: Option[DateTime] = None,
+  StartDate: Option[String] = None,
+  EndDate: Option[String] = None,
   Frequency: Option[TimePeriod] = None,
   NumberOfRefillsRemaining: Option[Double] = None,
   IsPRN: Option[Boolean] = None,

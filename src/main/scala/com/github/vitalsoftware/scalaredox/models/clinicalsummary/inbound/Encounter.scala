@@ -1,10 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.{ Address, BasicCode, Provider }
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  *
@@ -19,8 +17,8 @@ import org.joda.time.DateTime
 @jsonDefaults case class Encounter(
   Identifiers: Seq[Identifier] = Seq.empty,
   Type: BasicCode = BasicCode(),
-  DateTime: Option[DateTime] = None,
-  EndDateTime: Option[DateTime] = None,
+  DateTime: Option[String] = None,
+  EndDateTime: Option[String] = None,
   Providers: Seq[Provider] = Seq.empty,
   Locations: Seq[Location] = Seq.empty,
   Diagnosis: Seq[BasicCode] = Seq.empty,

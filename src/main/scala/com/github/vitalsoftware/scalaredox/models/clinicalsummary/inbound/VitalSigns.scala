@@ -1,9 +1,7 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  * Vital sign observation
@@ -17,7 +15,7 @@ import org.joda.time.DateTime
   Name: Option[String] = None,
   Status: Option[String] = None,
   Interpretation: Option[String] = None,
-  DateTime: Option[DateTime] = None,
+  DateTime: Option[String] = None,
   Value: Option[String] = None,
   Units: Option[String] = None,
 )
@@ -30,7 +28,7 @@ object VitalSignObservation extends RobustPrimitives
  *                     Subset of LOINC codes (HITSP Vital Sign Result Type).
  */
 @jsonDefaults case class VitalSigns(
-  DateTime: Option[DateTime] = None,
+  DateTime: Option[String] = None,
   Observations: Seq[VitalSignObservation] = Seq.empty
 )
 

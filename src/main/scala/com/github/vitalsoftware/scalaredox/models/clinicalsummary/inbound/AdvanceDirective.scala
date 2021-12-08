@@ -1,10 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.{ BasicCode, BasicPerson, Code }
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  * Advance directive documents that the healthcare organization has on file for the patient.
@@ -22,8 +20,8 @@ import org.joda.time.DateTime
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  StartDate: Option[DateTime] = None,
-  EndDate: Option[DateTime],
+  StartDate: Option[String] = None,
+  EndDate: Option[String],
   ExternalReference: Option[String],
   VerifiedBy: Seq[BasicPerson] = Seq.empty, // Todo missing VerifiedBy.DateTime
   Custodians: Seq[BasicPerson] = Seq.empty

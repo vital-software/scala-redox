@@ -1,10 +1,8 @@
 package com.github.vitalsoftware.scalaredox.models.clinicalsummary.inbound
 
 import com.github.vitalsoftware.macros.jsonDefaults
-import com.github.vitalsoftware.util.JsonImplicits.jodaISO8601Format
 import com.github.vitalsoftware.scalaredox.models.{ BasicCode, CodeWithStatus }
 import com.github.vitalsoftware.util.RobustPrimitives
-import org.joda.time.DateTime
 
 /**
  * Procedure observation
@@ -16,7 +14,7 @@ import org.joda.time.DateTime
   CodeSystem: Option[String] = None,
   CodeSystemName: Option[String] = None,
   Name: Option[String] = None,
-  DateTime: Option[DateTime] = None,
+  DateTime: Option[String] = None,
   Status: Option[String] = None,
   TargetSite: Option[BasicCode] = None,
 )
