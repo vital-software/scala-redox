@@ -5,7 +5,6 @@ import com.github.vitalsoftware.scalaredox.models.{
   BasicCode,
   ChartResultProducer,
   Code,
-  ReferenceRange,
   Status,
   ValueTypes
 }
