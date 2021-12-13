@@ -1,4 +1,4 @@
-# Scala Redox
+# ⛔️ DEPRECATED Scala Redox
 
 Scala REST-client (Java compatible) for sending and receiving messages from the Redox healthcare APIs. Messages are sent
 and received asynchronously, returning Future[RedoxResponse[T]] objects that are either a type T or a RedoxErrorResponse
