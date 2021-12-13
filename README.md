@@ -1,4 +1,4 @@
-# ⛔️ DEPRECATED Scala Redox
+# ⛔️ DEPRECATED Scala Redox [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 **This is no longer supported.**
 
